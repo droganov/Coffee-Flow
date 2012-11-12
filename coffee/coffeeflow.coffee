@@ -1,5 +1,5 @@
 jQuery.fn.extend
-	coverflow: (options) ->
+	coffeeFlow: (options) ->
 		j = jQuery
 		settings =
 			blur:			->
