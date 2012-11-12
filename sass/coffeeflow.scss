@@ -1,0 +1,68 @@
+@import "compass", "mixins";
+
+.coverFlowCanvas.ready{
+	.coverflowItem {
+		@include animate(.5s, all, cubic-bezier(0.165, 0.840, 0.440, 1.000) );
+		@include create-transform(
+			500,		// perspective : 500 or 1000
+			1,		// scale-x
+			1,		// scale-y
+			1,		// scale-z
+			false,		// rotate-x : 45deg
+			0deg
+		);
+	}
+}
+.coverFlowCanvas{
+	position: relative; height:100%; 
+	.coverflowItem {
+		position: absolute;
+		display: block; text-align: center; background: none;
+		img{
+			max-height:100%; max-width: 100%;
+			border: 2px solid rgba(#fff, .6);
+			position: absolute; bottom:0;
+			@include animate(.2s, transform, cubic-bezier(0.165, 0.840, 0.440, 1.000) );
+		}
+	}
+	.coverflowItem:hover{
+		img{
+			border-color: rgba(#00afff, .3);
+		}
+	}
+	.coverflowItem.current{
+		img{
+			
+		}
+	}
+	.coverflowItem.selected{
+		img{
+			border-color: rgba(#fbd206, .3);
+		}
+	}
+	.coverflowItem.before{
+		@include create-transform(
+			500px,		// perspective : 500 or 1000
+			.75,		// scale-x
+			.75,		// scale-y
+			.75,		// scale-z
+			false,		// rotate-x : 45deg
+			45deg
+		);
+		img{left: 0;}
+	}
+	.coverflowItem.after{
+		@include create-transform(
+			500px,		// perspective : 500 or 1000
+			.75,		// scale-x
+			.75,		// scale-y
+			.75,		// scale-z
+			false,		// rotate-x : 45deg
+			-45deg
+		);
+		img{right: 0;}
+	}
+	.coverflowItem.before:hover, .coverflowItem.after:hover{
+		img{ @include scale(1.1);}
+	}
+}
