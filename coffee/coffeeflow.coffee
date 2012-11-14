@@ -15,7 +15,7 @@ jQuery.fn.extend
 			borderWidth:	2
 			debug: 			false
 			density:		3.2
-			firstItem: 		2
+			defaultItem: 		2
 			minHeight:		200
 			selectOnChange: false
 		settings = j.extend settings, options
@@ -28,7 +28,7 @@ jQuery.fn.extend
 				self = this
 				state = ""
 				container = j el
-				currentItem = settings.firstItem
+				currentItem = settings.defaultItem
 				stack = []
 				canvas = j '<div class="coffeeflowCanvas"></div>'
 
