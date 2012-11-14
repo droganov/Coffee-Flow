@@ -1,8 +1,8 @@
 @import "compass", "mixins";
 
-.coverFlowCanvas.ready{
-	.coverflowItem {
-		@include animate(.5s, all, cubic-bezier(0.165, 0.840, 0.440, 1.000) );
+.coffeeflowCanvas.ready{
+	.coffeeflowItem {
+		@include animate(.5s, transform left, cubic-bezier(0.165, 0.840, 0.440, 1.000) );
 		@include create-transform(
 			500,		// perspective : 500 or 1000
 			1,		// scale-x
@@ -13,34 +13,34 @@
 		);
 	}
 }
-.coverFlowCanvas{
+.coffeeflowCanvas{
 	position: relative; height:100%; 
-	.coverflowItem {
+	.coffeeflowItem {
 		position: absolute;
 		display: block; text-align: center; background: none;
 		img{
 			max-height:100%; max-width: 100%;
 			border: 2px solid rgba(#fff, .6);
 			position: absolute; bottom:0;
-			@include animate(.2s, transform, cubic-bezier(0.165, 0.840, 0.440, 1.000) );
+			@include animate(.2s, all, cubic-bezier(0.165, 0.840, 0.440, 1.000) );
 		}
 	}
-	.coverflowItem:hover{
+	.coffeeflowItem:hover{
 		img{
 			border-color: rgba(#00afff, .3);
 		}
 	}
-	.coverflowItem.current{
+	.coffeeflowItem.current{
 		img{
 			
 		}
 	}
-	.coverflowItem.selected{
+	.coffeeflowItem.selected{
 		img{
 			border-color: rgba(#fbd206, .3);
 		}
 	}
-	.coverflowItem.before{
+	.coffeeflowItem.before{
 		@include create-transform(
 			500px,		// perspective : 500 or 1000
 			.75,		// scale-x
@@ -51,7 +51,7 @@
 		);
 		img{left: 0;}
 	}
-	.coverflowItem.after{
+	.coffeeflowItem.after{
 		@include create-transform(
 			500px,		// perspective : 500 or 1000
 			.75,		// scale-x
@@ -62,7 +62,7 @@
 		);
 		img{right: 0;}
 	}
-	.coverflowItem.before:hover, .coverflowItem.after:hover{
+	.coffeeflowItem.before:hover, .coffeeflowItem.after:hover{
 		img{ @include scale(1.1);}
 	}
 }

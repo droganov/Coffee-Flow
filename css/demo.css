@@ -1,0 +1,17 @@
+body{
+	font-family: 'PT Sans Narrow', sans-serif;
+}
+.coffeeflow{
+	background: #ccc; height:340px;
+	padding: 40px; overflow: hidden;
+}
+
+.log{
+	width:65%; margin: 30px auto;
+	border-top: 1px solid #dadada; 
+}
+
+.log p{
+	border-bottom: 1px solid #dadada;
+	margin: 0; padding: 0;
+}
