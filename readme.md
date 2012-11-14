@@ -1,2 +1,7 @@
-Компонент CoverFlow реализованный в виде расширения для jQuery.
-Для корректной работы необходима поддержка HTML5 и CSS3
+coffeeflow.js
+=============
+
+Simple coverflow component that works as jQuery plugin and written with CoffeeScript
+
+Demo page:
+http://droganov.github.com/Coffee-Flow/
