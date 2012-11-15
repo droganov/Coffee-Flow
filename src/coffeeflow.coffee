@@ -49,6 +49,9 @@ jQuery.fn.extend
 				@getItem = ( i = currentItem ) ->
 					stack[ i ]
 
+				@getWidth = ->
+					canvas.width()
+
 				@hasFocus = ->
 					container.is ".coffeeflowFocuse"
 
@@ -192,8 +195,19 @@ jQuery.fn.extend
 
 				@moveTo = (x)->
 					x = x - ( self.width() / 2 )
+					visible = true
+					switch state
+						when "before"
+							visible = x > 0 - self.width() 
+						when "after"
+							visible = x < 0 + p.getWidth()
+					if visible
+						self.show()
+					else
+						self.hide()
 					self.css
 						left: x + "px"
+					
 				@resize = ()->
 					h = p.getCanvas().height() - ( settings.borderWidth * 2)
 					self.height( h ).width( h )
