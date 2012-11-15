@@ -3,7 +3,9 @@ body{
 }
 .coffeeflow{
 	background: #ccc; height:340px;
-	padding: 40px; overflow: hidden;
+	padding: 40px;
+	overflow: hidden;
+	//margin: 0 280px;
 }
 
 .log{
