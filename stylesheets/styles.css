@@ -255,6 +255,9 @@ footer {
   pre, code {
     word-wrap:normal;
   }
+  .coffeeflow{
+    height: 220px;
+  }
 }
 
 @media print, screen and (max-width: 480px) {
@@ -264,6 +267,9 @@ footer {
   
   header ul {
     display:none;
+  }
+  .coffeeflow{
+    height: 180px;
   }
 }
 
