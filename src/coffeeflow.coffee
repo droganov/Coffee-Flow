@@ -1,33 +1,30 @@
 jQuery.fn.extend
 	coffeeflow: (options) ->
 		j = jQuery
+		settings =
+			blur:(e)		->
+				log "CoffeeFlow blured"
+			change:(e) 		->
+				log "CoffeeFlow change"
+			ready:(e)		->
+				log "CoffeeFlow ready"
+			select:(e)		->
+				log "CoffeeFlow select"
+			focus:(e)		->
+				log "CoffeeFlow focused"
+			borderWidth:	2
+			debug: 			false
+			density:		3.2
+			defaultItem: 		2
+			minHeight:		200
+			selectOnChange: false
+		settings = j.extend settings, options
+
 		log = (msg) ->
 			console?.log msg if settings.debug
 
 		class Coffeeflow
 			constructor: (el) ->
-				
-				settings =
-					blur:(e)		->
-						log "CoffeeFlow blured"
-					change:(e) 		->
-						log "CoffeeFlow change"
-					ready:(e)		->
-						log "CoffeeFlow ready"
-					select:(e)		->
-						log "CoffeeFlow select"
-					focus:(e)		->
-						log "CoffeeFlow focused"
-					borderWidth:	2
-					debug: 			false
-					density:		3.2
-					defaultItem: 		2
-					minHeight:		200
-					selectOnChange: false
-				settings = j.extend settings, options
-
-
-				
 				self = this
 				state = ""
 				container = j el
@@ -192,4 +189,4 @@ jQuery.fn.extend
 		
 
 		return @each ()->
-			new Coffeeflow this, options
+			new Coffeeflow this
