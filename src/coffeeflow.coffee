@@ -18,6 +18,7 @@ jQuery.fn.extend
 			defaultItem: 		2
 			minHeight:		200
 			selectOnChange: false
+			scrollSensitivity: 50
 		settings = j.extend settings, options
 
 		log = (msg) ->
@@ -48,6 +49,9 @@ jQuery.fn.extend
 				@getItem = ( i = currentItem ) ->
 					stack[ i ]
 
+				@hasFocus = ->
+					container.is ".coffeeflowFocuse"
+
 				@resize = () ->
 					if container.height() > settings.minHeight
 						height = container.height()
@@ -57,6 +61,10 @@ jQuery.fn.extend
 					arrange()
 
 				@slideTo = (i)->
+					if i >= stack.length
+						i = stack.length - 1
+					if i < 0
+						i = 0
 					currentItem = i
 					arrange()
 					settings.change self
@@ -87,11 +95,26 @@ jQuery.fn.extend
 
 				getState = () ->
 					state
+				
+				onMouseWheel = (e) =>
+					if @hasFocus()
+						e = e || event
+						if (!e.wheelDelta)
+						    e.wheelDelta = -40 * e.detail
+
+						i = currentItem + parseInt( e.wheelDelta / settings.scrollSensitivity )
+						@slideTo i
+
+						if e.preventDefault
+							e.preventDefault()
+						else
+							(e.returnValue = false)
+
 				ready = () =>
 					canvas.addClass "ready"
 					@resize()
 					settings.ready self
-				
+
 				setState = (state)->
 					state = state
 										
@@ -120,6 +143,12 @@ jQuery.fn.extend
 						@resize()
 						settings.blur self
 						e.stopPropagation()
+
+				if window.addEventListener
+					window.addEventListener "mousewheel", onMouseWheel, false
+					window.addEventListener "DOMMouseScroll", onMouseWheel, false
+				else
+					window.attachEvent "onmousewheel", onMouseWheel
 
 				setTimeout ready, 10
 
