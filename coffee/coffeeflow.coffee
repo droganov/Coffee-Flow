@@ -12,7 +12,7 @@ settings =
 		log "CoffeeFlow select"
 	focus:(e)		->
 		log "CoffeeFlow focused"
-	borderWidth:	2
+	borderWidth:	1
 	debug: 			false
 	density:		3.2
 	defaultItem: 		2

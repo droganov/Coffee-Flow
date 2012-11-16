@@ -26,24 +26,22 @@
 		display: block; text-align: center; background: none;
 		img{
 			max-height:100%; max-width: 100%;
-			border: 2px solid rgba(#fff, .6);
+			border: 2px solid rgba(#fff, .3);
 			position: absolute; bottom:0;
 			@include animate(.2s, all, cubic-bezier(0.165, 0.840, 0.440, 1.000) );
 		}
 	}
 	.coffeeflowItem:hover{
 		img{
-			border-color: rgba(#00afff, .3);
+			border-color: rgba(#00afff, .9);
 		}
 	}
 	.coffeeflowItem.current{
-		img{
-			
-		}
+		img{}
 	}
 	.coffeeflowItem.selected{
 		img{
-			border-color: rgba(#fbd206, .3);
+			border-color: rgba(#fbd206, .9);
 		}
 	}
 	.coffeeflowItem.before{
