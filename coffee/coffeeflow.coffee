@@ -155,17 +155,38 @@ class Coffeeflow
 			window.attachEvent "onmousewheel", onMouseWheel
 
 		if Hammer?
-			hammer = new Hammer canvas[0]
+			hammer = new Hammer canvas[0],
+				prevent_default: true
+				swipe_time: 5000
+				drag_min_distance: 50
+				drag_vertical: false
+				transform: false
+				hold: false
+			ts = 0
+			hammer.ondragstart = (e) =>
+				ts = new Date().getTime()
 			hammer.onswipe = (e) =>
+				period = e.originalEvent.timeStamp - ts
+				impulse = Math.ceil e.distance / period
 				pos = currentItem
-				offset = parseInt( currentItem / @getHeight() )
-				offset = 1 if offset is 0
 				switch e.direction
 					when "left"
-						pos = currentItem + offset
+						pos = pos + impulse
 					when "right"
-						pos = currentItem - offset
+						pos = pos - impulse
 				@slideTo pos
+			
+			hammer.ontap = (e) =>
+				log "tap"
+				# pos = currentItem
+				# if parseInt( e.distance / @getHeight() ) >= 1
+					# log e
+				# switch e.direction
+					# when "left"
+						# pos = currentItem + 1
+					# when "right"
+						# pos = currentItem - 1
+				# @slideTo pos
 
 		setTimeout ready, 10
 
