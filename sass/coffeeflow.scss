@@ -28,9 +28,7 @@
 	}
 }
 .coffeeflowCanvas{
-	position: relative; height:100%; overflow: hidden;
-	// reflections bugfix
-	padding-bottom: 100%; margin-bottom: -100%;
+	position: relative;
 	.coffeeflowItem {
 		position: absolute;
 		display: block; text-align: center; background: none;
