@@ -42,6 +42,9 @@ class Coffeeflow
 		@getData = () ->
 			canvas.data()
 
+		@getHeight = ->
+			canvas.height()
+
 		@getIndex = () ->
 			currentItem
 
@@ -150,6 +153,19 @@ class Coffeeflow
 			window.addEventListener "DOMMouseScroll", onMouseWheel, false
 		else
 			window.attachEvent "onmousewheel", onMouseWheel
+
+		if Hammer?
+			hammer = new Hammer canvas[0]
+			hammer.onswipe = (e) =>
+				pos = currentItem
+				offset = parseInt( currentItem / @getHeight() )
+				offset = 1 if offset is 0
+				switch e.direction
+					when "left"
+						pos = currentItem - offset
+					when "right"
+						pos = currentItem + offset
+				@slideTo pos
 
 		setTimeout ready, 10
 
