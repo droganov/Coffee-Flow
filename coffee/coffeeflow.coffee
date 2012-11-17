@@ -199,6 +199,11 @@ class CoffeeflowItem
 		if Hammer?
 			hammer = new Hammer img[0],
 				prevent_default: false
+				drag: false
+				swipe: false
+				transform: false
+				tap_double: false
+				hold: false
 			hammer.ontap = (e) =>
 				if self.is ".current"
 					select()
