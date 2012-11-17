@@ -4,7 +4,9 @@
 
 
 .coffeeflow{
-  height: 320px; padding: 20px; overflow: hidden; padding-bottom: 80px;
+  height: 320px; padding: 20px; overflow: hidden;
+  /* Reflections bug-fix */
+  padding-bottom: 200px; margin-bottom: -200px;
 }
 .fork{z-index: 2000; position: absolute; top: 0; right: 0;}
 
@@ -24,7 +26,7 @@ header {
 header h1{margin-bottom: .1em;}
 
 section {
-  max-width:60em; margin: 0 auto;
+  max-width:60em; margin: 0 auto; margin-top: 60px;
   padding: 0 50px;
 }
 
