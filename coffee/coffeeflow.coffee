@@ -196,12 +196,23 @@ class CoffeeflowItem
 		img.load (e) =>
 			align()
 
+		if Hammer?
+			hammer = new Hammer img[0],
+				prevent_default: false
+			hammer.ontap = (e) =>
+				if self.is ".current"
+					select()
+				else
+					p.slideTo i
+				log "tap"
+		else
+			img.click (e) =>
+				if self.is ".current"
+					select()
+				else
+					p.slideTo i
 		self.click (e) =>
 			e.preventDefault()
-			if self.is ".current"
-				select()
-			else
-				p.slideTo i
 
 		# Public methods
 		@appendTo = (target)->

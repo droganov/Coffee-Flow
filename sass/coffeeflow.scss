@@ -20,6 +20,7 @@
 	}
 }
 .coffeeflowReflections{
+	
 	.coffeeflowItem{
 		img{
 			-webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(75%, transparent), to(rgba(255,255,255,0.2)));
@@ -27,7 +28,9 @@
 	}
 }
 .coffeeflowCanvas{
-	position: relative; height:100%; 
+	position: relative; height:100%; overflow: hidden;
+	// reflections bugfix
+	padding-bottom: 100%; margin-bottom: -100%;
 	.coffeeflowItem {
 		position: absolute;
 		display: block; text-align: center; background: none;

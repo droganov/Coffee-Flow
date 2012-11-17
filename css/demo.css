@@ -3,8 +3,7 @@ body{
 }
 .coffeeflow{
 	background: #ccc; height:340px;
-	padding: 40px;
-	//overflow: hidden;
+	padding: 40px 0;
 	//margin: 0 280px;
 }
 
