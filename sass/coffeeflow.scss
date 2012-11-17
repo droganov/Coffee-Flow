@@ -47,9 +47,9 @@
 	.coffeeflowItem.before{
 		@include create-transform(
 			500px,		// perspective : 500 or 1000
-			.75,		// scale-x
-			.75,		// scale-y
-			.75,		// scale-z
+			.70,		// scale-x
+			.70,		// scale-y
+			.70,		// scale-z
 			false,		// rotate-x : 45deg
 			45deg
 		);
@@ -58,9 +58,9 @@
 	.coffeeflowItem.after{
 		@include create-transform(
 			500px,		// perspective : 500 or 1000
-			.75,		// scale-x
-			.75,		// scale-y
-			.75,		// scale-z
+			.70,		// scale-x
+			.70,		// scale-y
+			.70,		// scale-z
 			false,		// rotate-x : 45deg
 			-45deg
 		);
