@@ -136,7 +136,7 @@ class Coffeeflow
 		j( window ).resize (e) =>
 			@resize()
 
-		container.mouseover (e) =>
+		canvas.mouseover (e) =>
 			if not container.is ".coffeeflowFocuse"
 				container.addClass "coffeeflowFocuse"
 				@resize()

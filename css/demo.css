@@ -7,7 +7,7 @@ body{
 	/* margin: 0 280px;*/
 
 	/* reflections bugfix */
-	padding-bottom: 340px; margin-bottom: -340px;
+	padding-bottom: 170px; padding-top: 90px;
 }
 
 .log{
