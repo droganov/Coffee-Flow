@@ -4,9 +4,7 @@
 
 
 .coffeeflow{
-  height: 320px; padding: 20px; overflow: hidden;
-  /* Reflections bug-fix */
-  padding-bottom: 200px; margin-bottom: -200px;
+  height: 320px; padding: 20px;
 }
 .fork{z-index: 2000; position: absolute; top: 0; right: 0;}
 
