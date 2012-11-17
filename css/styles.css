@@ -6,9 +6,6 @@
 .coffeeflow{
   height: 320px; padding: 20px; overflow: hidden; padding-bottom: 80px;
 }
-.coffeeflowItem img{
-  -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(75%, transparent), to(rgba(255,255,255,0.2)));
-}
 .fork{z-index: 2000; position: absolute; top: 0; right: 0;}
 
 
