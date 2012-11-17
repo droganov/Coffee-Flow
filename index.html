@@ -18,6 +18,10 @@
   </head>
   <body>
     <a href="https://github.com/droganov/Coffee-Flow" class="fork"><img style="border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a>
+    <header>
+      <h1>CoffeeFlow</h1>
+      <div class="narrow">Simple coverflow javascript component written with coffeescript + jQuery wrapper</div>
+    </header>
     <div class="coffeeflow">
       <a href="img/1.jpg"><img src="img/1.jpg" alt=""></a>
       <a href="img/2.jpg"><img src="img/2.jpg" alt=""></a>
@@ -31,27 +35,50 @@
     </div>
     <script type="text/javascript">
       $(".coffeeflow").coffeeflow({
-        defaultItem: 4
+        defaultItem: 4,
+        minHeight: 120
       });
     </script>
     <div class="wrapper">
-      <header>
-        <h1>CoffeeFlow</h1>
-        <p>Simple coverflow component that works as jQuery plugin and written with CoffeeScript</p>
-
-        <p class="view"><a href="https://github.com/droganov/Coffee-Flow">View the Project on GitHub <small>droganov/Coffee-Flow</small></a></p>
-
-
-        <ul>
+      <section>
+        <ul class="download">
           <li><a href="https://github.com/droganov/Coffee-Flow/zipball/master">Download <strong>ZIP File</strong></a></li>
           <li><a href="https://github.com/droganov/Coffee-Flow/tarball/master">Download <strong>TAR Ball</strong></a></li>
           <li><a href="https://github.com/droganov/Coffee-Flow">View On <strong>GitHub</strong></a></li>
         </ul>
-      </header>
-      <section>
+        <br>
+          
+        <h3>Setup</h3>
+<pre><code>&lt;-- jQuery library required --&gt;
+&lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"&gt;&lt;/script&gt;
+
+&lt;-- CoffeeFlow component --&gt;
+&lt;script type="text/javascript" src="js/coffeeflow.js"&gt;&lt;/script&gt;
+
+&lt;-- CoffeeFlow jQuery wrapper (optional) --&gt;
+&lt;script type="text/javascript" src="js/jquery.coffeeflow.js"&gt;&lt;/script&gt;
+
+&lt;-- CoffeeFlow styles --&gt;
+&lt;link rel="stylesheet" href="css/coffeeflow.css"&gt;
+
+&lt;-- Html --&gt;
+&lt;div class="coffeeflow"&gt;
+  &lt;a href="img/1.jpg"&gt;&lt;img src="img/1.jpg" alt=""&gt;&lt;/a&gt;
+  &lt;a href="img/2.jpg"&gt;&lt;img src="img/2.jpg" alt=""&gt;&lt;/a&gt;
+  &lt;a href="img/3.jpg"&gt;&lt;img src="img/3.jpg" alt=""&gt;&lt;/a&gt;
+&lt;/div&gt;
+</code></pre>
+        
+          
+              
+          
         <h3>Usage</h3>
 
-        <pre><code>$(".coffeeflow").coffeeflow({defaultItem: 4});</code></pre>
+<pre><code>//js
+var coffeeflow = new Coffeeflow(target, options);
+
+// jQuery
+$(".coffeeflow").coffeeflow();</code></pre>
 
         <h3>Options</h3>
 <pre><code>$(".coffeeflow").coffeeflow(
@@ -64,6 +91,12 @@
     selectOnChange: false // If true select event is fired on change
   }
 );</code></pre>
+<pre><code>&lt;-- You can also pass options to Coffeeflow with html5 -data --&gt;
+&lt;div class="coffeeflow" data-border-width="2" data-default-item="5"&gt;
+  &lt;a href="img/1.jpg"&gt;&lt;img src="img/1.jpg" alt=""&gt;&lt;/a&gt;
+  &lt;a href="img/2.jpg"&gt;&lt;img src="img/2.jpg" alt=""&gt;&lt;/a&gt;
+  &lt;a href="img/3.jpg"&gt;&lt;img src="img/3.jpg" alt=""&gt;&lt;/a&gt;
+&lt;/div&gt;</code></pre>
         <h3>Callbacks</h3>
 <pre><code>$(".coffeeflow").coffeeflow(
   {
@@ -77,9 +110,8 @@
 
       </section>
       <footer>
-        <p>This project is maintained by <a href="https://github.com/droganov">Serge Droganov</a></p>
-        <p>Demo images found with Flickr creative commons search</p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+        <p>This project is maintained by <a href="http://www.droganov.ru">Serge Droganov</a>. Demo images found with Flickr creative commons search</p>
+        <p><small>Hosted on GitHub</small></p>
       </footer>
     </div>
     <script src="javascripts/scale.fix.js"></script>
