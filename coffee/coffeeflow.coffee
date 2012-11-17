@@ -162,9 +162,9 @@ class Coffeeflow
 				offset = 1 if offset is 0
 				switch e.direction
 					when "left"
-						pos = currentItem - offset
-					when "right"
 						pos = currentItem + offset
+					when "right"
+						pos = currentItem - offset
 				@slideTo pos
 
 		setTimeout ready, 10
