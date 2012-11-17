@@ -18,6 +18,7 @@ settings =
 	defaultItem: 		2
 	minHeight:		200
 	selectOnChange: false
+	enableReflections: false
 class Coffeeflow
 	window?.Coffeeflow = this
 	constructor: (el, options) ->
@@ -41,6 +42,9 @@ class Coffeeflow
 
 		@getData = () ->
 			canvas.data()
+
+		@getHeight = ->
+			canvas.height()
 
 		@getIndex = () ->
 			currentItem
@@ -125,13 +129,14 @@ class Coffeeflow
 			stack.push item
 			item.appendTo canvas
 		
+		container.addClass "coffeeflowReflections" if settings.enableReflections
 		container.append canvas
 		@resize()
 		
 		j( window ).resize (e) =>
 			@resize()
 
-		container.mouseover (e) =>
+		canvas.mouseover (e) =>
 			if not container.is ".coffeeflowFocuse"
 				container.addClass "coffeeflowFocuse"
 				@resize()
@@ -151,6 +156,28 @@ class Coffeeflow
 		else
 			window.attachEvent "onmousewheel", onMouseWheel
 
+		if Hammer?
+			hammer = new Hammer canvas[0],
+				prevent_default: true
+				swipe_time: 5000
+				drag_min_distance: 50
+				drag_vertical: false
+				transform: false
+				hold: false
+			ts = 0
+			hammer.ondragstart = (e) =>
+				ts = new Date().getTime()
+			hammer.onswipe = (e) =>
+				period = e.originalEvent.timeStamp - ts
+				impulse = Math.ceil e.distance / period
+				pos = currentItem
+				switch e.direction
+					when "left"
+						pos = pos + impulse
+					when "right"
+						pos = pos - impulse
+				@slideTo pos
+
 		setTimeout ready, 10
 
 
@@ -169,12 +196,28 @@ class CoffeeflowItem
 		img.load (e) =>
 			align()
 
+		if Hammer?
+			hammer = new Hammer img[0],
+				prevent_default: false
+				drag: false
+				swipe: false
+				transform: false
+				tap_double: false
+				hold: false
+			hammer.ontap = (e) =>
+				if self.is ".current"
+					select()
+				else
+					p.slideTo i
+				log "tap"
+		else
+			img.click (e) =>
+				if self.is ".current"
+					select()
+				else
+					p.slideTo i
 		self.click (e) =>
 			e.preventDefault()
-			if self.is ".current"
-				select()
-			else
-				p.slideTo i
 
 		# Public methods
 		@appendTo = (target)->
@@ -200,9 +243,9 @@ class CoffeeflowItem
 				when "after"
 					visible = x < 0 + p.getWidth()
 			if visible
-				self.show()
+				self.css visibility:"visible"
 			else
-				self.hide()
+				self.css visibility:"hidden"
 			self.css
 				left: x + "px"
 			

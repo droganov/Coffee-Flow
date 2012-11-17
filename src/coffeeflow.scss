@@ -19,25 +19,30 @@
 		);
 	}
 }
+.coffeeflowReflections{
+	
+	.coffeeflowItem{
+		img{
+			-webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(75%, transparent), to(rgba(255,255,255,0.2)));
+		}
+	}
+}
 .coffeeflowCanvas{
-	position: relative; height:100%; 
+	position: relative;
 	.coffeeflowItem {
 		position: absolute;
 		display: block; text-align: center; background: none;
 		img{
-			max-height:100%; max-width: 100%;
+			max-width: 100%;
 			border: 2px solid rgba(#fff, .3);
 			position: absolute; bottom:0;
-			@include animate(.2s, all, cubic-bezier(0.165, 0.840, 0.440, 1.000) );
+			@include animate(.2s, transform, cubic-bezier(0.165, 0.840, 0.440, 1.000) );
 		}
 	}
 	.coffeeflowItem:hover{
 		img{
 			border-color: rgba(#00afff, .9);
 		}
-	}
-	.coffeeflowItem.current{
-		img{}
 	}
 	.coffeeflowItem.selected{
 		img{
