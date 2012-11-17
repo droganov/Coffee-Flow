@@ -4,7 +4,7 @@ body{
 .coffeeflow{
 	background: #ccc; height:340px;
 	padding: 40px;
-	overflow: hidden;
+	//overflow: hidden;
 	//margin: 0 280px;
 }
 

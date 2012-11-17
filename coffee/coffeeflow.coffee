@@ -18,6 +18,7 @@ settings =
 	defaultItem: 		2
 	minHeight:		200
 	selectOnChange: false
+	enableReflections: false
 class Coffeeflow
 	window?.Coffeeflow = this
 	constructor: (el, options) ->
@@ -128,6 +129,7 @@ class Coffeeflow
 			stack.push item
 			item.appendTo canvas
 		
+		container.addClass "coffeeflowReflections" if settings.enableReflections
 		container.append canvas
 		@resize()
 		
@@ -175,18 +177,6 @@ class Coffeeflow
 					when "right"
 						pos = pos - impulse
 				@slideTo pos
-			
-			hammer.ontap = (e) =>
-				log "tap"
-				# pos = currentItem
-				# if parseInt( e.distance / @getHeight() ) >= 1
-					# log e
-				# switch e.direction
-					# when "left"
-						# pos = currentItem + 1
-					# when "right"
-						# pos = currentItem - 1
-				# @slideTo pos
 
 		setTimeout ready, 10
 
@@ -237,9 +227,9 @@ class CoffeeflowItem
 				when "after"
 					visible = x < 0 + p.getWidth()
 			if visible
-				self.show()
+				self.css visibility:"visible"
 			else
-				self.hide()
+				self.css visibility:"hidden"
 			self.css
 				left: x + "px"
 			
