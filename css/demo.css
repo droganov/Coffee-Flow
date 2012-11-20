@@ -2,12 +2,13 @@ body{
 	font-family: 'PT Sans Narrow', sans-serif;
 }
 .coffeeflow{
-	background: #ccc; height:340px; overflow: hidden;
-	padding: 40px 0;
-	/* margin: 0 280px;*/
+	background: #ccc; height:340px;
+//	overflow: hidden;
+	width: 600px;
+	margin: 0 auto;
 
 	/* reflections bugfix */
-	padding-bottom: 170px; padding-top: 90px;
+	padding-bottom: 20px; padding-top: 20px;
 }
 
 .log{

@@ -18,28 +18,29 @@
 			)
 		};
 		$(function(){
-			$("#coffeeflow").coffeeflow(
-				{
-					defaultItem: 4,
-					debug: true,
-					enableReflections: true,
-					ready: function(e) {
-						log ("Ready");
-					},
-					change: function(e) {
-						log ("Change event fired. Current element is: " + e.getIndex());
-					},
-					select: function(e) {
-						log ("Item " + e.getIndex() + " selected");
-					},
-					focus: function(e) {
-						log ("CoffeeFlow has focus");
-					},
-					blur: function(e) {
-						log ("CoffeeFlow blured");
-					}
-				}
-			);
+			// $("#coffeeflow").coffeeflow(
+			// 	{
+			// 		defaultItem: 4,
+			// 		debug: true,
+			// 		enableReflections: true,
+			// 		ready: function(e) {
+			// 			log ("Ready");
+			// 		},
+			// 		change: function(e) {
+			// 			log ("Change event fired. Current element is: " + e.getIndex());
+			// 		},
+			// 		select: function(e) {
+			// 			log ("Item " + e.getIndex() + " selected");
+			// 		},
+			// 		focus: function(e) {
+			// 			log ("CoffeeFlow has focus");
+			// 		},
+			// 		blur: function(e) {
+			// 			log ("CoffeeFlow blured");
+			// 		}
+			// 	}
+			// );
+			var coffeeflow = new Coffeeflow("#coffeeflow");
 		});
 	</script>
 	<link rel="stylesheet" href="css/coffeeflow.css" />
@@ -52,7 +53,16 @@
 			<h1>CoffeeFlow</h1>
 		</header>
 		<section>
-			<div class="coffeeflow" id="coffeeflow">
+			<div class="coffeeflow" id="coffeeflow" data-default-item = "0">
+				<a href="img/1.jpg"><img src="img/16.jpg" alt="" /></a>
+				<a href="img/2.jpg"><img src="img/2.jpg" alt="" /></a>
+				<a href="img/3.jpg"><img src="img/3.jpg" alt="" /></a>
+				<a href="img/4.jpg"><img src="img/4.jpg" alt="" /></a>
+				<a href="img/5.jpg"><img src="img/5.jpg" alt="" /></a>
+				<a href="img/6.jpg"><img src="img/6.jpg" alt="" /></a>
+				<a href="img/7.jpg"><img src="img/7.jpg" alt="" /></a>
+				<a href="img/8.jpg"><img src="img/8.jpg" alt="" /></a>
+				<a href="img/9.jpg"><img src="img/9.jpg" alt="" /></a>
 				<a href="img/1.jpg"><img src="img/1.jpg" alt="" /></a>
 				<a href="img/2.jpg"><img src="img/2.jpg" alt="" /></a>
 				<a href="img/3.jpg"><img src="img/3.jpg" alt="" /></a>
@@ -62,6 +72,164 @@
 				<a href="img/7.jpg"><img src="img/7.jpg" alt="" /></a>
 				<a href="img/8.jpg"><img src="img/8.jpg" alt="" /></a>
 				<a href="img/9.jpg"><img src="img/9.jpg" alt="" /></a>
+				<a href="img/10.jpg"><img src="img/10.jpg" alt="" /></a>
+				<a href="img/1.jpg"><img src="img/1.jpg" alt="" /></a>
+				<a href="img/2.jpg"><img src="img/2.jpg" alt="" /></a>
+				<a href="img/3.jpg"><img src="img/3.jpg" alt="" /></a>
+				<a href="img/4.jpg"><img src="img/4.jpg" alt="" /></a>
+				<a href="img/5.jpg"><img src="img/5.jpg" alt="" /></a>
+				<a href="img/6.jpg"><img src="img/6.jpg" alt="" /></a>
+				<a href="img/7.jpg"><img src="img/7.jpg" alt="" /></a>
+				<a href="img/8.jpg"><img src="img/8.jpg" alt="" /></a>
+				<a href="img/9.jpg"><img src="img/9.jpg" alt="" /></a>
+				<a href="img/1.jpg"><img src="img/1.jpg" alt="" /></a>
+				<a href="img/2.jpg"><img src="img/2.jpg" alt="" /></a>
+				<a href="img/3.jpg"><img src="img/3.jpg" alt="" /></a>
+				<a href="img/4.jpg"><img src="img/4.jpg" alt="" /></a>
+				<a href="img/5.jpg"><img src="img/5.jpg" alt="" /></a>
+				<a href="img/6.jpg"><img src="img/6.jpg" alt="" /></a>
+				<a href="img/7.jpg"><img src="img/7.jpg" alt="" /></a>
+				<a href="img/8.jpg"><img src="img/8.jpg" alt="" /></a>
+				<a href="img/9.jpg"><img src="img/9.jpg" alt="" /></a>
+				<a href="img/1.jpg"><img src="img/1.jpg" alt="" /></a>
+				<a href="img/2.jpg"><img src="img/2.jpg" alt="" /></a>
+				<a href="img/3.jpg"><img src="img/3.jpg" alt="" /></a>
+				<a href="img/4.jpg"><img src="img/4.jpg" alt="" /></a>
+				<a href="img/5.jpg"><img src="img/5.jpg" alt="" /></a>
+				<a href="img/6.jpg"><img src="img/6.jpg" alt="" /></a>
+				<a href="img/7.jpg"><img src="img/7.jpg" alt="" /></a>
+				<a href="img/1.jpg"><img src="img/1.jpg" alt="" /></a>
+				<a href="img/2.jpg"><img src="img/2.jpg" alt="" /></a>
+				<a href="img/3.jpg"><img src="img/3.jpg" alt="" /></a>
+				<a href="img/4.jpg"><img src="img/4.jpg" alt="" /></a>
+				<a href="img/5.jpg"><img src="img/5.jpg" alt="" /></a>
+				<a href="img/6.jpg"><img src="img/6.jpg" alt="" /></a>
+				<a href="img/7.jpg"><img src="img/7.jpg" alt="" /></a>
+				<a href="img/8.jpg"><img src="img/8.jpg" alt="" /></a>
+				<a href="img/9.jpg"><img src="img/9.jpg" alt="" /></a>
+				<a href="img/1.jpg"><img src="img/1.jpg" alt="" /></a>
+				<a href="img/2.jpg"><img src="img/2.jpg" alt="" /></a>
+				<a href="img/3.jpg"><img src="img/3.jpg" alt="" /></a>
+				<a href="img/4.jpg"><img src="img/4.jpg" alt="" /></a>
+				<a href="img/5.jpg"><img src="img/5.jpg" alt="" /></a>
+				<a href="img/6.jpg"><img src="img/6.jpg" alt="" /></a>
+				<a href="img/7.jpg"><img src="img/7.jpg" alt="" /></a>
+				<a href="img/8.jpg"><img src="img/8.jpg" alt="" /></a>
+				<a href="img/9.jpg"><img src="img/9.jpg" alt="" /></a>
+				<a href="img/10.jpg"><img src="img/10.jpg" alt="" /></a>
+				<a href="img/1.jpg"><img src="img/1.jpg" alt="" /></a>
+				<a href="img/2.jpg"><img src="img/2.jpg" alt="" /></a>
+				<a href="img/3.jpg"><img src="img/3.jpg" alt="" /></a>
+				<a href="img/4.jpg"><img src="img/4.jpg" alt="" /></a>
+				<a href="img/5.jpg"><img src="img/5.jpg" alt="" /></a>
+				<a href="img/6.jpg"><img src="img/6.jpg" alt="" /></a>
+				<a href="img/7.jpg"><img src="img/7.jpg" alt="" /></a>
+				<a href="img/8.jpg"><img src="img/8.jpg" alt="" /></a>
+				<a href="img/9.jpg"><img src="img/9.jpg" alt="" /></a>
+				<a href="img/1.jpg"><img src="img/1.jpg" alt="" /></a>
+				<a href="img/2.jpg"><img src="img/2.jpg" alt="" /></a>
+				<a href="img/3.jpg"><img src="img/3.jpg" alt="" /></a>
+				<a href="img/4.jpg"><img src="img/4.jpg" alt="" /></a>
+				<a href="img/5.jpg"><img src="img/5.jpg" alt="" /></a>
+				<a href="img/6.jpg"><img src="img/6.jpg" alt="" /></a>
+				<a href="img/7.jpg"><img src="img/7.jpg" alt="" /></a>
+				<a href="img/8.jpg"><img src="img/8.jpg" alt="" /></a>
+				<a href="img/9.jpg"><img src="img/9.jpg" alt="" /></a>
+				<a href="img/1.jpg"><img src="img/1.jpg" alt="" /></a>
+				<a href="img/2.jpg"><img src="img/2.jpg" alt="" /></a>
+				<a href="img/3.jpg"><img src="img/3.jpg" alt="" /></a>
+				<a href="img/4.jpg"><img src="img/4.jpg" alt="" /></a>
+				<a href="img/5.jpg"><img src="img/5.jpg" alt="" /></a>
+				<a href="img/6.jpg"><img src="img/6.jpg" alt="" /></a>
+				<a href="img/7.jpg"><img src="img/7.jpg" alt="" /></a>
+				<a href="img/1.jpg"><img src="img/1.jpg" alt="" /></a>
+				<a href="img/2.jpg"><img src="img/2.jpg" alt="" /></a>
+				<a href="img/3.jpg"><img src="img/3.jpg" alt="" /></a>
+				<a href="img/4.jpg"><img src="img/4.jpg" alt="" /></a>
+				<a href="img/5.jpg"><img src="img/5.jpg" alt="" /></a>
+				<a href="img/6.jpg"><img src="img/6.jpg" alt="" /></a>
+				<a href="img/7.jpg"><img src="img/7.jpg" alt="" /></a>
+				<a href="img/8.jpg"><img src="img/8.jpg" alt="" /></a>
+				<a href="img/9.jpg"><img src="img/9.jpg" alt="" /></a>
+				<a href="img/1.jpg"><img src="img/1.jpg" alt="" /></a>
+				<a href="img/2.jpg"><img src="img/2.jpg" alt="" /></a>
+				<a href="img/3.jpg"><img src="img/3.jpg" alt="" /></a>
+				<a href="img/4.jpg"><img src="img/4.jpg" alt="" /></a>
+				<a href="img/5.jpg"><img src="img/5.jpg" alt="" /></a>
+				<a href="img/6.jpg"><img src="img/6.jpg" alt="" /></a>
+				<a href="img/7.jpg"><img src="img/7.jpg" alt="" /></a>
+				<a href="img/8.jpg"><img src="img/8.jpg" alt="" /></a>
+				<a href="img/9.jpg"><img src="img/9.jpg" alt="" /></a>
+				<a href="img/10.jpg"><img src="img/10.jpg" alt="" /></a>
+				<a href="img/1.jpg"><img src="img/1.jpg" alt="" /></a>
+				<a href="img/2.jpg"><img src="img/2.jpg" alt="" /></a>
+				<a href="img/3.jpg"><img src="img/3.jpg" alt="" /></a>
+				<a href="img/4.jpg"><img src="img/4.jpg" alt="" /></a>
+				<a href="img/5.jpg"><img src="img/5.jpg" alt="" /></a>
+				<a href="img/6.jpg"><img src="img/6.jpg" alt="" /></a>
+				<a href="img/7.jpg"><img src="img/7.jpg" alt="" /></a>
+				<a href="img/8.jpg"><img src="img/8.jpg" alt="" /></a>
+				<a href="img/9.jpg"><img src="img/9.jpg" alt="" /></a>
+				<a href="img/1.jpg"><img src="img/1.jpg" alt="" /></a>
+				<a href="img/2.jpg"><img src="img/2.jpg" alt="" /></a>
+				<a href="img/3.jpg"><img src="img/3.jpg" alt="" /></a>
+				<a href="img/4.jpg"><img src="img/4.jpg" alt="" /></a>
+				<a href="img/5.jpg"><img src="img/5.jpg" alt="" /></a>
+				<a href="img/6.jpg"><img src="img/6.jpg" alt="" /></a>
+				<a href="img/7.jpg"><img src="img/7.jpg" alt="" /></a>
+				<a href="img/8.jpg"><img src="img/8.jpg" alt="" /></a>
+				<a href="img/9.jpg"><img src="img/9.jpg" alt="" /></a>
+				<a href="img/1.jpg"><img src="img/1.jpg" alt="" /></a>
+				<a href="img/2.jpg"><img src="img/2.jpg" alt="" /></a>
+				<a href="img/3.jpg"><img src="img/3.jpg" alt="" /></a>
+				<a href="img/4.jpg"><img src="img/4.jpg" alt="" /></a>
+				<a href="img/5.jpg"><img src="img/5.jpg" alt="" /></a>
+				<a href="img/6.jpg"><img src="img/6.jpg" alt="" /></a>
+				<a href="img/7.jpg"><img src="img/7.jpg" alt="" /></a>
+				<a href="img/1.jpg"><img src="img/1.jpg" alt="" /></a>
+				<a href="img/2.jpg"><img src="img/2.jpg" alt="" /></a>
+				<a href="img/3.jpg"><img src="img/3.jpg" alt="" /></a>
+				<a href="img/4.jpg"><img src="img/4.jpg" alt="" /></a>
+				<a href="img/5.jpg"><img src="img/5.jpg" alt="" /></a>
+				<a href="img/6.jpg"><img src="img/6.jpg" alt="" /></a>
+				<a href="img/7.jpg"><img src="img/7.jpg" alt="" /></a>
+				<a href="img/8.jpg"><img src="img/8.jpg" alt="" /></a>
+				<a href="img/9.jpg"><img src="img/9.jpg" alt="" /></a>
+				<a href="img/1.jpg"><img src="img/1.jpg" alt="" /></a>
+				<a href="img/2.jpg"><img src="img/2.jpg" alt="" /></a>
+				<a href="img/3.jpg"><img src="img/3.jpg" alt="" /></a>
+				<a href="img/4.jpg"><img src="img/4.jpg" alt="" /></a>
+				<a href="img/5.jpg"><img src="img/5.jpg" alt="" /></a>
+				<a href="img/6.jpg"><img src="img/6.jpg" alt="" /></a>
+				<a href="img/7.jpg"><img src="img/7.jpg" alt="" /></a>
+				<a href="img/8.jpg"><img src="img/8.jpg" alt="" /></a>
+				<a href="img/9.jpg"><img src="img/9.jpg" alt="" /></a>
+				<a href="img/10.jpg"><img src="img/10.jpg" alt="" /></a>
+				<a href="img/1.jpg"><img src="img/1.jpg" alt="" /></a>
+				<a href="img/2.jpg"><img src="img/2.jpg" alt="" /></a>
+				<a href="img/3.jpg"><img src="img/3.jpg" alt="" /></a>
+				<a href="img/4.jpg"><img src="img/4.jpg" alt="" /></a>
+				<a href="img/5.jpg"><img src="img/5.jpg" alt="" /></a>
+				<a href="img/6.jpg"><img src="img/6.jpg" alt="" /></a>
+				<a href="img/7.jpg"><img src="img/7.jpg" alt="" /></a>
+				<a href="img/8.jpg"><img src="img/8.jpg" alt="" /></a>
+				<a href="img/9.jpg"><img src="img/9.jpg" alt="" /></a>
+				<a href="img/1.jpg"><img src="img/1.jpg" alt="" /></a>
+				<a href="img/2.jpg"><img src="img/2.jpg" alt="" /></a>
+				<a href="img/3.jpg"><img src="img/3.jpg" alt="" /></a>
+				<a href="img/4.jpg"><img src="img/4.jpg" alt="" /></a>
+				<a href="img/5.jpg"><img src="img/5.jpg" alt="" /></a>
+				<a href="img/6.jpg"><img src="img/6.jpg" alt="" /></a>
+				<a href="img/7.jpg"><img src="img/7.jpg" alt="" /></a>
+				<a href="img/8.jpg"><img src="img/8.jpg" alt="" /></a>
+				<a href="img/9.jpg"><img src="img/9.jpg" alt="" /></a>
+				<a href="img/1.jpg"><img src="img/1.jpg" alt="" /></a>
+				<a href="img/2.jpg"><img src="img/2.jpg" alt="" /></a>
+				<a href="img/3.jpg"><img src="img/3.jpg" alt="" /></a>
+				<a href="img/4.jpg"><img src="img/4.jpg" alt="" /></a>
+				<a href="img/5.jpg"><img src="img/5.jpg" alt="" /></a>
+				<a href="img/6.jpg"><img src="img/6.jpg" alt="" /></a>
+				<a href="img/7.jpg"><img src="img/7.jpg" alt="" /></a>
 			</div>
 		</section>
 		<section>

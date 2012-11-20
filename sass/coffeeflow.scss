@@ -5,73 +5,38 @@
 	@include transition-property($property);
 	@include transition-timing-function($easing);
 }
-
-.coffeeflowCanvas.ready{
-	.coffeeflowItem {
-		@include animate(.5s, transform left, cubic-bezier(0.165, 0.840, 0.440, 1.000) );
-		@include create-transform(
-			500,		// perspective : 500 or 1000
-			1,		// scale-x
-			1,		// scale-y
-			1,		// scale-z
-			false,		// rotate-x : 45deg
-			0deg
-		);
-	}
-}
-.coffeeflowReflections{
-	
-	.coffeeflowItem{
-		img{
-			-webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(75%, transparent), to(rgba(255,255,255,0.2)));
-		}
-	}
-}
 .coffeeflowCanvas{
-	position: relative;
-	.coffeeflowItem {
-		position: absolute;
-		display: block; text-align: center; background: none;
-		img{
-			max-width: 100%;
-			border: 2px solid rgba(#fff, .3);
-			position: absolute; bottom:0;
-			@include animate(.2s, transform, cubic-bezier(0.165, 0.840, 0.440, 1.000) );
+	//overflow: hidden;
+	.coffeeflowItem_ready{
+		background: none;
+		border:0;
+	//	height: 300px;  border-left:1px solid;
+		a{
+			display: block; position: absolute; bottom: 0;
+			width: 100%; height: 100%;
+			img{
+				position: absolute; bottom: 0;
+				max-width: 100%; max-height: 100%;
+			}
 		}
-	}
-	.coffeeflowItem:hover{
-		img{
-			border-color: rgba(#00afff, .9);
-		}
-	}
-	.coffeeflowItem.selected{
-		img{
-			border-color: rgba(#fbd206, .9);
-		}
-	}
-	.coffeeflowItem.before{
 		@include create-transform(
-			500px,		// perspective : 500 or 1000
-			.70,		// scale-x
-			.70,		// scale-y
-			.70,		// scale-z
+			600px,		// perspective : 500px or 1000px
+			.7,		// scale-x
+			.7,		// scale-y
+			.7,		// scale-z
 			false,		// rotate-x : 45deg
-			45deg
+			"45deg",		// rotate-y : 45deg
+			false,		// rotate-z : 45deg
+			false,		// rotate3d
+			false,		// trans-x
+			false,		// trans-y,
+			false,		// trans-z,
+			false,		// skew-x,
+			false,		// skew-y,
+			false,		// origin-x,
+			false,		// origin-y,
+			false,		// origin-z,
+			false		// only3d
 		);
-		img{left: 0;}
-	}
-	.coffeeflowItem.after{
-		@include create-transform(
-			500px,		// perspective : 500 or 1000
-			.70,		// scale-x
-			.70,		// scale-y
-			.70,		// scale-z
-			false,		// rotate-x : 45deg
-			-45deg
-		);
-		img{right: 0;}
-	}
-	.coffeeflowItem.before:hover, .coffeeflowItem.after:hover{
-		img{ @include scale(1.1);}
 	}
 }
