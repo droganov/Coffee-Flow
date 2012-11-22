@@ -211,7 +211,7 @@ class Coffeeflow
 				@slideTo pos
 			hammer.onswipe = (e) =>
 				period = e.originalEvent.timeStamp - ts
-				impulse = Math.ceil e.distance / period
+				impulse = Math.floor e.distance / period
 				pos = currentItem
 				switch e.direction
 					when "left"
