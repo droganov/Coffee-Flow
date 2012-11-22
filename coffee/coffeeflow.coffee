@@ -18,7 +18,7 @@ defaults =
 	borderColorSelected:	"rgba(239,102,47, .8)"
 	debug: 					false
 	density:				3.2
-	defaultItem: 			2
+	defaultItem: 			"auto"
 	enableReflections: 		false
 	minHeight:				200
 	hideOverflow:			true
@@ -27,7 +27,7 @@ defaults =
 	transitionDuration:		500
 	transitionEasing:		"cubic-bezier(0.075, 0.820, 0.165, 1.000)"
 	transitionPerspective:	"600px"
-	transitionScale:		.7
+	transitionScale:		.76
 	transitionRotation:		45
 
 log = (msg) ->
@@ -63,7 +63,7 @@ class Coffeeflow
 		state = ""
 		changeTimeout = 0
 		
-		currentItem = settings.defaultItem
+
 		stack = []
 		canvas = j '<div class="coffeeflowCanvas"></div>'
 
@@ -76,7 +76,12 @@ class Coffeeflow
 
 		items = container.find "a"
 
-		log items.length
+		if parseInt settings.defaultItem 
+			currentItem = settings.defaultItem
+		else
+			currentItem = Math.floor items.length / 2
+
+		log currentItem
 
 
 		# Public
@@ -191,7 +196,7 @@ class Coffeeflow
 		if Hammer?
 			hammer = new Hammer canvas[0],
 				prevent_default: true
-				swipe_time: 500
+				swipe_time: 200
 				drag_vertical: false
 				transform: false
 				hold: false
@@ -201,7 +206,7 @@ class Coffeeflow
 				sItem = currentItem
 				ts = new Date().getTime()
 			hammer.ondrag = (e) =>
-				offset = parseInt ( e.distanceX / ( @getHeight() / settings.density ) )
+				offset = parseInt ( e.distanceX / ( @getHeight() / settings.density * 1.4 ) )
 				pos = sItem - offset
 				@slideTo pos
 			hammer.onswipe = (e) =>
