@@ -1,37 +1,4 @@
 j = jQuery
-settings = {}
-defaults =
-	blur:(e)		->
-		log "CoffeeFlow blured"
-	change:(e) 		->
-		log "CoffeeFlow change"
-	ready:(e)		->
-		log "CoffeeFlow ready"
-	select:(e)		->
-		log "CoffeeFlow select"
-	focus:(e)		->
-		log "CoffeeFlow focused"
-	borderWidth:			1
-	borderStyle:			"solid"
-	borderColor:			"rgba(255,255,255, .3)"
-	borderColorHover:		"rgba(255,255,255, 1)"
-	borderColorSelected:	"rgba(239,102,47, .8)"
-	debug: 					false
-	density:				3.2
-	defaultItem: 			"auto"
-	enableReflections: 		false
-	minHeight:				200
-	hideOverflow:			true
-	selectOnChange: 		false
-	crop:					false
-	transitionDuration:		500
-	transitionEasing:		"cubic-bezier(0.075, 0.820, 0.165, 1.000)"
-	transitionPerspective:	"600px"
-	transitionScale:		.76
-	transitionRotation:		45
-
-log = (msg) ->
-	console?.log msg
 
 isCompatible = ()->
 	test1 = false
@@ -56,7 +23,38 @@ class Coffeeflow
 	window?.Coffeeflow = this
 	constructor: (el, options) ->
 		container = j el
-		settings = j.extend defaults, container.data()
+
+		settings =
+			blur:(e)		->
+				log "CoffeeFlow blured"
+			change:(e) 		->
+				log "CoffeeFlow change"
+			ready:(e)		->
+				log "CoffeeFlow ready"
+			select:(e)		->
+				log "CoffeeFlow select"
+			focus:(e)		->
+				log "CoffeeFlow focused"
+			borderWidth:			1
+			borderStyle:			"solid"
+			borderColor:			"rgba(255,255,255, .3)"
+			borderColorHover:		"rgba(255,255,255, 1)"
+			borderColorSelected:	"rgba(239,102,47, .8)"
+			debug: 					false
+			density:				3.2
+			defaultItem: 			"auto"
+			enableReflections: 		false
+			minHeight:				200
+			hideOverflow:			true
+			selectOnChange: 		false
+			crop:					false
+			transitionDuration:		500
+			transitionEasing:		"cubic-bezier(0.075, 0.820, 0.165, 1.000)"
+			transitionPerspective:	"600px"
+			transitionScale:		.76
+			transitionRotation:		45
+
+		settings = j.extend settings, container.data()
 		settings = j.extend settings, options
 
 		self = this
@@ -135,6 +133,9 @@ class Coffeeflow
 
 		getState = () ->
 			state
+
+		log = (msg) ->
+			console?.log msg if settings.debug
 		
 		onChange = () =>
 			settings.change(self)
@@ -158,10 +159,10 @@ class Coffeeflow
 
 		setState = (state)->
 			state = state
-								
+
 		# init
 		for i in items
-			item = new CoffeeflowItem i, _i, self
+			item = new CoffeeflowItem i, _i, self, settings
 			stack.push item
 		
 		container.addClass "coffeeflowReflections" if settings.enableReflections
@@ -217,13 +218,12 @@ class Coffeeflow
 					when "right"
 						pos = pos - impulse
 				@slideTo pos
-				console.log "swipe"
 
 		setTimeout ready, 10
 
 
 class CoffeeflowItem
-	constructor: (el, i, p) ->
+	constructor: (el, i, p, settings) ->
 		el = j el
 		i = i
 		p = p
@@ -260,7 +260,7 @@ class CoffeeflowItem
 				state = "after"
 				depth = totalItems - i
 				x = ( canvasWidth / 2 ) + (margin) + ( ( i - currentItem) * margin )
-				c = ( canvasWidth + ( size / 2 ))
+				c = canvasWidth + size
 				visible = x < c
 			
 
@@ -498,7 +498,6 @@ class CoffeeflowItem
 			else
 				img.css
 					borderColor 	: settings.borderColorSelected
-			log "selected"
 			settings.select p
 
 class Preloader
