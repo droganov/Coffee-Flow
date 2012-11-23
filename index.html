@@ -39,6 +39,7 @@
       function log(m) {$("div.log").text(m);}
       $(function(){
         $(".coffeeflow").coffeeflow({
+          borderWidth          : 1,
           defaultItem: 4,
           minHeight: 120,
           enableReflections: true,
@@ -124,7 +125,6 @@ $(".coffeeflow").coffeeflow(options);</code></pre>
         <h3>Callbacks</h3>
 <pre><code>$(".coffeeflow").coffeeflow(
   {
-    borderWidth          : 1,
     blur                 : function (e){ console.log(e) },
     change               : function (e){ console.log(e) },
     error                : function (e){ console.log(e) },
