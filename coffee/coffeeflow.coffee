@@ -36,18 +36,17 @@ class Coffeeflow
 			focus:(e)		->
 				log "CoffeeFlow focused"
 			borderWidth:			1
-			borderStyle:			"solid"
 			borderColor:			"rgba(255,255,255, .3)"
 			borderColorHover:		"rgba(255,255,255, 1)"
 			borderColorSelected:	"rgba(239,102,47, .8)"
-			debug: 					false
-			density:				3.2
-			defaultItem: 			"auto"
-			enableReflections: 		false
-			minHeight:				200
-			hideOverflow:			true
-			selectOnChange: 		false
+			borderStyle:			"solid"
 			crop:					false
+			debug: 					false
+			defaultItem: 			"auto"
+			density:				3.2
+			hideOverflow:			true
+			minHeight:				120
+			selectOnChange: 		false
 			transitionDuration:		500
 			transitionEasing:		"cubic-bezier(0.075, 0.820, 0.165, 1.000)"
 			transitionPerspective:	"600px"
