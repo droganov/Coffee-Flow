@@ -81,8 +81,6 @@ class Coffeeflow
 		else
 			currentItem = Math.floor items.length / 2
 
-		log currentItem
-
 
 		# Public
 		@getCanvas = ()->
@@ -211,7 +209,7 @@ class Coffeeflow
 				@slideTo pos
 			hammer.onswipe = (e) =>
 				period = e.originalEvent.timeStamp - ts
-				impulse = Math.floor e.distance / period
+				impulse = Math.floor e.distance / ( period / settings.density * 2 )
 				pos = currentItem
 				switch e.direction
 					when "left"
@@ -315,8 +313,7 @@ class CoffeeflowItem
 							transform = "scale(#{settings.transitionScale}) skew(0deg, 20deg)"
 						if !settings.crop
 							img.css
-								left : "none"
-								right : 0
+								left : anchor.width() - img.width()
 					when "current"
 						anchor.css
 							"transform" : "perspective(#{settings.transitionPerspective}) scale(1) rotateY(0deg)"
@@ -410,7 +407,7 @@ class CoffeeflowItem
 						maxWidth		: "100%"
 						maxHeight		: "100%"
 						position 		: "absolute"
-						"transition" 	: "#{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
+						"transition" 	: "left #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
 
 					bTarget = img
 					if settings.crop
@@ -481,7 +478,7 @@ class CoffeeflowItem
 					marginLeft		: "-50%"
 					width			: size
 					height			: size
-					left			: 0
+					left			: "-50%"
 					top				: 0
 					position		: "absolute"
 				item.appendTo p.getCanvas()
