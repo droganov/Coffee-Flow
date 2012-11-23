@@ -32,12 +32,24 @@
       <a href="img/7.png"><img src="img/7.png" alt=""></a>
       <a href="img/9.png"><img src="img/8.png" alt=""></a>
       <a href="img/9.png"><img src="img/9.png" alt=""></a>
+      <a href="img/9.png"><img src="img/absent.png" alt=""></a>
     </div>
+    <div class="log"></div>
     <script type="text/javascript">
-      $(".coffeeflow").coffeeflow({
-        defaultItem: 4,
-        minHeight: 120,
-        enableReflections: true
+      function log(m) {$("div.log").text(m);}
+      $(function(){
+        $(".coffeeflow").coffeeflow({
+          borderWidth          : 1,
+          defaultItem: 4,
+          minHeight: 120,
+          enableReflections: true,
+          blur      : function(e){ log("CoffeeFlow blured"); },
+          change      : function(e){ log("Changed. Current item is " + e.getIndex()); },
+          error      : function(e){ log("Error. Image is not loaded"); },
+          focus      : function(e){ log("CoffeeFlow focused"); },
+          ready      : function(e){ log("CoffeeFlow is ready"); },
+          select      : function(e){ log("Item " + e.getIndex() + " selected"); }
+        });
       });
     </script>
     <div class="wrapper">
@@ -48,12 +60,14 @@
           <li><a href="https://github.com/droganov/Coffee-Flow">View On <strong>GitHub</strong></a></li>
         </ul>
         <br>
-          
+        
+        <h3>About</h3>
+        <p>CoffeeFlow is simple and powerful coverflow component that is able to easily rotate thousands of images. Coffeeflow works with css3-compatible browsers including mobile browsers, has opera fallback and compatibility mode for older browsers. Coffeeflow supports touch events and gestures (tap, drag, and swipe) automatically as you connect hammer.js library. Coffeeflow has built-in image preloader that also handles image load errors. CoffeeFlow is designed to be used as a Class and has jQuery wrapper. JQuery is required.</p>
         <h3>Setup</h3>
 <pre><code>&lt;-- jQuery library required --&gt;
 &lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"&gt;&lt;/script&gt;
 
-&lt;-- Include EightMedia hammer.js if you want touchevent support --&gt;
+&lt;-- Include EightMedia hammer.js if you want touchevents support --&gt;
 &lt;script type="text/javascript" src="js/hammer.js"&gt;&lt;/script&gt;
 
 &lt;-- CoffeeFlow component --&gt;
@@ -61,9 +75,6 @@
 
 &lt;-- CoffeeFlow jQuery wrapper (optional) --&gt;
 &lt;script type="text/javascript" src="js/jquery.coffeeflow.js"&gt;&lt;/script&gt;
-
-&lt;-- CoffeeFlow styles --&gt;
-&lt;link rel="stylesheet" href="css/coffeeflow.css"&gt;
 
 &lt;-- Html --&gt;
 &lt;div class="coffeeflow"&gt;
@@ -82,17 +93,27 @@
 var coffeeflow = new Coffeeflow(target, options);
 
 // jQuery
-$(".coffeeflow").coffeeflow();</code></pre>
+$(".coffeeflow").coffeeflow(options);</code></pre>
 
         <h3>Options</h3>
 <pre><code>$(".coffeeflow").coffeeflow(
   {
-    borderWidth: 2, // Image border width
-    debug: false, // Enables console logging 
-    density: 3.2, // Use this to adjust image spacing
-    defaultItem: 2, // Controls whitch items is opened on startup
-    minHeight: 200, // Minimum CoffeFlow canvas height in pixels
-    selectOnChange: false // If true select event is fired on change
+    borderWidth           : 0, // image border width
+    borderColor           : "rgba(255,255,255, .3)" // default image border-color
+    borderColorHover      : "rgba(255,255,255, 1)" // image border color on mouse over
+    borderColorSelected   : "rgba(239,102,47, .8)" // selected image border-color
+    crop                  : false // if true photos cropped to square
+    debug                 : false, // enables console logging
+    defaultItem           : "auto", // controls whitch items is opened on startup, by default middle is calculated
+    density               : 3.2, // use this to adjust image spacing
+    hideOverflow          : true // crops everything outside the canvas
+    minHeight             : 120, // minimum CoffeFlow canvas height in pixels
+    selectOnChange        : false // if true select event is fired on change
+    transitionDuration    : 500 // transition duration in seconds
+    transitionEasing      : "cubic-bezier(0.075, 0.820, 0.165, 1.000)" // css easing for transitions
+    transitionPerspective : "600px" // css pespective
+    transitionScale       : .76 // scale if inactive item
+    transitionRotation    : 45 // rotation of inactive item
   }
 );</code></pre>
 <pre><code>&lt;-- You can also pass options to Coffeeflow with html5 -data --&gt;
@@ -104,14 +125,16 @@ $(".coffeeflow").coffeeflow();</code></pre>
         <h3>Callbacks</h3>
 <pre><code>$(".coffeeflow").coffeeflow(
   {
-    blur: function (e){ console.log(e) },
-    change: function (e){ console.log(e) },
-    focus: function (e){ console.log(e) },
-    ready: function (e){ console.log(e) },
-    select: function (e){ console.log(e) }
+    blur                 : function (e){ console.log(e) },
+    change               : function (e){ console.log(e) },
+    error                : function (e){ console.log(e) },
+    focus                : function (e){ console.log(e) },
+    ready                : function (e){ console.log(e) },
+    select               : function (e){ console.log(e) }
   }
 );</code></pre>
-
+        <h3>Legal information</h3>
+        <p>The component is designed and written in coffeescript by Serge Droganov. CoffeeFlow is distributed under MIT X11 <a href="http://en.wikipedia.org/wiki/MIT_License">license</a>.</p>
       </section>
       <footer>
         <p>This project is maintained by <a href="http://www.droganov.ru">Serge Droganov</a>. Demo images by <a href="http://marknazaroff.com/">Mark Nazaroff</a></p>
