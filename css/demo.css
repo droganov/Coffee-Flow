@@ -3,12 +3,11 @@ body{
 }
 .coffeeflow{
 	background: #ccc; height:340px;
-//	overflow: hidden;
+	overflow: hidden;
 	//width: 600px;
 	margin: 0 auto;
 
 	/* reflections bugfix */
-	padding-bottom: 20px; padding-top: 20px;
 }
 
 .log{

@@ -49,11 +49,12 @@ class Coffeeflow
 			density:				3.2
 			hideOverflow:			true
 			minHeight:				120
+			pull:					true
 			selectOnChange: 		false
 			transitionDuration:		500
 			transitionEasing:		"cubic-bezier(0.075, 0.820, 0.165, 1.000)"
 			transitionPerspective:	"600px"
-			transitionScale:		.76
+			transitionScale:		.70
 			transitionRotation:		45
 
 		settings = j.extend settings, container.data()
@@ -299,32 +300,9 @@ class CoffeeflowItem
 				item.css
 					"transform" : "translate(" + x + "px)"
 					"z-index" : depth
-				switch state
-					when "before"
-						transform = "perspective(#{settings.transitionPerspective}) scale(#{settings.transitionScale}) rotateY(#{settings.transitionRotation}deg)"
-						if j.browser.opera
-							transform = "scale(#{settings.transitionScale}) skew(0deg, 20deg)"
-						if !settings.crop
-							img.css
-								left : 0
-								right : "none"
-					when "after"
-						anchor.css
-							"transform" : "perspective(#{settings.transitionPerspective}) scale(#{settings.transitionScale}) rotateY(-#{settings.transitionRotation}deg)"
-						if j.browser.opera
-							transform = "scale(#{settings.transitionScale}) skew(0deg, 20deg)"
-						if !settings.crop
-							img.css
-								left : anchor.width() - img.width()
-					when "current"
-						anchor.css
-							"transform" : "perspective(#{settings.transitionPerspective}) scale(1) rotateY(0deg)"
-						if j.browser.opera
-							transform = "scale(1)"
-						if !settings.crop
-							img.css
-								left : ( anchor.width() - img.width() ) / 2
-								right : "none"
+				
+				setTransform()
+
 				bTarget = img
 				bTarget = anchor if settings.crop
 				if item.is ".coffeeflowItem_selected"
@@ -333,8 +311,6 @@ class CoffeeflowItem
 				else
 					bTarget.css
 						borderColor 	: settings.borderColor
-				anchor.css
-					"transform" : transform
 			else
 				item.css
 					"z-index" : depth
@@ -409,7 +385,7 @@ class CoffeeflowItem
 						maxWidth		: "100%"
 						maxHeight		: "100%"
 						position 		: "absolute"
-						"transition" 	: "left #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
+						"transition" 	: "#{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
 
 					bTarget = img
 					if settings.crop
@@ -424,6 +400,10 @@ class CoffeeflowItem
 							bTarget.css
 								borderColor : settings.borderColorHover
 
+						setTransform true if settings.pull
+							
+						
+
 					img.mouseout (e) =>
 						if item.is ".coffeeflowItem_selected"
 							bTarget.css
@@ -431,6 +411,7 @@ class CoffeeflowItem
 						else
 							bTarget.css
 								borderColor : settings.borderColor
+						setTransform false if settings.pull
 
 					preloader.detach()
 					self.setContent img
@@ -469,6 +450,7 @@ class CoffeeflowItem
 					width 			: 0
 					height 			: 0
 					position		: "absolute"
+					left 			: 0
 					
 				if compatible
 					item.css
@@ -503,6 +485,35 @@ class CoffeeflowItem
 					borderColor 	: settings.borderColorSelected
 			settings.select p
 
+		setTransform = (mouseover = false) ->
+			translate = 0
+			translate = size / 4 if mouseover
+			switch state
+				when "before"
+					transform = "perspective(#{settings.transitionPerspective}) scale(#{settings.transitionScale}) rotateY(#{settings.transitionRotation}deg) translate(-#{translate}px)"
+					if j.browser.opera
+						transform = "scale(#{settings.transitionScale}) skew(0deg, 20deg)"
+					if !settings.crop
+						img.css
+							left : 0
+							right : "none"
+				when "after"
+					transform = "perspective(#{settings.transitionPerspective}) scale(#{settings.transitionScale}) rotateY(-#{settings.transitionRotation}deg) translate(#{translate}px)"
+					if j.browser.opera
+						transform = "translate(scale(#{settings.transitionScale}) skew(0deg, 20deg)"
+					if !settings.crop
+						img.css
+							left : anchor.width() - img.width()
+				when "current"
+					transform = "perspective(#{settings.transitionPerspective}) scale(1) rotateY(0deg)"
+					if j.browser.opera
+						transform = "scale(1)"
+					if !settings.crop
+						img.css
+							left : ( anchor.width() - img.width() ) / 2
+							right : "none"
+			anchor.css
+				"transform" : transform
 class Preloader
 	constructor: (parent) ->
 		parent = parent
