@@ -1,37 +1,4 @@
 j = jQuery
-settings = {}
-defaults =
-	blur:(e)		->
-		log "CoffeeFlow blured"
-	change:(e) 		->
-		log "CoffeeFlow change"
-	ready:(e)		->
-		log "CoffeeFlow ready"
-	select:(e)		->
-		log "CoffeeFlow select"
-	focus:(e)		->
-		log "CoffeeFlow focused"
-	borderWidth:			1
-	borderStyle:			"solid"
-	borderColor:			"rgba(255,255,255, .3)"
-	borderColorHover:		"rgba(255,255,255, 1)"
-	borderColorSelected:	"rgba(239,102,47, .8)"
-	debug: 					false
-	density:				3.2
-	defaultItem: 			"auto"
-	enableReflections: 		false
-	minHeight:				200
-	hideOverflow:			true
-	selectOnChange: 		false
-	crop:					false
-	transitionDuration:		500
-	transitionEasing:		"cubic-bezier(0.075, 0.820, 0.165, 1.000)"
-	transitionPerspective:	"600px"
-	transitionScale:		.76
-	transitionRotation:		45
-
-log = (msg) ->
-	console?.log msg
 
 isCompatible = ()->
 	test1 = false
@@ -56,7 +23,40 @@ class Coffeeflow
 	window?.Coffeeflow = this
 	constructor: (el, options) ->
 		container = j el
-		settings = j.extend defaults, container.data()
+
+		settings =
+			blur:(e)		->
+				log "CoffeeFlow blured"
+			change:(e) 		->
+				log "CoffeeFlow change"
+			error:(e) 		->
+				log "CoffeeFlow image load error"
+			focus:(e)		->
+				log "CoffeeFlow focused"
+			ready:(e)		->
+				log "CoffeeFlow ready"
+			select:(e)		->
+				log "CoffeeFlow select"
+			
+			borderWidth:			0
+			borderColor:			"rgba(255,255,255, .3)"
+			borderColorHover:		"rgba(255,255,255, 1)"
+			borderColorSelected:	"rgba(239,102,47, .8)"
+			borderStyle:			"solid"
+			crop:					false
+			debug: 					false
+			defaultItem: 			"auto"
+			density:				3.2
+			hideOverflow:			true
+			minHeight:				120
+			selectOnChange: 		false
+			transitionDuration:		500
+			transitionEasing:		"cubic-bezier(0.075, 0.820, 0.165, 1.000)"
+			transitionPerspective:	"600px"
+			transitionScale:		.76
+			transitionRotation:		45
+
+		settings = j.extend settings, container.data()
 		settings = j.extend settings, options
 
 		self = this
@@ -80,8 +80,6 @@ class Coffeeflow
 			currentItem = settings.defaultItem
 		else
 			currentItem = Math.floor items.length / 2
-
-		log currentItem
 
 
 		# Public
@@ -137,6 +135,9 @@ class Coffeeflow
 
 		getState = () ->
 			state
+
+		log = (msg) ->
+			console?.log msg if settings.debug
 		
 		onChange = () =>
 			settings.change(self)
@@ -160,10 +161,10 @@ class Coffeeflow
 
 		setState = (state)->
 			state = state
-								
+
 		# init
 		for i in items
-			item = new CoffeeflowItem i, _i, self
+			item = new CoffeeflowItem i, _i, self, settings
 			stack.push item
 		
 		container.addClass "coffeeflowReflections" if settings.enableReflections
@@ -211,7 +212,7 @@ class Coffeeflow
 				@slideTo pos
 			hammer.onswipe = (e) =>
 				period = e.originalEvent.timeStamp - ts
-				impulse = Math.floor e.distance / period
+				impulse = Math.floor e.distance / ( period / settings.density * 2 )
 				pos = currentItem
 				switch e.direction
 					when "left"
@@ -219,13 +220,12 @@ class Coffeeflow
 					when "right"
 						pos = pos - impulse
 				@slideTo pos
-				console.log "swipe"
 
 		setTimeout ready, 10
 
 
 class CoffeeflowItem
-	constructor: (el, i, p) ->
+	constructor: (el, i, p, settings) ->
 		el = j el
 		i = i
 		p = p
@@ -262,7 +262,7 @@ class CoffeeflowItem
 				state = "after"
 				depth = totalItems - i
 				x = ( canvasWidth / 2 ) + (margin) + ( ( i - currentItem) * margin )
-				c = ( canvasWidth + ( size / 2 ))
+				c = canvasWidth + size
 				visible = x < c
 			
 
@@ -315,8 +315,7 @@ class CoffeeflowItem
 							transform = "scale(#{settings.transitionScale}) skew(0deg, 20deg)"
 						if !settings.crop
 							img.css
-								left : "none"
-								right : 0
+								left : anchor.width() - img.width()
 					when "current"
 						anchor.css
 							"transform" : "perspective(#{settings.transitionPerspective}) scale(1) rotateY(0deg)"
@@ -410,7 +409,7 @@ class CoffeeflowItem
 						maxWidth		: "100%"
 						maxHeight		: "100%"
 						position 		: "absolute"
-						"transition" 	: "#{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
+						"transition" 	: "left #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
 
 					bTarget = img
 					if settings.crop
@@ -439,6 +438,7 @@ class CoffeeflowItem
 
 				img.error (e) =>
 					preloader.setState "error"
+					settings.error p
 
 
 				if Hammer?
@@ -481,7 +481,7 @@ class CoffeeflowItem
 					marginLeft		: "-50%"
 					width			: size
 					height			: size
-					left			: 0
+					left			: "-50%"
 					top				: 0
 					position		: "absolute"
 				item.appendTo p.getCanvas()
@@ -501,7 +501,6 @@ class CoffeeflowItem
 			else
 				img.css
 					borderColor 	: settings.borderColorSelected
-			log "selected"
 			settings.select p
 
 class Preloader
