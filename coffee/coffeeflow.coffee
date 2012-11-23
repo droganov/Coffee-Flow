@@ -29,13 +29,16 @@ class Coffeeflow
 				log "CoffeeFlow blured"
 			change:(e) 		->
 				log "CoffeeFlow change"
+			error:(e) 		->
+				log "CoffeeFlow image load error"
+			focus:(e)		->
+				log "CoffeeFlow focused"
 			ready:(e)		->
 				log "CoffeeFlow ready"
 			select:(e)		->
 				log "CoffeeFlow select"
-			focus:(e)		->
-				log "CoffeeFlow focused"
-			borderWidth:			1
+			
+			borderWidth:			0
 			borderColor:			"rgba(255,255,255, .3)"
 			borderColorHover:		"rgba(255,255,255, 1)"
 			borderColorSelected:	"rgba(239,102,47, .8)"
@@ -435,6 +438,7 @@ class CoffeeflowItem
 
 				img.error (e) =>
 					preloader.setState "error"
+					settings.error p
 
 
 				if Hammer?
