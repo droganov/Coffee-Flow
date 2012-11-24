@@ -40,8 +40,8 @@ class Coffeeflow
 			
 			borderWidth:			0
 			borderColor:			"rgba(255,255,255, .3)"
-			borderColorHover:		"rgba(255,255,255, 1)"
-			borderColorSelected:	"rgba(239,102,47, .8)"
+			borderColorHover:		"rgba(0,175,255, .8)"
+			borderColorSelected:	"rgba(250,210,6, .8)"
 			borderStyle:			"solid"
 			crop:					false
 			debug: 					false
