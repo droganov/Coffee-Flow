@@ -385,7 +385,7 @@ class CoffeeflowItem
 						maxWidth		: "100%"
 						maxHeight		: "100%"
 						position 		: "absolute"
-						"transition" 	: "#{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
+						"transition" 	: "transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
 
 					bTarget = img
 					if settings.crop
@@ -492,28 +492,23 @@ class CoffeeflowItem
 				when "before"
 					transform = "perspective(#{settings.transitionPerspective}) scale(#{settings.transitionScale}) rotateY(#{settings.transitionRotation}deg) translate(-#{translate}px)"
 					if j.browser.opera
-						transform = "scale(#{settings.transitionScale}) skew(0deg, 20deg)"
-					if !settings.crop
-						img.css
-							left : 0
-							right : "none"
+						transform = "scale(#{settings.transitionScale}) skew(0deg, -20deg)"
+					iX = 0
 				when "after"
 					transform = "perspective(#{settings.transitionPerspective}) scale(#{settings.transitionScale}) rotateY(-#{settings.transitionRotation}deg) translate(#{translate}px)"
 					if j.browser.opera
-						transform = "translate(scale(#{settings.transitionScale}) skew(0deg, 20deg)"
-					if !settings.crop
-						img.css
-							left : anchor.width() - img.width()
+						transform = "scale(#{settings.transitionScale}) skew(0deg, 20deg)"
+					iX = anchor.width() - img.width()
 				when "current"
 					transform = "perspective(#{settings.transitionPerspective}) scale(1) rotateY(0deg)"
 					if j.browser.opera
 						transform = "scale(1)"
-					if !settings.crop
-						img.css
-							left : ( anchor.width() - img.width() ) / 2
-							right : "none"
+					iX = ( anchor.width() - img.width() ) / 2
 			anchor.css
 				"transform" : transform
+			if !settings.crop
+				img.css
+					transform : "translate(#{iX}px)"
 class Preloader
 	constructor: (parent) ->
 		parent = parent
