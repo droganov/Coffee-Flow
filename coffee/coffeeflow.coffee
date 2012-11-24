@@ -290,6 +290,16 @@ class CoffeeflowItem
 
 			xPos = x
 
+		@select = () ->
+			item.addClass "coffeeflowItem_selected"
+			if settings.crop
+				anchor.css
+					borderColor 	: settings.borderColorSelected
+			else
+				img.css
+					borderColor 	: settings.borderColorSelected
+			settings.select p
+
 		@setContent = (content) ->	
 			anchor.append content
 
@@ -432,14 +442,14 @@ class CoffeeflowItem
 						hold: false
 					hammer.ontap = (e) =>
 						if item.is ".coffeeflowItem_current"
-							select()
+							@select()
 						else
 							p.slideTo i
 						return false
 				else
 					anchor.click (e) =>
 						if item.is ".coffeeflowItem_current"
-							select()
+							@select()
 						else
 							p.slideTo i
 				anchor.click (e) =>
@@ -473,17 +483,6 @@ class CoffeeflowItem
 				preloader = new Preloader self
 
 				attach()
-				
-			
-		select = () ->
-			item.addClass "coffeeflowItem_selected"
-			if settings.crop
-				anchor.css
-					borderColor 	: settings.borderColorSelected
-			else
-				img.css
-					borderColor 	: settings.borderColorSelected
-			settings.select p
 
 		setTransform = (mouseover = false) ->
 			translate = 0
