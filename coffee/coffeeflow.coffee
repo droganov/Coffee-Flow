@@ -168,9 +168,9 @@ class Coffeeflow
 			item = new CoffeeflowItem i, _i, self, settings
 			stack.push item
 		
+		container.empty()
 		container.addClass "coffeeflowReflections" if settings.enableReflections
 		container.append canvas
-		@resize()
 		
 		j( window ).resize (e) =>
 			@resize()
@@ -178,14 +178,12 @@ class Coffeeflow
 		container.mouseover (e) =>
 			if not container.is ".coffeeflowFocuse"
 				container.addClass "coffeeflowFocuse"
-				@resize()
 				settings.focus self
 			e.stopPropagation()
 
 		j("html").mouseover (e) =>
 			if container.is ".coffeeflowFocuse"
 				container.removeClass "coffeeflowFocuse"
-				@resize()
 				settings.blur self
 				e.stopPropagation()
 
@@ -333,36 +331,46 @@ class CoffeeflowItem
 			load()
 			attached = true
 
-		crop = () ->	
-			if img.width() > img.height()
-				iWidth = "none"
-				iHeight = "100%"
+		crop = () ->
+			w = img.width()
+			h = img.height()
+			aspect = w / h
+			if w > h
+				iScale = w / size
+
+				iWidth = w + iScale
+				iHeight = size
 				iBottom = 0
-				iScale = img.width() / size
-				iLeft = 0 - ( ( ( img.width() / iScale ) - size ) / 2 )
+				
+				iLeft = 0 - ( ( ( w / iScale ) - size ) / 2 )
+
+				iTrace = "width"
 			else
-				iWidth = "100%"
-				iHeight = "none"
-				iScale = img.height() / size
-				iBottom = 0 - ( ( ( img.height() / iScale ) - size ) / 2 )
+				iScale = h / size
+				iWidth = size
+				iHeight = "auto"
+				
+				iBottom = 0 - ( ( ( h / iScale ) - size ) / 2 )
 				iLeft = 0
+
+				iTrace = "height"
+			console.log iTrace + " " + iHeight
 
 			img.css
 				borderWidth 	: 0
 				maxWidth		: "none"
 				maxHeight		: "none"
-				left			: iLeft
+				left			: iLeft + "px"
 				width 			: iWidth
 				height 			: iHeight
 				transition 		: "none"
-				bottom 			: iBottom
+				bottom 			: iBottom + "px"
 
 			anchor.css
 				borderWidth 	: settings.borderWidth
 				borderStyle 	: settings.borderStyle
 				margin 			: 0 - settings.borderWidth + "px" 
 				overflow 		: "hidden"
-
 		
 		detach = () ->
 			j(item).remove()
