@@ -235,7 +235,7 @@ class CoffeeflowItem
 		link = el.attr "href"
 		source = el.find("img").attr "src"
 		
-		state = item = anchor = img = xPos = depth = size = attached = completeTimeout = preloader = 0
+		state = item = anchor = img = xPos = depth = size = attached = completeTimeout = preloader = ready = aspect =0
 		visible = true
 
 		el.remove()
@@ -279,7 +279,7 @@ class CoffeeflowItem
 				item.addClass "coffeeflowItem_" + state
 				item.css "z-index", depth
 
-				
+				crop()
 				align(x)
 				
 
@@ -332,49 +332,53 @@ class CoffeeflowItem
 			attached = true
 
 		crop = () ->
-			w = img.width()
-			h = img.height()
-			aspect = w / h
-			if w > h
-				iScale = w / size
+			if ready
+				w = img.width()
+				h = img.height()
+				aspect = w / h if not aspect
 
-				iWidth = w + iScale
-				iHeight = size
-				iBottom = 0
-				
-				iLeft = 0 - ( ( ( w / iScale ) - size ) / 2 )
+				if settings.crop
+					if w > h
+						iWidth		= Math.round size * aspect
+						iHeight		= size
+						iBottom		= 0
+						iLeft		= Math.round 0 - ((iWidth - size) / 2)
+					else
+						iWidth		= size
+						iHeight		= Math.round size / aspect
+						iBottom		= Math.round 0 - ((iHeight - size) / 2)
+						iLeft		= 0
+					img.css
+						borderWidth 	: 0
+						maxWidth		: "none"
+						maxHeight		: "none"
+						transition 		: "none"
+						left			: iLeft + "px"
+						width 			: iWidth + "px"
+						height 			: iHeight + "px"
+						bottom 			: iBottom + "px"
 
-				iTrace = "width"
-			else
-				iScale = h / size
-				iWidth = size
-				iHeight = "auto"
-				
-				iBottom = 0 - ( ( ( h / iScale ) - size ) / 2 )
-				iLeft = 0
-
-				iTrace = "height"
-			console.log iTrace + " " + iHeight
-
-			img.css
-				borderWidth 	: 0
-				maxWidth		: "none"
-				maxHeight		: "none"
-				left			: iLeft + "px"
-				width 			: iWidth
-				height 			: iHeight
-				transition 		: "none"
-				bottom 			: iBottom + "px"
-
-			anchor.css
-				borderWidth 	: settings.borderWidth
-				borderStyle 	: settings.borderStyle
-				margin 			: 0 - settings.borderWidth + "px" 
-				overflow 		: "hidden"
+					anchor.css
+						borderWidth 	: settings.borderWidth
+						borderStyle 	: settings.borderStyle
+						margin 			: 0 - settings.borderWidth + "px" 
+						overflow 		: "hidden"
+				else
+					if w > h
+						iWidth		= size
+						iHeight		= Math.round size / aspect
+					else
+						iWidth		= Math.round size * aspect
+						iHeight		= size
+					img.css
+						maxWidth		: "none"
+						maxHeight		: "none"
+						width 			: iWidth + "px"
+						height 			: iHeight + "px"
 		
 		detach = () ->
 			j(item).remove()
-			attached = false
+			attached = ready = aspect = 0
 
 		load = () ->
 			preloader.setState "loading"
@@ -405,10 +409,17 @@ class CoffeeflowItem
 						position 		: "absolute"
 						"transition" 	: "transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
 
+					preloader.detach()
+					self.setContent img
+
 					bTarget = img
+					ready = true
+					console.log ready
+
 					if settings.crop
-						setTimeout crop, 10
+						crop()
 						bTarget = anchor
+					align xPos
 
 					img.mouseover (e) =>
 						if item.is ".coffeeflowItem_selected"
@@ -430,10 +441,6 @@ class CoffeeflowItem
 							bTarget.css
 								borderColor : settings.borderColor
 						setTransform false if settings.pull
-
-					preloader.detach()
-					self.setContent img
-					align xPos
 
 				img.error (e) =>
 					preloader.setState "error"
