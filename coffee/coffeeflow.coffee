@@ -237,7 +237,7 @@ class CoffeeflowItem
 		link = el.attr "href"
 		source = el.find("img").attr "src"
 		
-		state = item = anchor = img = xPos = depth = size = attached = completeTimeout = preloader = ready = aspect =0
+		state = item = anchor = img = xPos = depth = attached = completeTimeout = preloader = ready = aspect = 0
 		visible = true
 
 		el.remove()
@@ -246,8 +246,9 @@ class CoffeeflowItem
 
 		# Public methods
 		@arrange = (currentItem, totalItems, canvasWidth, canwasHeight) ->
-			size = canwasHeight
-			margin = size / settings.density
+			width = getWidth()
+			height = getHeight()
+			margin = width / settings.density
 			if i is currentItem
 				state = "current"
 				depth = totalItems + 1
@@ -257,21 +258,21 @@ class CoffeeflowItem
 				state = "before"
 				depth = i
 				x = ( canvasWidth / 2 ) - (margin) - ( ( currentItem - i ) * margin )
-				c = 0 - size
+				c = 0 - width
 				visible = x > c
 			else
 				state = "after"
 				depth = totalItems - i
 				x = ( canvasWidth / 2 ) + (margin) + ( ( i - currentItem) * margin )
-				c = canvasWidth + size
+				c = canvasWidth + width
 				visible = x < c
 			
 
 			render(x) if visible and not attached
 
 			if attached
-				anchor.width(size).height(size).css
-					left : "#{0 - size/2}px"
+				anchor.width(width).height(height).css
+					left : "#{0 - width/2}px"
 
 				item.removeClass "coffeeflowItem_before"
 				item.removeClass "coffeeflowItem_current"
@@ -340,16 +341,19 @@ class CoffeeflowItem
 				h = img.height()
 				aspect = w / h if not aspect
 
+				width = getWidth()
+				height = getHeight()
+
 				if settings.crop
 					if w > h
-						iWidth		= Math.round size * aspect
-						iHeight		= size
+						iWidth		= Math.round width * aspect
+						iHeight		= height
 						iBottom		= 0
-						iLeft		= Math.round 0 - ((iWidth - size) / 2)
+						iLeft		= Math.round 0 - ((iWidth - width) / 2)
 					else
-						iWidth		= size
-						iHeight		= Math.round size / aspect
-						iBottom		= Math.round 0 - ((iHeight - size) / 2)
+						iWidth		= width
+						iHeight		= Math.round height / aspect
+						iBottom		= Math.round 0 - ((iHeight - height) / 2)
 						iLeft		= 0
 					img.css
 						borderWidth 	: 0
@@ -368,11 +372,11 @@ class CoffeeflowItem
 						overflow 		: "hidden"
 				else
 					if w > h
-						iWidth		= size
-						iHeight		= Math.round size / aspect
+						iWidth		= width
+						iHeight		= Math.round height / aspect
 					else
-						iWidth		= Math.round size * aspect
-						iHeight		= size
+						iWidth		= Math.round width * aspect
+						iHeight		= height
 					img.css
 						maxWidth		: "none"
 						maxHeight		: "none"
@@ -382,6 +386,17 @@ class CoffeeflowItem
 		detach = () ->
 			j(item).remove()
 			attached = ready = aspect = 0
+
+		getHeight = () ->
+			if settings.height is "auto"
+				p.getHeight()
+			else
+				settings.height
+		getWidth = () ->
+			if settings.width is "auto"
+				getHeight()
+			else
+				settings.width
 
 		load = () ->
 			preloader.setState "loading"
@@ -399,7 +414,7 @@ class CoffeeflowItem
 				img.load (e) =>
 					item.addClass "coffeeflowItem_ready"
 					
-					anchor.width(size).height(size)
+					anchor.width(getWidth()).height(getHeight())
 					anchor.css
 						"transition" : "#{prefix()}transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
 					img.css
@@ -487,8 +502,8 @@ class CoffeeflowItem
 						left : xPos + "px"
 				anchor.css
 					marginLeft		: "-50%"
-					width			: size
-					height			: size
+					width			: getWidth()
+					height			: getHeight()
 					left			: "-50%"
 					top				: 0
 					position		: "absolute"
@@ -502,7 +517,7 @@ class CoffeeflowItem
 
 		setTransform = (mouseover = false) ->
 			translate = 0
-			translate = size / 4 if mouseover
+			translate = getWidth() / 4 if mouseover
 			switch state
 				when "before"
 					transform = "perspective(#{settings.transitionPerspective}) scale(#{settings.transitionScale}) rotateY(#{settings.transitionRotation}deg) translate(-#{translate}px)"

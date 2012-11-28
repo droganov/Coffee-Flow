@@ -281,7 +281,7 @@
   CoffeeflowItem = (function() {
 
     function CoffeeflowItem(el, i, p, settings) {
-      var align, anchor, aspect, attach, attached, completeTimeout, crop, data, depth, detach, img, item, link, load, onComplete, preloader, ready, render, self, setTransform, size, source, state, visible, xPos;
+      var align, anchor, aspect, attach, attached, completeTimeout, crop, data, depth, detach, getHeight, getWidth, img, item, link, load, onComplete, preloader, ready, render, self, setTransform, source, state, visible, xPos;
       el = j(el);
       i = i;
       p = p;
@@ -289,13 +289,14 @@
       data = j.data(el);
       link = el.attr("href");
       source = el.find("img").attr("src");
-      state = item = anchor = img = xPos = depth = size = attached = completeTimeout = preloader = ready = aspect = 0;
+      state = item = anchor = img = xPos = depth = attached = completeTimeout = preloader = ready = aspect = 0;
       visible = true;
       el.remove();
       this.arrange = function(currentItem, totalItems, canvasWidth, canwasHeight) {
-        var c, margin, x;
-        size = canwasHeight;
-        margin = size / settings.density;
+        var c, height, margin, width, x;
+        width = getWidth();
+        height = getHeight();
+        margin = width / settings.density;
         if (i === currentItem) {
           state = "current";
           depth = totalItems + 1;
@@ -305,21 +306,21 @@
           state = "before";
           depth = i;
           x = (canvasWidth / 2) - margin - ((currentItem - i) * margin);
-          c = 0 - size;
+          c = 0 - width;
           visible = x > c;
         } else {
           state = "after";
           depth = totalItems - i;
           x = (canvasWidth / 2) + margin + ((i - currentItem) * margin);
-          c = canvasWidth + size;
+          c = canvasWidth + width;
           visible = x < c;
         }
         if (visible && !attached) {
           render(x);
         }
         if (attached) {
-          anchor.width(size).height(size).css({
-            left: "" + (0 - size / 2) + "px"
+          anchor.width(width).height(height).css({
+            left: "" + (0 - width / 2) + "px"
           });
           item.removeClass("coffeeflowItem_before");
           item.removeClass("coffeeflowItem_current");
@@ -389,7 +390,7 @@
         return attached = true;
       };
       crop = function(r) {
-        var h, iBottom, iHeight, iLeft, iWidth, w;
+        var h, height, iBottom, iHeight, iLeft, iWidth, w, width;
         if (r == null) {
           r = ready;
         }
@@ -400,16 +401,18 @@
           if (!aspect) {
             aspect = w / h;
           }
+          width = getWidth();
+          height = getHeight();
           if (settings.crop) {
             if (w > h) {
-              iWidth = Math.round(size * aspect);
-              iHeight = size;
+              iWidth = Math.round(width * aspect);
+              iHeight = height;
               iBottom = 0;
-              iLeft = Math.round(0 - ((iWidth - size) / 2));
+              iLeft = Math.round(0 - ((iWidth - width) / 2));
             } else {
-              iWidth = size;
-              iHeight = Math.round(size / aspect);
-              iBottom = Math.round(0 - ((iHeight - size) / 2));
+              iWidth = width;
+              iHeight = Math.round(height / aspect);
+              iBottom = Math.round(0 - ((iHeight - height) / 2));
               iLeft = 0;
             }
             img.css({
@@ -430,11 +433,11 @@
             });
           } else {
             if (w > h) {
-              iWidth = size;
-              iHeight = Math.round(size / aspect);
+              iWidth = width;
+              iHeight = Math.round(height / aspect);
             } else {
-              iWidth = Math.round(size * aspect);
-              iHeight = size;
+              iWidth = Math.round(width * aspect);
+              iHeight = height;
             }
             return img.css({
               maxWidth: "none",
@@ -448,6 +451,20 @@
       detach = function() {
         j(item).remove();
         return attached = ready = aspect = 0;
+      };
+      getHeight = function() {
+        if (settings.height === "auto") {
+          return p.getHeight();
+        } else {
+          return settings.height;
+        }
+      };
+      getWidth = function() {
+        if (settings.width === "auto") {
+          return getHeight();
+        } else {
+          return settings.width;
+        }
       };
       load = function() {
         preloader.setState("loading");
@@ -470,7 +487,7 @@
           img.load(function(e) {
             var bTarget;
             item.addClass("coffeeflowItem_ready");
-            anchor.width(size).height(size);
+            anchor.width(getWidth()).height(getHeight());
             anchor.css({
               "transition": "" + (prefix()) + "transform " + (settings.transitionDuration / 1000) + "s " + settings.transitionEasing
             });
@@ -573,8 +590,8 @@
           }
           anchor.css({
             marginLeft: "-50%",
-            width: size,
-            height: size,
+            width: getWidth(),
+            height: getHeight(),
             left: "-50%",
             top: 0,
             position: "absolute"
@@ -592,7 +609,7 @@
         }
         translate = 0;
         if (mouseover) {
-          translate = size / 4;
+          translate = getWidth() / 4;
         }
         switch (state) {
           case "before":
