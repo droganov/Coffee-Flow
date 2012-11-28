@@ -38,24 +38,26 @@ class Coffeeflow
 			select:(e)		->
 				log "CoffeeFlow select"
 			
-			borderWidth:			0
-			borderColor:			"rgba(255,255,255, .3)"
-			borderColorHover:		"rgba(0,175,255, .8)"
-			borderColorSelected:	"rgba(250,210,6, .8)"
-			borderStyle:			"solid"
-			crop:					false
-			debug: 					false
-			defaultItem: 			"auto"
-			density:				3.2
-			hideOverflow:			true
-			minHeight:				120
-			pull:					true
-			selectOnChange: 		false
-			transitionDuration:		500
-			transitionEasing:		"cubic-bezier(0.075, 0.820, 0.165, 1.000)"
-			transitionPerspective:	"600px"
-			transitionScale:		.70
-			transitionRotation:		45
+			borderWidth				: 0
+			borderColor				: "rgba(255,255,255, .3)"
+			borderColorHover		: "rgba(0,175,255, .8)"
+			borderColorSelected		: "rgba(250,210,6, .8)"
+			borderStyle				: "solid"
+			crop					: false
+			debug					: false
+			defaultItem				: "auto"
+			density					: 3.2
+			height					: "auto"
+			hideOverflow			: true
+			minHeight				: 120
+			pull					: true
+			selectOnChange			: false
+			transitionDuration		: 500
+			transitionEasing		: "cubic-bezier(0.075, 0.820, 0.165, 1.000)"
+			transitionPerspective	: "600px"
+			transitionScale			: .70
+			transitionRotation		: 45
+			width					: "auto"
 
 		settings = j.extend settings, container.data()
 		settings = j.extend settings, options
@@ -77,10 +79,10 @@ class Coffeeflow
 
 		items = container.find "a"
 
-		if parseInt settings.defaultItem 
-			currentItem = settings.defaultItem
+		if settings.defaultItem is "auto"
+			currentItem = Math.floor items.length / 2 - 1
 		else
-			currentItem = Math.floor items.length / 2
+			currentItem = settings.defaultItem
 
 
 		# Public
@@ -303,7 +305,7 @@ class CoffeeflowItem
 
 		
 		# private
-		align = (x) ->
+		align = (x = xPos) ->
 			if compatible
 				item.css
 					"transform" : "translate(" + x + "px)"
@@ -331,7 +333,8 @@ class CoffeeflowItem
 			load()
 			attached = true
 
-		crop = () ->
+		crop = (r = ready) ->
+			ready = r
 			if ready
 				w = img.width()
 				h = img.height()
@@ -413,12 +416,9 @@ class CoffeeflowItem
 					self.setContent img
 
 					bTarget = img
-					ready = true
-					console.log ready
-
 					if settings.crop
-						crop()
 						bTarget = anchor
+					crop(true)
 					align xPos
 
 					img.mouseover (e) =>
@@ -442,6 +442,7 @@ class CoffeeflowItem
 								borderColor : settings.borderColor
 						setTransform false if settings.pull
 
+
 				img.error (e) =>
 					preloader.setState "error"
 					settings.error p
@@ -457,14 +458,14 @@ class CoffeeflowItem
 						hold: false
 					hammer.ontap = (e) =>
 						if item.is ".coffeeflowItem_current"
-							@select()
+							self.select()
 						else
 							p.slideTo i
 						return false
 				else
 					anchor.click (e) =>
 						if item.is ".coffeeflowItem_current"
-							@select()
+							self.select()
 						else
 							p.slideTo i
 				anchor.click (e) =>
