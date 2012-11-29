@@ -283,7 +283,7 @@
   CoffeeflowItem = (function() {
 
     function CoffeeflowItem(el, i, p, settings) {
-      var align, anchor, aspect, attach, attached, completeTimeout, crop, data, depth, detach, getHeight, getWidth, img, item, link, load, onComplete, preloader, ready, render, self, setTransform, source, state, visible, xPos;
+      var align, anchor, aspect, attach, attached, completeTimeout, crop, data, depth, detach, img, item, link, load, onComplete, preloader, ready, render, self, setTransform, source, state, visible, xPos;
       el = j(el);
       i = i;
       p = p;
@@ -296,8 +296,8 @@
       el.remove();
       this.arrange = function(currentItem, totalItems, canvasWidth, canwasHeight) {
         var c, height, margin, width, x;
-        width = getWidth();
-        height = getHeight();
+        width = self.getWidth();
+        height = self.getHeight();
         margin = width / settings.density;
         if (i === currentItem) {
           state = "current";
@@ -337,6 +337,20 @@
           completeTimeout = setTimeout(onComplete, settings.transitionDuration);
         }
         return xPos = x;
+      };
+      this.getHeight = function() {
+        if (settings.height === "auto") {
+          return p.getHeight();
+        } else {
+          return settings.height;
+        }
+      };
+      this.getWidth = function() {
+        if (settings.width === "auto") {
+          return self.getHeight();
+        } else {
+          return settings.width;
+        }
       };
       this.select = function() {
         item.addClass("coffeeflowItem_selected");
@@ -403,8 +417,8 @@
           if (!aspect) {
             aspect = w / h;
           }
-          width = getWidth();
-          height = getHeight();
+          width = self.getWidth();
+          height = self.getHeight();
           if (settings.crop) {
             if (w > h) {
               iWidth = Math.round(width * aspect);
@@ -430,7 +444,8 @@
             return anchor.css({
               borderWidth: settings.borderWidth,
               borderStyle: settings.borderStyle,
-              margin: 0 - settings.borderWidth + "px",
+              height: self.getHeight() - (settings.borderWidth * 2),
+              width: self.getWidth() - (settings.borderWidth * 2),
               overflow: "hidden"
             });
           } else {
@@ -440,7 +455,12 @@
             } else {
               iWidth = Math.round(width * aspect);
               iHeight = height;
+              if (i === 1) {
+                console.log(iHeight);
+              }
             }
+            iWidth = iWidth - (settings.borderWidth * 2);
+            iHeight = iHeight - (settings.borderWidth * 2);
             return img.css({
               maxWidth: "none",
               maxHeight: "none",
@@ -453,20 +473,6 @@
       detach = function() {
         j(item).remove();
         return attached = ready = aspect = 0;
-      };
-      getHeight = function() {
-        if (settings.height === "auto") {
-          return p.getHeight();
-        } else {
-          return settings.height;
-        }
-      };
-      getWidth = function() {
-        if (settings.width === "auto") {
-          return getHeight();
-        } else {
-          return settings.width;
-        }
       };
       load = function() {
         preloader.setState("loading");
@@ -489,7 +495,7 @@
           img.load(function(e) {
             var bTarget;
             item.addClass("coffeeflowItem_ready");
-            anchor.width(getWidth()).height(getHeight());
+            anchor.width(self.getWidth()).height(self.getHeight());
             anchor.css({
               "transition": "" + (prefix()) + "transform " + (settings.transitionDuration / 1000) + "s " + settings.transitionEasing
             });
@@ -592,8 +598,8 @@
           }
           anchor.css({
             marginLeft: "-50%",
-            width: getWidth(),
-            height: getHeight(),
+            width: self.getWidth(),
+            height: self.getHeight(),
             left: "-50%",
             top: 0,
             position: "absolute"
@@ -611,7 +617,7 @@
         }
         translate = 0;
         if (mouseover) {
-          translate = getWidth() / 4;
+          translate = self.getWidth() / 4;
         }
         switch (state) {
           case "before":

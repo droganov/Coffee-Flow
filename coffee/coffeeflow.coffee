@@ -245,8 +245,8 @@ class CoffeeflowItem
 
 		# Public methods
 		@arrange = (currentItem, totalItems, canvasWidth, canwasHeight) ->
-			width = getWidth()
-			height = getHeight()
+			width = self.getWidth()
+			height = self.getHeight()
 			margin = width / settings.density
 			if i is currentItem
 				state = "current"
@@ -289,6 +289,17 @@ class CoffeeflowItem
 
 
 			xPos = x
+
+		@getHeight = () ->
+			if settings.height is "auto"
+				p.getHeight()
+			else
+				settings.height
+		@getWidth = () ->
+			if settings.width is "auto"
+				self.getHeight()
+			else
+				settings.width
 
 		@select = () ->
 			item.addClass "coffeeflowItem_selected"
@@ -340,8 +351,8 @@ class CoffeeflowItem
 				h = img.height()
 				aspect = w / h if not aspect
 
-				width = getWidth()
-				height = getHeight()
+				width = self.getWidth()
+				height = self.getHeight()
 
 				if settings.crop
 					if w > h
@@ -354,6 +365,7 @@ class CoffeeflowItem
 						iHeight		= Math.round height / aspect
 						iBottom		= Math.round 0 - ((iHeight - height) / 2)
 						iLeft		= 0
+
 					img.css
 						borderWidth 	: 0
 						maxWidth		: "none"
@@ -367,7 +379,8 @@ class CoffeeflowItem
 					anchor.css
 						borderWidth 	: settings.borderWidth
 						borderStyle 	: settings.borderStyle
-						margin 			: 0 - settings.borderWidth + "px" 
+						height			: self.getHeight() - (settings.borderWidth * 2)
+						width			: self.getWidth() - (settings.borderWidth * 2)
 						overflow 		: "hidden"
 				else
 					if w > h
@@ -376,6 +389,14 @@ class CoffeeflowItem
 					else
 						iWidth		= Math.round width * aspect
 						iHeight		= height
+
+						console.log iHeight if i is 1
+
+					iWidth			= iWidth - (settings.borderWidth * 2)
+					iHeight			= iHeight - (settings.borderWidth * 2)
+
+
+
 					img.css
 						maxWidth		: "none"
 						maxHeight		: "none"
@@ -385,17 +406,6 @@ class CoffeeflowItem
 		detach = () ->
 			j(item).remove()
 			attached = ready = aspect = 0
-
-		getHeight = () ->
-			if settings.height is "auto"
-				p.getHeight()
-			else
-				settings.height
-		getWidth = () ->
-			if settings.width is "auto"
-				getHeight()
-			else
-				settings.width
 
 		load = () ->
 			preloader.setState "loading"
@@ -413,7 +423,7 @@ class CoffeeflowItem
 				img.load (e) =>
 					item.addClass "coffeeflowItem_ready"
 					
-					anchor.width(getWidth()).height(getHeight())
+					anchor.width(self.getWidth()).height(self.getHeight())
 					anchor.css
 						"transition" : "#{prefix()}transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
 					img.css
@@ -501,8 +511,8 @@ class CoffeeflowItem
 						left : xPos + "px"
 				anchor.css
 					marginLeft		: "-50%"
-					width			: getWidth()
-					height			: getHeight()
+					width			: self.getWidth()
+					height			: self.getHeight()
 					left			: "-50%"
 					top				: 0
 					position		: "absolute"
@@ -516,7 +526,7 @@ class CoffeeflowItem
 
 		setTransform = (mouseover = false) ->
 			translate = 0
-			translate = getWidth() / 4 if mouseover
+			translate = self.getWidth() / 4 if mouseover
 			switch state
 				when "before"
 					transform = "perspective(#{settings.transitionPerspective}) scale(#{settings.transitionScale}) rotateY(#{settings.transitionRotation}deg) translate(-#{translate}px)"
