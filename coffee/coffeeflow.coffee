@@ -89,9 +89,6 @@ class Coffeeflow
 		@getCanvas = ()->
 			return canvas
 
-		@getData = () ->
-			canvas.data()
-
 		@getHeight = ->
 			canvas.height()
 
@@ -290,7 +287,11 @@ class CoffeeflowItem
 
 			xPos = x
 
-		@getHeight = () ->
+		@getData = ()		-> data
+		@getLink = ()		-> link
+		@getSource = ()		-> source
+
+		@getHeight = ()		->
 			if settings.height is "auto"
 				p.getHeight()
 			else

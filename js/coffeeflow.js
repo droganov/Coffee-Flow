@@ -111,9 +111,6 @@
       this.getCanvas = function() {
         return canvas;
       };
-      this.getData = function() {
-        return canvas.data();
-      };
       this.getHeight = function() {
         return canvas.height();
       };
@@ -337,6 +334,15 @@
           completeTimeout = setTimeout(onComplete, settings.transitionDuration);
         }
         return xPos = x;
+      };
+      this.getData = function() {
+        return data;
+      };
+      this.getLink = function() {
+        return link;
+      };
+      this.getSource = function() {
+        return source;
       };
       this.getHeight = function() {
         if (settings.height === "auto") {
