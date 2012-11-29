@@ -350,22 +350,29 @@ class CoffeeflowItem
 			if ready
 				w = img.width()
 				h = img.height()
-				aspect = w / h if not aspect
 
 				width = self.getWidth()
 				height = self.getHeight()
 
+				aspect = w / h if !aspect
+				parentAspect = width / height
+
+				b2 = (settings.borderWidth * 2)
+
 				if settings.crop
-					if w > h
-						iWidth		= Math.round width * aspect
+					if aspect > parentAspect
+						iWidth		= Math.round height * aspect
 						iHeight		= height
 						iBottom		= 0
 						iLeft		= Math.round 0 - ((iWidth - width) / 2)
 					else
 						iWidth		= width
-						iHeight		= Math.round height / aspect
+						iHeight		= Math.round width / aspect
 						iBottom		= Math.round 0 - ((iHeight - height) / 2)
 						iLeft		= 0
+
+					iWidth			= iWidth - b2
+					iHeight			= iHeight - b2
 
 					img.css
 						borderWidth 	: 0
@@ -380,23 +387,19 @@ class CoffeeflowItem
 					anchor.css
 						borderWidth 	: settings.borderWidth
 						borderStyle 	: settings.borderStyle
-						height			: self.getHeight() - (settings.borderWidth * 2)
-						width			: self.getWidth() - (settings.borderWidth * 2)
+						height			: height - b2
+						width			: width - b2
 						overflow 		: "hidden"
 				else
-					if w > h
+					if aspect > parentAspect
 						iWidth		= width
-						iHeight		= Math.round height / aspect
+						iHeight		= Math.round width / aspect
 					else
-						iWidth		= Math.round width * aspect
+						iWidth		= Math.round height * aspect
 						iHeight		= height
 
-						console.log iHeight if i is 1
-
-					iWidth			= iWidth - (settings.borderWidth * 2)
-					iHeight			= iHeight - (settings.borderWidth * 2)
-
-
+					iWidth			= iWidth - b2
+					iHeight			= iHeight - b2
 
 					img.css
 						maxWidth		: "none"
