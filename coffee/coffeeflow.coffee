@@ -517,11 +517,13 @@ class CoffeeflowItem
 					left			: "-50%"
 					top				: 0
 					position		: "absolute"
+					transition 		: "#{prefix()}transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
+
 				item.appendTo p.getCanvas()
 
 				item.append anchor
 
-				preloader = new Preloader self
+				preloader = new Preloader self, settings
 
 				attach()
 
@@ -550,20 +552,21 @@ class CoffeeflowItem
 				img.css
 					transform : "translate(#{iX}px)"
 class Preloader
-	constructor: (parent) ->
+	constructor: (parent, settings) ->
 		parent = parent
 
 		bg = "#F0F0F0"
-
+		m = settings.borderWidth * 2
 		preloader = j("<div/>").css
 			background		: bg
-			border 			: "1px solid #9E9E9E"
-			margin			: "-1px"
-			width			: "100%"
-			height			: "100%"
+			borderWidth		: settings.borderWidth
+			borderColor		: settings.borderColor
+			borderStyle		: settings.borderStyle
+			width			: parent.getWidth() - m
+			height			: parent.getHeight() - m
 			overflow 		: "hidden"
 			position 		: "relative"
-		
+
 		parent.setContent preloader
 
 		@detach = () ->
