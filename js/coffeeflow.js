@@ -134,9 +134,11 @@
       };
       this.resize = function() {
         var height;
-        if (container.height() > settings.minHeight) {
-          height = container.height();
-        } else {
+        height = container.height();
+        if (settings.height !== "auto" && parseInt(settings.height)) {
+          height = settings.height;
+        }
+        if (height < settings.minHeight) {
           height = settings.minHeight;
         }
         canvas.height(height);

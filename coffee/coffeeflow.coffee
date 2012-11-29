@@ -108,10 +108,9 @@ class Coffeeflow
 			container.is ".coffeeflowFocuse"
 
 		@resize = () ->
-			if container.height() > settings.minHeight
-				height = container.height()
-			else
-				height = settings.minHeight				
+			height = container.height()
+			height = settings.height if settings.height != "auto" && parseInt settings.height
+			height = settings.minHeight if height < settings.minHeight			
 			canvas.height height
 			arrange()
 
