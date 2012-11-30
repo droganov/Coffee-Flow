@@ -212,7 +212,7 @@ class Coffeeflow
 						pos = pos - impulse
 				@slideTo pos
 
-		setTimeout ready, 10
+		setTimeout ready, 50
 
 
 class CoffeeflowItem

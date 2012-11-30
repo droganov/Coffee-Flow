@@ -273,7 +273,7 @@
           return _this.slideTo(pos);
         };
       }
-      setTimeout(ready, 10);
+      setTimeout(ready, 50);
     }
 
     return Coffeeflow;
