@@ -38,24 +38,26 @@ class Coffeeflow
 			select:(e)		->
 				log "CoffeeFlow select"
 			
-			borderWidth:			0
-			borderColor:			"rgba(255,255,255, .3)"
-			borderColorHover:		"rgba(255,255,255, 1)"
-			borderColorSelected:	"rgba(239,102,47, .8)"
-			borderStyle:			"solid"
-			crop:					false
-			debug: 					false
-			defaultItem: 			"auto"
-			density:				3.2
-			hideOverflow:			true
-			minHeight:				120
-			pull:					true
-			selectOnChange: 		false
-			transitionDuration:		500
-			transitionEasing:		"cubic-bezier(0.075, 0.820, 0.165, 1.000)"
-			transitionPerspective:	"600px"
-			transitionScale:		.70
-			transitionRotation:		45
+			borderWidth				: 0
+			borderColor				: "rgba(255,255,255, .3)"
+			borderColorHover		: "rgba(0,175,255, .8)"
+			borderColorSelected		: "rgba(250,210,6, .8)"
+			borderStyle				: "solid"
+			crop					: false
+			debug					: false
+			defaultItem				: "auto"
+			density					: 3.2
+			height					: "auto"
+			hideOverflow			: true
+			minHeight				: 120
+			pull					: true
+			selectOnChange			: false
+			transitionDuration		: 500
+			transitionEasing		: "cubic-bezier(0.075, 0.820, 0.165, 1.000)"
+			transitionPerspective	: "600px"
+			transitionScale			: .70
+			transitionRotation		: 45
+			width					: "auto"
 
 		settings = j.extend settings, container.data()
 		settings = j.extend settings, options
@@ -77,18 +79,15 @@ class Coffeeflow
 
 		items = container.find "a"
 
-		if parseInt settings.defaultItem 
-			currentItem = settings.defaultItem
+		if settings.defaultItem is "auto"
+			currentItem = Math.floor items.length / 2 - 1
 		else
-			currentItem = Math.floor items.length / 2
+			currentItem = settings.defaultItem
 
 
 		# Public
 		@getCanvas = ()->
 			return canvas
-
-		@getData = () ->
-			canvas.data()
 
 		@getHeight = ->
 			canvas.height()
@@ -106,10 +105,9 @@ class Coffeeflow
 			container.is ".coffeeflowFocuse"
 
 		@resize = () ->
-			if container.height() > settings.minHeight
-				height = container.height()
-			else
-				height = settings.minHeight				
+			height = container.height()
+			height = settings.height if settings.height != "auto" && parseInt settings.height
+			height = settings.minHeight if height < settings.minHeight			
 			canvas.height height
 			arrange()
 
@@ -168,9 +166,9 @@ class Coffeeflow
 			item = new CoffeeflowItem i, _i, self, settings
 			stack.push item
 		
+		container.empty()
 		container.addClass "coffeeflowReflections" if settings.enableReflections
 		container.append canvas
-		@resize()
 		
 		j( window ).resize (e) =>
 			@resize()
@@ -178,14 +176,12 @@ class Coffeeflow
 		container.mouseover (e) =>
 			if not container.is ".coffeeflowFocuse"
 				container.addClass "coffeeflowFocuse"
-				@resize()
 				settings.focus self
 			e.stopPropagation()
 
 		j("html").mouseover (e) =>
 			if container.is ".coffeeflowFocuse"
 				container.removeClass "coffeeflowFocuse"
-				@resize()
 				settings.blur self
 				e.stopPropagation()
 
@@ -237,7 +233,7 @@ class CoffeeflowItem
 		link = el.attr "href"
 		source = el.find("img").attr "src"
 		
-		state = item = anchor = img = xPos = depth = size = attached = completeTimeout = preloader = 0
+		state = item = anchor = img = xPos = depth = attached = completeTimeout = preloader = ready = aspect = 0
 		visible = true
 
 		el.remove()
@@ -246,8 +242,9 @@ class CoffeeflowItem
 
 		# Public methods
 		@arrange = (currentItem, totalItems, canvasWidth, canwasHeight) ->
-			size = canwasHeight
-			margin = size / settings.density
+			width = self.getWidth()
+			height = self.getHeight()
+			margin = width / settings.density
 			if i is currentItem
 				state = "current"
 				depth = totalItems + 1
@@ -257,21 +254,21 @@ class CoffeeflowItem
 				state = "before"
 				depth = i
 				x = ( canvasWidth / 2 ) - (margin) - ( ( currentItem - i ) * margin )
-				c = 0 - size
+				c = 0 - width
 				visible = x > c
 			else
 				state = "after"
 				depth = totalItems - i
 				x = ( canvasWidth / 2 ) + (margin) + ( ( i - currentItem) * margin )
-				c = canvasWidth + size
+				c = canvasWidth + width
 				visible = x < c
 			
 
 			render(x) if visible and not attached
 
 			if attached
-				anchor.width(size).height(size).css
-					left : "#{0 - size/2}px"
+				anchor.width(width).height(height).css
+					left : "#{0 - width/2}px"
 
 				item.removeClass "coffeeflowItem_before"
 				item.removeClass "coffeeflowItem_current"
@@ -281,7 +278,7 @@ class CoffeeflowItem
 				item.addClass "coffeeflowItem_" + state
 				item.css "z-index", depth
 
-				
+				crop()
 				align(x)
 				
 
@@ -290,12 +287,37 @@ class CoffeeflowItem
 
 			xPos = x
 
+		@getData = ()		-> data
+		@getLink = ()		-> link
+		@getSource = ()		-> source
+
+		@getHeight = ()		->
+			if settings.height is "auto"
+				p.getHeight()
+			else
+				settings.height
+		@getWidth = () ->
+			if settings.width is "auto"
+				self.getHeight()
+			else
+				settings.width
+
+		@select = () ->
+			item.addClass "coffeeflowItem_selected"
+			if settings.crop
+				anchor.css
+					borderColor 	: settings.borderColorSelected
+			else
+				img.css
+					borderColor 	: settings.borderColorSelected
+			settings.select p
+
 		@setContent = (content) ->	
 			anchor.append content
 
 		
 		# private
-		align = (x) ->
+		align = (x = xPos) ->
 			if compatible
 				item.css
 					"transform" : "translate(" + x + "px)"
@@ -323,40 +345,71 @@ class CoffeeflowItem
 			load()
 			attached = true
 
-		crop = () ->	
-			if img.width() > img.height()
-				iWidth = "none"
-				iHeight = "100%"
-				iBottom = 0
-				iScale = img.width() / size
-				iLeft = 0 - ( ( ( img.width() / iScale ) - size ) / 2 )
-			else
-				iWidth = "100%"
-				iHeight = "none"
-				iScale = img.height() / size
-				iBottom = 0 - ( ( ( img.height() / iScale ) - size ) / 2 )
-				iLeft = 0
+		crop = (r = ready) ->
+			ready = r
+			if ready
+				w = img.width()
+				h = img.height()
 
-			img.css
-				borderWidth 	: 0
-				maxWidth		: "none"
-				maxHeight		: "none"
-				left			: iLeft
-				width 			: iWidth
-				height 			: iHeight
-				transition 		: "none"
-				bottom 			: iBottom
+				width = self.getWidth()
+				height = self.getHeight()
 
-			anchor.css
-				borderWidth 	: settings.borderWidth
-				borderStyle 	: settings.borderStyle
-				margin 			: 0 - settings.borderWidth + "px" 
-				overflow 		: "hidden"
+				aspect = w / h if !aspect
+				parentAspect = width / height
 
+				b2 = (settings.borderWidth * 2)
+
+				if settings.crop
+					if aspect > parentAspect
+						iWidth		= Math.round height * aspect
+						iHeight		= height
+						iBottom		= 0
+						iLeft		= Math.round 0 - ((iWidth - width) / 2)
+					else
+						iWidth		= width
+						iHeight		= Math.round width / aspect
+						iBottom		= Math.round 0 - ((iHeight - height) / 2)
+						iLeft		= 0
+
+					iWidth			= iWidth - b2
+					iHeight			= iHeight - b2
+
+					img.css
+						borderWidth 	: 0
+						maxWidth		: "none"
+						maxHeight		: "none"
+						transition 		: "none"
+						left			: iLeft + "px"
+						width 			: iWidth + "px"
+						height 			: iHeight + "px"
+						bottom 			: iBottom + "px"
+
+					anchor.css
+						borderWidth 	: settings.borderWidth
+						borderStyle 	: settings.borderStyle
+						height			: height - b2
+						width			: width - b2
+						overflow 		: "hidden"
+				else
+					if aspect > parentAspect
+						iWidth		= width
+						iHeight		= Math.round width / aspect
+					else
+						iWidth		= Math.round height * aspect
+						iHeight		= height
+
+					iWidth			= iWidth - b2
+					iHeight			= iHeight - b2
+
+					img.css
+						maxWidth		: "none"
+						maxHeight		: "none"
+						width 			: iWidth + "px"
+						height 			: iHeight + "px"
 		
 		detach = () ->
 			j(item).remove()
-			attached = false
+			attached = ready = aspect = 0
 
 		load = () ->
 			preloader.setState "loading"
@@ -374,7 +427,7 @@ class CoffeeflowItem
 				img.load (e) =>
 					item.addClass "coffeeflowItem_ready"
 					
-					anchor.width(size).height(size)
+					anchor.width(self.getWidth()).height(self.getHeight())
 					anchor.css
 						"transition" : "#{prefix()}transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
 					img.css
@@ -387,10 +440,14 @@ class CoffeeflowItem
 						position 		: "absolute"
 						"transition" 	: "transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
 
+					preloader.detach()
+					self.setContent img
+
 					bTarget = img
 					if settings.crop
-						setTimeout crop, 10
 						bTarget = anchor
+					crop(true)
+					align xPos
 
 					img.mouseover (e) =>
 						if item.is ".coffeeflowItem_selected"
@@ -413,9 +470,6 @@ class CoffeeflowItem
 								borderColor : settings.borderColor
 						setTransform false if settings.pull
 
-					preloader.detach()
-					self.setContent img
-					align xPos
 
 				img.error (e) =>
 					preloader.setState "error"
@@ -432,14 +486,14 @@ class CoffeeflowItem
 						hold: false
 					hammer.ontap = (e) =>
 						if item.is ".coffeeflowItem_current"
-							select()
+							self.select()
 						else
 							p.slideTo i
 						return false
 				else
 					anchor.click (e) =>
 						if item.is ".coffeeflowItem_current"
-							select()
+							self.select()
 						else
 							p.slideTo i
 				anchor.click (e) =>
@@ -461,33 +515,24 @@ class CoffeeflowItem
 						left : xPos + "px"
 				anchor.css
 					marginLeft		: "-50%"
-					width			: size
-					height			: size
+					width			: self.getWidth()
+					height			: self.getHeight()
 					left			: "-50%"
 					top				: 0
 					position		: "absolute"
+					transition 		: "#{prefix()}transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
+
 				item.appendTo p.getCanvas()
 
 				item.append anchor
 
-				preloader = new Preloader self
+				preloader = new Preloader self, settings
 
 				attach()
-				
-			
-		select = () ->
-			item.addClass "coffeeflowItem_selected"
-			if settings.crop
-				anchor.css
-					borderColor 	: settings.borderColorSelected
-			else
-				img.css
-					borderColor 	: settings.borderColorSelected
-			settings.select p
 
 		setTransform = (mouseover = false) ->
 			translate = 0
-			translate = size / 4 if mouseover
+			translate = self.getWidth() / 4 if mouseover
 			switch state
 				when "before"
 					transform = "perspective(#{settings.transitionPerspective}) scale(#{settings.transitionScale}) rotateY(#{settings.transitionRotation}deg) translate(-#{translate}px)"
@@ -510,20 +555,21 @@ class CoffeeflowItem
 				img.css
 					transform : "translate(#{iX}px)"
 class Preloader
-	constructor: (parent) ->
+	constructor: (parent, settings) ->
 		parent = parent
 
 		bg = "#F0F0F0"
-
+		m = settings.borderWidth * 2
 		preloader = j("<div/>").css
 			background		: bg
-			border 			: "1px solid #9E9E9E"
-			margin			: "-1px"
-			width			: "100%"
-			height			: "100%"
+			borderWidth		: settings.borderWidth
+			borderColor		: settings.borderColor
+			borderStyle		: settings.borderStyle
+			width			: parent.getWidth() - m
+			height			: parent.getHeight() - m
 			overflow 		: "hidden"
 			position 		: "relative"
-		
+
 		parent.setContent preloader
 
 		@detach = () ->
@@ -533,7 +579,7 @@ class Preloader
 		@setState = (state) ->
 			switch state
 				when "loading"
-							i = '<?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+					i = '<?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="72.902px" height="72.902px" viewBox="0 0 72.902 72.902" enable-background="new 0 0 72.902 72.902" xml:space="preserve">
 <rect opacity="0" fill="#FFFFFF" width="72.902" height="72.902"/>
