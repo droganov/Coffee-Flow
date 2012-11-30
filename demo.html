@@ -18,29 +18,26 @@
 			)
 		};
 		$(function(){
-			// $("#coffeeflow").coffeeflow(
-			// 	{
-			// 		defaultItem: 4,
-			// 		debug: true,
-			// 		enableReflections: true,
-			// 		ready: function(e) {
-			// 			log ("Ready");
-			// 		},
-			// 		change: function(e) {
-			// 			log ("Change event fired. Current element is: " + e.getIndex());
-			// 		},
-			// 		select: function(e) {
-			// 			log ("Item " + e.getIndex() + " selected");
-			// 		},
-			// 		focus: function(e) {
-			// 			log ("CoffeeFlow has focus");
-			// 		},
-			// 		blur: function(e) {
-			// 			log ("CoffeeFlow blured");
-			// 		}
-			// 	}
-			// );
-			var coffeeflow = new Coffeeflow("#coffeeflow", {selectOnChange:true, crop:0, defaultItem:0, borderWidth:20, hideOverflow:1});
+			$("#coffeeflow").coffeeflow(
+				{
+					borderWidth           : 1, // image border width
+					borderColor           : "rgba(100,100,100, .3)", // default image border-color
+					borderColorHover      : "rgba(100,100,100, 1)", // image border color on mouse over
+					borderColorSelected   : "rgba(50,50,50, 1)", // selected image border-color
+					crop                  : false, // if true photos cropped to square
+					debug                 : false, // enables console logging
+					defaultItem           : "auto", // controls whitch items is opened on startup, by default middle is calculated
+					density               : 3.2, // use this to adjust image spacing
+					hideOverflow          : true, // crops everything outside the canvas
+					minHeight             : 100, // minimum CoffeFlow canvas height in pixels
+					pull                  : true, // enables pull images effect on mouseover
+					selectOnChange        : false, // if true select event is fired on change
+					transitionDuration    : 500, // transition duration in seconds
+					transitionEasing      : "cubic-bezier(0.075, 0.820, 0.165, 1.000)", // css easing for transitions
+					transitionRotation    : 45
+				}
+			);
+			// var coffeeflow = new Coffeeflow("#coffeeflow", {selectOnChange:true, crop:0, defaultItem:0, borderWidth:20, hideOverflow:1});
 		//	var coffeeflow2 = new Coffeeflow("#coffeeflow2");
 		});
 	</script>
