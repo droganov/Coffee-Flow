@@ -39,7 +39,6 @@
       function log(m) {$("div.log").text(m);}
       $(function(){
         $(".coffeeflow").coffeeflow({
-          borderWidth          : 1,
           defaultItem: 4,
           minHeight: 120,
           enableReflections: true,
@@ -64,7 +63,7 @@
         <h3>About</h3>
         <p>CoffeeFlow is simple and powerful coverflow component that is able to easily rotate thousands of images. Coffeeflow works with css3-compatible browsers including mobile browsers, has opera fallback and compatibility mode for older browsers. Coffeeflow supports touch events and gestures (tap, drag, and swipe) automatically as you connect hammer.js library. Coffeeflow has built-in image preloader that also handles image load errors. CoffeeFlow is designed to be used as a Class and has jQuery wrapper. JQuery is required.</p>
         <h3>Setup</h3>
-<pre><code>&lt;-- jQuery library required --&gt;
+<pre><code>&lt;-- jQuery library required. CoffeeFlow may not work with earlier jQuery versions --&gt;
 &lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"&gt;&lt;/script&gt;
 
 &lt;-- Include EightMedia hammer.js if you want touchevents support --&gt;
@@ -98,23 +97,26 @@ $(".coffeeflow").coffeeflow(options);</code></pre>
         <h3>Options</h3>
 <pre><code>$(".coffeeflow").coffeeflow(
   {
-    borderWidth           : 0, // image border width
-    borderColor           : "rgba(255,255,255, .3)" // default image border-color
-    borderColorHover      : "rgba(255,255,255, 1)" // image border color on mouse over
-    borderColorSelected   : "rgba(239,102,47, .8)" // selected image border-color
-    crop                  : false // if true photos cropped to square
-    debug                 : false, // enables console logging
-    defaultItem           : "auto", // controls whitch items is opened on startup, by default middle is calculated
-    density               : 3.2, // use this to adjust image spacing
-    hideOverflow          : true // crops everything outside the canvas
-    minHeight             : 120, // minimum CoffeFlow canvas height in pixels
-    pull                  : true, // enables pull images effect on mouseover
-    selectOnChange        : false // if true select event is fired on change
-    transitionDuration    : 500 // transition duration in seconds
+    borderWidth           : 0                         // item border width
+    borderColor           : "rgba(255,255,255, .3)"   // default item border-color
+    borderColorHover      : "rgba(0,175,255, .8)"     // item border color on mouse over
+    borderColorSelected   : "rgba(250,210,6, .8)"     // selected item border-color
+    borderStyle           : "solid"                   // item border srtyle
+    crop                  : false                     // if true photos cropped to square
+    debug                 : false                     // enables console logging
+    defaultItem           : "auto"                    // controls whitch items is opened on startup, by default middle is calculated
+    density               : 3.2                       // use this to adjust item spacing
+    height                : "auto"                    // item height. Eq container height if not set
+    hideOverflow          : true                      // crops everything outside the canvas
+    minHeight             : 120                       // minimum CoffeFlow canvas height in pixels
+    pull                  : true                      // enables pull images effect on mouseover
+    selectOnChange        : false                     // if true select event fires on change
+    transitionDuration    : 500                       // transition duration in seconds
     transitionEasing      : "cubic-bezier(0.075, 0.820, 0.165, 1.000)" // css easing for transitions
-    transitionPerspective : "600px" // css pespective
-    transitionScale       : .76 // scale if inactive item
-    transitionRotation    : 45 // rotation of inactive item
+    transitionPerspective : "600px"                   // css pespective
+    transitionScale       : .70                       // scale of inactive item
+    transitionRotation    : 45                        // rotation of inactive item
+    width                 : "auto"                    // item width in pixels. Eq item height if not set
   }
 );</code></pre>
 <pre><code>&lt;-- You can also pass options to Coffeeflow with html5 -data --&gt;
@@ -134,6 +136,42 @@ $(".coffeeflow").coffeeflow(options);</code></pre>
     select               : function (e){ console.log(e) }
   }
 );</code></pre>
+        <h3>CoffeeFlow public methods</h3>
+<pre><code>
+getCanvas()              // returns canvas element, used internally
+getHeight()              // returns canvas height
+getIndex()               // returns current CoffeeFlow index
+getItem(index=current)   // returns CoffeeFlowItem instance. If index argument is not provided, currentIndex is used
+getWidth()               // returns canvas width
+hasFocus()               // returns boolean CoffeeFlow focus state
+resize()                 // tells CoffeeFlow to resize the canvas
+slideTo(index)           // slides to a given item
+
+// example
+$(".coffeeflow").coffeeflow(
+  {
+    ready                : function(e) { e.slideTo(15) }
+  }
+);
+</code></pre>
+        <h3>CoffeeFlowItem public methods</h3>
+<pre><code>
+arrange(currentItem, totalItems, canvasWidth, canwasHeight) // returns canvas element, used internally
+getData()               // returns item html5 data
+getLink()               // returns item anchor href
+getSource()             // returns item image source
+getHeight()             // returns item height
+getWidth()              // returns item width
+select()                // sets item select state
+setContent(content)     // sets item content, used internally
+
+// example
+$(".coffeeflow").coffeeflow(
+  {
+    change                : function(e) { console.log( e.getItem().getData() ) }
+  }
+);
+</code></pre>
         <h3>Legal information</h3>
         <p>The component is designed and written in coffeescript by Serge Droganov. CoffeeFlow is distributed under MIT X11 <a href="http://en.wikipedia.org/wiki/MIT_License">license</a>.</p>
       </section>
