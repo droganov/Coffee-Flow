@@ -384,8 +384,8 @@
         }
         if (compatible) {
           item.css({
-            "transform": "translate(" + x + "px)",
-            "z-index": depth
+            transform: "translate(" + x + "px)",
+            zIndex: depth
           });
           setTransform();
           bTarget = img;
@@ -403,7 +403,7 @@
           }
         } else {
           item.css({
-            "z-index": depth
+            zIndex: depth
           });
           return item.animate({
             left: x
@@ -643,7 +643,7 @@
             if (j.browser.opera) {
               transform = "scale(" + settings.transitionScale + ") skew(0deg, 20deg)";
             }
-            iX = anchor.width() - img.width();
+            iX = anchor.width() - (img.width() + (settings.borderWidth * 2));
             break;
           case "current":
             transform = "perspective(" + settings.transitionPerspective + ") scale(1) rotateY(0deg)";

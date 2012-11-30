@@ -314,8 +314,8 @@ class CoffeeflowItem
 		align = (x = xPos) ->
 			if compatible
 				item.css
-					"transform" : "translate(" + x + "px)"
-					"z-index" : depth
+					transform : "translate(" + x + "px)"
+					zIndex : depth
 				
 				setTransform()
 
@@ -329,7 +329,7 @@ class CoffeeflowItem
 						borderColor 	: settings.borderColor
 			else
 				item.css
-					"z-index" : depth
+					zIndex : depth
 				item.animate
 					left : x,
 					"fast"
@@ -542,7 +542,7 @@ class CoffeeflowItem
 					transform = "perspective(#{settings.transitionPerspective}) scale(#{settings.transitionScale}) rotateY(-#{settings.transitionRotation}deg) translate(#{translate}px)"
 					if j.browser.opera
 						transform = "scale(#{settings.transitionScale}) skew(0deg, 20deg)"
-					iX = anchor.width() - img.width()
+					iX = anchor.width() - ( img.width() + (settings.borderWidth * 2) )
 				when "current"
 					transform = "perspective(#{settings.transitionPerspective}) scale(1) rotateY(0deg)"
 					if j.browser.opera
