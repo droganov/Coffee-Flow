@@ -440,7 +440,12 @@ class CoffeeflowItem
 					bTarget = img
 					if settings.crop
 						bTarget = anchor
-					crop(true)
+
+					# ready = true
+					# setTimeout crop, 10
+					# setTimeout align, 20
+
+					crop true
 					align xPos
 
 					img.mouseover (e) =>
