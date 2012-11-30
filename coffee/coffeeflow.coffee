@@ -86,17 +86,11 @@ class Coffeeflow
 
 
 		# Public
-		@getCanvas = ()->
-			return canvas
-
-		@getHeight = ->
-			canvas.height()
-
-		@getIndex = () ->
-			currentItem
-
-		@getItem = ( i = currentItem ) ->
-			stack[ i ]
+		@getCanvas = ()-> return canvas
+		@getHeight = ->	canvas.height()
+		@getIndex = () -> currentItem
+		@getItem = ( i = currentItem ) -> stack[ i ]
+		@getLength = ( ) ->	stack.length
 
 		@getWidth = ->
 			canvas.width()
