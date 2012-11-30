@@ -1,7 +1,8 @@
 CoffeeFlow
 ==========
 
-Simple and powerful coverflow JavaScript component written in CoffeeScript.
+Simple and powerful coverflow JavaScript component written in CoffeeScript.  
+You should see how it works [here](http://droganov.github.com/Coffee-Flow/).
 
 Setup
 -----
