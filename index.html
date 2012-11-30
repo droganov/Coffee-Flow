@@ -20,7 +20,7 @@
     <a href="https://github.com/droganov/Coffee-Flow" class="fork"><img style="border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a>
     <header>
       <h1>CoffeeFlow</h1>
-      <div class="narrow">Simple coverflow javascript component written with coffeescript + jQuery wrapper</div>
+      <div class="narrow">Simple coverflow JavaScript component written in CoffeeScript + jQuery wrapper</div>
     </header>
     <div class="coffeeflow">
       <a href="img/1.png"><img src="img/1.png" alt=""></a>
@@ -61,21 +61,21 @@
         <br>
         
         <h3>About</h3>
-        <p>CoffeeFlow is simple and powerful coverflow component that is able to easily rotate thousands of images. Coffeeflow works with css3-compatible browsers including mobile browsers, has opera fallback and compatibility mode for older browsers. Coffeeflow supports touch events and gestures (tap, drag, and swipe) automatically as you connect hammer.js library. Coffeeflow has built-in image preloader that also handles image load errors. CoffeeFlow is designed to be used as a Class and has jQuery wrapper. JQuery is required.</p>
+        <p>CoffeeFlow is a simple and powerful coverflow component which is able to easily rotate thousands of images. CoffeeFlow works with CSS3-compatible browsers (including mobile ones), has Opera fallback and a compatibility mode for older browsers. CoffeeFlow supports touch events and gestures (tap, drag, and swipe) automatically as you connect the hammer.js library. CoffeeFlow has a built-in image preloader which also handles image load errors. CoffeeFlow is designed to be used as a class and has jQuery wrapper. JQuery is required.</p>
         <h3>Setup</h3>
 <pre><code>&lt;-- jQuery library required. CoffeeFlow may not work with earlier jQuery versions --&gt;
 &lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"&gt;&lt;/script&gt;
 
-&lt;-- Include EightMedia hammer.js if you want touchevents support --&gt;
+&lt;!-- Include EightMedia hammer.js if you want touchevents support --&gt;
 &lt;script type="text/javascript" src="js/hammer.js"&gt;&lt;/script&gt;
 
-&lt;-- CoffeeFlow component --&gt;
+&lt;!-- CoffeeFlow component --&gt;
 &lt;script type="text/javascript" src="js/coffeeflow.js"&gt;&lt;/script&gt;
 
-&lt;-- CoffeeFlow jQuery wrapper (optional) --&gt;
+&lt;!-- CoffeeFlow jQuery wrapper (optional) --&gt;
 &lt;script type="text/javascript" src="js/jquery.coffeeflow.js"&gt;&lt;/script&gt;
 
-&lt;-- Html --&gt;
+&lt;!-- HTML --&gt;
 &lt;div class="coffeeflow"&gt;
   &lt;a href="img/1.jpg"&gt;&lt;img src="img/1.jpg" alt=""&gt;&lt;/a&gt;
   &lt;a href="img/2.jpg"&gt;&lt;img src="img/2.jpg" alt=""&gt;&lt;/a&gt;
@@ -88,7 +88,7 @@
           
         <h3>Usage</h3>
 
-<pre><code>//js
+<pre><code>// JS
 var coffeeflow = new Coffeeflow(target, options);
 
 // jQuery
