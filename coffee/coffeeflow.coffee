@@ -182,6 +182,8 @@ class Coffeeflow
 		if window.addEventListener
 			window.addEventListener "mousewheel", onMouseWheel, false
 			window.addEventListener "DOMMouseScroll", onMouseWheel, false
+
+			# todo: http://jsbin.com/iqafek/2/edit
 		else
 			window.attachEvent "onmousewheel", onMouseWheel
 
@@ -447,7 +449,7 @@ class CoffeeflowItem
 
 					crop true
 					align xPos
-					setTransform false
+					setTimeout setTransform, 50
 
 					img.mouseover (e) =>
 						if item.is ".coffeeflowItem_selected"
