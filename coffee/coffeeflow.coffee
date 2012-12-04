@@ -449,7 +449,6 @@ class CoffeeflowItem
 
 					crop true
 					align xPos
-					setTimeout setTransform, 50
 
 					img.mouseover (e) =>
 						if item.is ".coffeeflowItem_selected"
