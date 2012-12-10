@@ -225,7 +225,7 @@ class CoffeeflowItem
 
 		self = this
 
-		data = j.data el
+		data = el.data()
 		link = el.attr "href"
 		source = el.find("img").attr "src"
 		
