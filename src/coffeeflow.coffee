@@ -86,17 +86,11 @@ class Coffeeflow
 
 
 		# Public
-		@getCanvas = ()->
-			return canvas
-
-		@getHeight = ->
-			canvas.height()
-
-		@getIndex = () ->
-			currentItem
-
-		@getItem = ( i = currentItem ) ->
-			stack[ i ]
+		@getCanvas = ()-> return canvas
+		@getHeight = ->	canvas.height()
+		@getIndex = () -> currentItem
+		@getItem = ( i = currentItem ) -> stack[ i ]
+		@getLength = ( ) ->	stack.length
 
 		@getWidth = ->
 			canvas.width()
@@ -188,6 +182,8 @@ class Coffeeflow
 		if window.addEventListener
 			window.addEventListener "mousewheel", onMouseWheel, false
 			window.addEventListener "DOMMouseScroll", onMouseWheel, false
+
+			# todo: http://jsbin.com/iqafek/2/edit
 		else
 			window.attachEvent "onmousewheel", onMouseWheel
 
@@ -229,7 +225,7 @@ class CoffeeflowItem
 
 		self = this
 
-		data = j.data el
+		data = el.data()
 		link = el.attr "href"
 		source = el.find("img").attr "src"
 		
@@ -319,9 +315,9 @@ class CoffeeflowItem
 		# private
 		align = (x = xPos) ->
 			if compatible
+				item.css prefix() + "transform", "translate(" + x + "px)"
 				item.css
-					"transform" : "translate(" + x + "px)"
-					"z-index" : depth
+					zIndex : depth
 				
 				setTransform()
 
@@ -335,7 +331,7 @@ class CoffeeflowItem
 						borderColor 	: settings.borderColor
 			else
 				item.css
-					"z-index" : depth
+					zIndex : depth
 				item.animate
 					left : x,
 					"fast"
@@ -446,8 +442,14 @@ class CoffeeflowItem
 					bTarget = img
 					if settings.crop
 						bTarget = anchor
-					crop(true)
+
+					# ready = true
+					# setTimeout crop, 10
+					# setTimeout align, 20
+
+					crop true
 					align xPos
+					setTimeout setTransform, 50
 
 					img.mouseover (e) =>
 						if item.is ".coffeeflowItem_selected"
@@ -507,9 +509,8 @@ class CoffeeflowItem
 					left 			: 0
 					
 				if compatible
-					item.css
-						transition 		: "#{prefix()}transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
-						transform 		: "translate(#{xPos}px)"
+					item.css prefix() + "transition", "#{prefix()}transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
+					item.css prefix() + "transform", "translate(#{xPos}px)"
 				else
 					item.css
 						left : xPos + "px"
@@ -520,7 +521,7 @@ class CoffeeflowItem
 					left			: "-50%"
 					top				: 0
 					position		: "absolute"
-					transition 		: "#{prefix()}transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
+				anchor.css prefix() + "transition", "#{prefix()}transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
 
 				item.appendTo p.getCanvas()
 
@@ -543,17 +544,15 @@ class CoffeeflowItem
 					transform = "perspective(#{settings.transitionPerspective}) scale(#{settings.transitionScale}) rotateY(-#{settings.transitionRotation}deg) translate(#{translate}px)"
 					if j.browser.opera
 						transform = "scale(#{settings.transitionScale}) skew(0deg, 20deg)"
-					iX = anchor.width() - img.width()
+					iX = anchor.width() - ( img.width() + (settings.borderWidth * 2))
 				when "current"
 					transform = "perspective(#{settings.transitionPerspective}) scale(1) rotateY(0deg)"
 					if j.browser.opera
 						transform = "scale(1)"
 					iX = ( anchor.width() - img.width() ) / 2
-			anchor.css
-				"transform" : transform
+			anchor.css prefix() + "transform", transform
 			if !settings.crop
-				img.css
-					transform : "translate(#{iX}px)"
+				img.css prefix() + "transform", "translate(#{iX}px)"
 class Preloader
 	constructor: (parent, settings) ->
 		parent = parent
