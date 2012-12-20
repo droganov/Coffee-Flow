@@ -203,6 +203,7 @@ class Coffeeflow
 				offset = parseInt ( e.distanceX / ( @getHeight() / settings.density * 1.4 ) )
 				pos = sItem - offset
 				@slideTo pos
+				false
 			hammer.onswipe = (e) =>
 				period = e.originalEvent.timeStamp - ts
 				impulse = Math.floor e.distance / ( period / settings.density * 2 )
@@ -213,6 +214,7 @@ class Coffeeflow
 					when "right"
 						pos = pos - impulse
 				@slideTo pos
+				false
 
 		setTimeout ready, 10
 
@@ -477,28 +479,11 @@ class CoffeeflowItem
 					preloader.setState "error"
 					settings.error p
 
-
-				if Hammer?
-					hammer = new Hammer anchor[0],
-						prevent_default: false
-						drag: false
-						swipe: false
-						transform: false
-						tap_double: false
-						hold: false
-					hammer.ontap = (e) =>
-						if item.is ".coffeeflowItem_current"
-							self.select()
-						else
-							p.slideTo i
-						return false
-				else
-					anchor.click (e) =>
-						if item.is ".coffeeflowItem_current"
-							self.select()
-						else
-							p.slideTo i
 				anchor.click (e) =>
+					if item.is ".coffeeflowItem_current"
+						self.select()
+					else
+						p.slideTo i
 					e.preventDefault()
 				
 				item.css
