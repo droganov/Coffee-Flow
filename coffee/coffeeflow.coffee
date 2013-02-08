@@ -21,6 +21,10 @@ prefix = () ->
 
 class Coffeeflow
 	window?.Coffeeflow = this
+	jQuery.fn.extend
+		coffeeflow: (options) ->
+			return @each ()->
+				new Coffeeflow this, options
 	constructor: (el, options) ->
 		container = j el
 
@@ -157,7 +161,13 @@ class Coffeeflow
 
 		# init
 		for i in items
-			item = new CoffeeflowItem i, _i, self, settings
+			el = j i
+			obj =
+				data : el.data()
+				link : el.attr "href"
+				source : el.find("img").attr "src"
+			el.remove()
+			item = new CoffeeflowItem obj, _i, self, settings
 			stack.push item
 		
 		container.empty()
@@ -220,21 +230,20 @@ class Coffeeflow
 
 
 class CoffeeflowItem
-	constructor: (el, i, p, settings) ->
-		el = j el
+	constructor: (obj, i, p, settings) ->
 		i = i
 		p = p
 
 		self = this
 
-		data = el.data()
-		link = el.attr "href"
-		source = el.find("img").attr "src"
+		data = obj.data
+		link = obj.link
+		source = obj.source
 		
 		state = item = anchor = img = xPos = depth = attached = completeTimeout = preloader = ready = aspect = 0
 		visible = true
 
-		el.remove()
+		
 
 		
 
