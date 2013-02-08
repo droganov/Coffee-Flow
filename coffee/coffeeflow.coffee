@@ -245,7 +245,7 @@ class Coffeeflow
 					@slideTo pos
 					false
 
-			setTimeout ready, 100
+			setTimeout ready, 50
 		init()
 
 
@@ -535,7 +535,7 @@ class CoffeeflowItem
 				applyTransitions = ->
 					anchor.css prefix() + "transition", "#{prefix()}transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
 					item.css prefix() + "transition", "#{prefix()}transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
-					image.css prefix() + "transition", "transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
+					img.css prefix() + "transition", "transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
 					
 
 				if compatible
