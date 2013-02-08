@@ -25,7 +25,7 @@
 					borderColorSelected   : "rgba(50,50,50, 1)", // selected image border-color
 					crop                  : false, // if true photos cropped to square
 					debug                 : false, // enables console logging
-					defaultItem           : "auto", // controls whitch items is opened on startup, by default middle is calculated
+					defaultItem           : 2, // controls whitch items is opened on startup, by default middle is calculated
 					density               : 3.2, // use this to adjust image spacing
 					hideOverflow          : true, // crops everything outside the canvas
 					minHeight             : 100, // minimum CoffeFlow canvas height in pixels
@@ -33,7 +33,19 @@
 					selectOnChange        : false, // if true select event is fired on change
 					transitionDuration    : 500, // transition duration in seconds
 					transitionEasing      : "cubic-bezier(0.075, 0.820, 0.165, 1.000)", // css easing for transitions
-					transitionRotation    : 45
+					transitionRotation    : 45,
+					select              	  : function (e){ 
+						e.insert(
+							[
+								{
+									data: {},
+									link: "http://ya.ru",
+									source: "img/4.jpg"
+								}
+							],
+							e.getIndex()+1
+						)
+					}
 				}
 			);
 			// var coffeeflow = new Coffeeflow("#coffeeflow", {selectOnChange:true, crop:0, defaultItem:0, borderWidth:20, hideOverflow:1});
@@ -55,7 +67,7 @@
 				<a href="img/4.jpg"><img src="img/00.png" alt="" /></a>
 				<a href="img/2.jpg"><img src="img/2.jpg" alt="" /></a>
 				<a href="img/3.jpg"><img src="img/3.jpg" alt="" /></a>
-				<a href="img/4.jpg"><img src="img/4.jpg" alt="" /></a>
+<!-- 				<a href="img/4.jpg"><img src="img/4.jpg" alt="" /></a>
 				<a href="img/4.jpg"><img src="img/0.jpg" alt="" /></a>
 				<a href="img/5.jpg"><img src="img/5.jpg" alt="" /></a>
 				<a href="img/6.jpg"><img src="img/6.jpg" alt="" /></a>
@@ -229,7 +241,7 @@
 				<a href="img/5.jpg"><img src="img/5.jpg" alt="" /></a>
 				<a href="img/6.jpg"><img src="img/6.jpg" alt="" /></a>
 				<a href="img/7.jpg"><img src="img/7.jpg" alt="" /></a>
-			</div>
+ -->			</div>
 
 
 			<br><br>
