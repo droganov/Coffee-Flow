@@ -203,6 +203,7 @@ class Coffeeflow
 				offset = parseInt ( e.distanceX / ( @getHeight() / settings.density * 1.4 ) )
 				pos = sItem - offset
 				@slideTo pos
+				false
 			hammer.onswipe = (e) =>
 				period = e.originalEvent.timeStamp - ts
 				impulse = Math.floor e.distance / ( period / settings.density * 2 )
@@ -213,6 +214,7 @@ class Coffeeflow
 					when "right"
 						pos = pos - impulse
 				@slideTo pos
+				false
 
 		setTimeout ready, 10
 
@@ -225,7 +227,7 @@ class CoffeeflowItem
 
 		self = this
 
-		data = j.data el
+		data = el.data()
 		link = el.attr "href"
 		source = el.find("img").attr "src"
 		
@@ -315,8 +317,8 @@ class CoffeeflowItem
 		# private
 		align = (x = xPos) ->
 			if compatible
+				item.css prefix() + "transform", "translate(" + x + "px)"
 				item.css
-					transform : "translate(" + x + "px)"
 					zIndex : depth
 				
 				setTransform()
@@ -476,28 +478,11 @@ class CoffeeflowItem
 					preloader.setState "error"
 					settings.error p
 
-
-				if Hammer?
-					hammer = new Hammer anchor[0],
-						prevent_default: false
-						drag: false
-						swipe: false
-						transform: false
-						tap_double: false
-						hold: false
-					hammer.ontap = (e) =>
-						if item.is ".coffeeflowItem_current"
-							self.select()
-						else
-							p.slideTo i
-						return false
-				else
-					anchor.click (e) =>
-						if item.is ".coffeeflowItem_current"
-							self.select()
-						else
-							p.slideTo i
 				anchor.click (e) =>
+					if item.is ".coffeeflowItem_current"
+						self.select()
+					else
+						p.slideTo i
 					e.preventDefault()
 				
 				item.css
@@ -508,9 +493,8 @@ class CoffeeflowItem
 					left 			: 0
 					
 				if compatible
-					item.css
-						transition 		: "#{prefix()}transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
-						transform 		: "translate(#{xPos}px)"
+					item.css prefix() + "transition", "#{prefix()}transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
+					item.css prefix() + "transform", "translate(#{xPos}px)"
 				else
 					item.css
 						left : xPos + "px"
@@ -521,7 +505,7 @@ class CoffeeflowItem
 					left			: "-50%"
 					top				: 0
 					position		: "absolute"
-					transition 		: "#{prefix()}transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
+				anchor.css prefix() + "transition", "#{prefix()}transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
 
 				item.appendTo p.getCanvas()
 
@@ -550,11 +534,9 @@ class CoffeeflowItem
 					if j.browser.opera
 						transform = "scale(1)"
 					iX = ( anchor.width() - img.width() ) / 2
-			anchor.css
-				"transform" : transform
+			anchor.css prefix() + "transform", transform
 			if !settings.crop
-				img.css
-					transform : "translate(#{iX}px)"
+				img.css prefix() + "transform", "translate(#{iX}px)"
 class Preloader
 	constructor: (parent, settings) ->
 		parent = parent
