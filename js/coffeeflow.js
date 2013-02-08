@@ -153,15 +153,19 @@
         return arrange();
       };
       this.pop = function(position, itemsCount) {
-        var i, _i, _ref;
+        var destination, i, _i;
         if (position == null) {
           position = currentItem;
         }
         if (itemsCount == null) {
           itemsCount = 1;
         }
-        for (i = _i = position, _ref = itemsCount + position; position <= _ref ? _i <= _ref : _i >= _ref; i = position <= _ref ? ++_i : --_i) {
-          if (i < itemsCount + position) {
+        destination = itemsCount + position;
+        if (destination > items.length) {
+          destination = items.length;
+        }
+        for (i = _i = position; position <= destination ? _i <= destination : _i >= destination; i = position <= destination ? ++_i : --_i) {
+          if (i < destination) {
             stack[i].detach();
           }
         }

@@ -110,7 +110,9 @@ class Coffeeflow
 			arrange()
 
 		@pop = (position = currentItem, itemsCount = 1) ->
-			for i in [position..itemsCount+position] when i < itemsCount+position
+			destination = itemsCount+position
+			destination = items.length if destination > items.length
+			for i in [position..destination] when i < destination
 				stack[i].detach()
 			stack.splice position, itemsCount
 			@slideTo()
