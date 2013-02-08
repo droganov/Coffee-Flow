@@ -34,22 +34,23 @@
 					transitionDuration    : 500, // transition duration in seconds
 					transitionEasing      : "cubic-bezier(0.075, 0.820, 0.165, 1.000)", // css easing for transitions
 					transitionRotation    : 45,
-					select              	  : function (e){ 
-						e.insert(
-							[
-								{
-									data: {},
-									link: "http://ya.ru",
-									source: "img/4.jpg"
-								},
-								{
-									data: {},
-									link: "http://ya.ru",
-									source: "img/5.jpg"
-								}
-							],
-							e.getIndex()+1
-						)
+					select              	  : function (e){
+						e.pop(1, 2);
+						// e.insert(
+						// 	[
+						// 		{
+						// 			data: {},
+						// 			link: "http://ya.ru",
+						// 			source: "img/4.jpg"
+						// 		},
+						// 		{
+						// 			data: {},
+						// 			link: "http://ya.ru",
+						// 			source: "img/5.jpg"
+						// 		}
+						// 	],
+						// 	e.getIndex()+1
+						// )
 					}
 				}
 			);

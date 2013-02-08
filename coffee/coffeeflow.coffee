@@ -109,9 +109,10 @@ class Coffeeflow
 			canvas.height height
 			arrange()
 
-		@pop = (i = currentItem, itemsCount = 1) ->
-			stack[i].detach()
-			stack.splice i, itemsCount
+		@pop = (position = currentItem, itemsCount = 1) ->
+			for i in [position..itemsCount+position] when i < itemsCount+position
+				stack[i].detach()
+			stack.splice position, itemsCount
 			@slideTo()
 
 

@@ -152,15 +152,20 @@
         canvas.height(height);
         return arrange();
       };
-      this.pop = function(i, itemsCount) {
-        if (i == null) {
-          i = currentItem;
+      this.pop = function(position, itemsCount) {
+        var i, _i, _ref;
+        if (position == null) {
+          position = currentItem;
         }
         if (itemsCount == null) {
           itemsCount = 1;
         }
-        stack[i].detach();
-        stack.splice(i, itemsCount);
+        for (i = _i = position, _ref = itemsCount + position; position <= _ref ? _i <= _ref : _i >= _ref; i = position <= _ref ? ++_i : --_i) {
+          if (i < itemsCount + position) {
+            stack[i].detach();
+          }
+        }
+        stack.splice(position, itemsCount);
         return this.slideTo();
       };
       this.slideTo = function(i) {
