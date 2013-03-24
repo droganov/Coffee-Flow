@@ -228,23 +228,19 @@ class Coffeeflow
 					hold: false
 				ts = 0
 				sItem = currentItem
-				hammer.ondragstart = (e) =>
+				hammer.on "dragstart", (e) =>
 					sItem = currentItem
 					ts = new Date().getTime()
-				hammer.ondrag = (e) =>
-					offset = parseInt ( e.distanceX / ( @getHeight() / settings.density * 1.4 ) )
+				hammer.on "drag", (e) =>
+					offset = parseInt ( e.gesture.deltaX / ( @getHeight() / settings.density * 1.4 ) )
 					pos = sItem - offset
 					@slideTo pos
 					false
-				hammer.onswipe = (e) =>
-					period = e.originalEvent.timeStamp - ts
-					impulse = Math.floor e.distance / ( period / settings.density * 2 )
-					pos = currentItem
-					switch e.direction
-						when "left"
-							pos = pos + impulse
-						when "right"
-							pos = pos - impulse
+				hammer.on "swipe", (e) =>
+					period = e.timeStamp - ts
+					offset = Math.floor settings.density * e.gesture.velocityX
+					pos = currentItem + offset
+					pos = currentItem - offset if e.gesture.direction is "right"
 					@slideTo pos
 					false
 
