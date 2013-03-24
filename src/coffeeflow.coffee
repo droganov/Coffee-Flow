@@ -21,6 +21,10 @@ prefix = () ->
 
 class Coffeeflow
 	window?.Coffeeflow = this
+	jQuery.fn.extend
+		coffeeflow: (options) ->
+			return @each ()->
+				new Coffeeflow this, options
 	constructor: (el, options) ->
 		container = j el
 
@@ -105,25 +109,33 @@ class Coffeeflow
 			canvas.height height
 			arrange()
 
-		@slideTo = (i)->
-			if i != currentItem
-				if i >= stack.length
-					i = stack.length - 1
-				if i < 0
-					i = 0
-				currentItem = i
-				arrange()
-				clearTimeout changeTimeout
-				changeTimeout = setTimeout onChange, settings.transitionDuration
-				if settings.selectOnChange
-					stack[i].select()
+		@pop = (position = currentItem, itemsCount = 1) ->
+			destination = itemsCount+position
+			destination = items.length if destination > items.length
+			for i in [position..destination] when i < destination
+				stack[i].detach()
+			stack.splice position, itemsCount
+			@slideTo()
+
+
+		@slideTo = (i = currentItem)->
+			if i >= stack.length
+				i = stack.length - 1
+			if i < 0
+				i = 0
+			currentItem = i
+			arrange()
+			clearTimeout changeTimeout
+			changeTimeout = setTimeout onChange, settings.transitionDuration
+			if settings.selectOnChange
+				stack[i].select()
 
 		# Private
 		arrange = ()->
 			w = canvas.width()
 			h = canvas.height()
 			for i in stack
-				i.arrange currentItem, stack.length, w, h
+				i.arrange _i, currentItem, stack.length, w, h
 
 
 		getState = () ->
@@ -155,89 +167,117 @@ class Coffeeflow
 		setState = (state)->
 			state = state
 
+		@append = (data) ->
+			for obj in data
+				stack.push new CoffeeflowItem obj, _i, self, settings
+			@slideTo()
+		@insert = (data, index = stack.length) ->
+			for obj in data
+				stack.splice index + _i, 0, new CoffeeflowItem obj, _i, self, settings
+			@slideTo()
+		@prepend = (data) ->
+			for obj in data
+				stack.splice _i, 0, new CoffeeflowItem obj, _i, self, settings
+			@slideTo currentItem + data.length
+
 		# init
-		for i in items
-			item = new CoffeeflowItem i, _i, self, settings
-			stack.push item
-		
-		container.empty()
-		container.addClass "coffeeflowReflections" if settings.enableReflections
-		container.append canvas
-		
-		j( window ).resize (e) =>
-			@resize()
+		init = =>
+			for i in items
+				el = j i
+				obj =
+					data : el.data()
+					link : el.attr "href"
+					source : el.find("img").attr "src"
+				el.remove()
+				stack.push new CoffeeflowItem obj, _i, self, settings
+			
+			container.empty()
+			container.addClass "coffeeflowReflections" if settings.enableReflections
+			container.append canvas
 
-		container.mouseover (e) =>
-			if not container.is ".coffeeflowFocuse"
-				container.addClass "coffeeflowFocuse"
-				settings.focus self
-			e.stopPropagation()
+			
+			j( window ).resize (e) =>
+				@resize()
 
-		j("html").mouseover (e) =>
-			if container.is ".coffeeflowFocuse"
-				container.removeClass "coffeeflowFocuse"
-				settings.blur self
+			container.mouseover (e) =>
+				if not container.is ".coffeeflowFocuse"
+					container.addClass "coffeeflowFocuse"
+					settings.focus self
 				e.stopPropagation()
 
-		if window.addEventListener
-			window.addEventListener "mousewheel", onMouseWheel, false
-			window.addEventListener "DOMMouseScroll", onMouseWheel, false
+			j("html").mouseover (e) =>
+				if container.is ".coffeeflowFocuse"
+					container.removeClass "coffeeflowFocuse"
+					settings.blur self
+					e.stopPropagation()
 
-			# todo: http://jsbin.com/iqafek/2/edit
-		else
-			window.attachEvent "onmousewheel", onMouseWheel
+			if window.addEventListener
+				window.addEventListener "mousewheel", onMouseWheel, false
+				window.addEventListener "DOMMouseScroll", onMouseWheel, false
 
-		if Hammer?
-			hammer = new Hammer canvas[0],
-				prevent_default: true
-				swipe_time: 200
-				drag_vertical: false
-				transform: false
-				hold: false
-			ts = 0
-			sItem = currentItem
-			hammer.ondragstart = (e) =>
+				# todo: http://jsbin.com/iqafek/2/edit
+			else
+				window.attachEvent "onmousewheel", onMouseWheel
+
+			if Hammer?
+				hammer = new Hammer canvas[0],
+					prevent_default: true
+					swipe_time: 200
+					drag_vertical: false
+					transform: false
+					hold: false
+				ts = 0
 				sItem = currentItem
-				ts = new Date().getTime()
-			hammer.ondrag = (e) =>
-				offset = parseInt ( e.distanceX / ( @getHeight() / settings.density * 1.4 ) )
-				pos = sItem - offset
-				@slideTo pos
-			hammer.onswipe = (e) =>
-				period = e.originalEvent.timeStamp - ts
-				impulse = Math.floor e.distance / ( period / settings.density * 2 )
-				pos = currentItem
-				switch e.direction
-					when "left"
-						pos = pos + impulse
-					when "right"
-						pos = pos - impulse
-				@slideTo pos
+				hammer.on "dragstart", (e) =>
+					sItem = currentItem
+					ts = new Date().getTime()
+				hammer.on "drag", (e) =>
+					offset = parseInt ( e.gesture.deltaX / ( @getHeight() / settings.density * 1.4 ) )
+					pos = sItem - offset
+					@slideTo pos
+					false
+				hammer.on "swipe", (e) =>
+					period = e.timeStamp - ts
+					offset = Math.floor settings.density * e.gesture.velocityX
+					pos = currentItem + offset
+					pos = currentItem - offset if e.gesture.direction is "right"
+					@slideTo pos
+					false
 
-		setTimeout ready, 10
+			setTimeout ready, 50
+		init()
 
 
 class CoffeeflowItem
-	constructor: (el, i, p, settings) ->
-		el = j el
+	constructor: (obj, i, p, settings) ->
 		i = i
 		p = p
 
 		self = this
 
-		data = el.data()
-		link = el.attr "href"
-		source = el.find("img").attr "src"
+		try
+			data = obj.data
+		catch e
+			data = {}
+
+		try
+			link = obj.link
+		catch e
+			link = ""
+		
+		try
+			source = obj.source
+		catch e
+			source = ""
+		
 		
 		state = item = anchor = img = xPos = depth = attached = completeTimeout = preloader = ready = aspect = 0
 		visible = true
-
-		el.remove()
-
 		
 
 		# Public methods
-		@arrange = (currentItem, totalItems, canvasWidth, canwasHeight) ->
+		@arrange = (index, currentItem, totalItems, canvasWidth, canwasHeight) ->
+			i = index
 			width = self.getWidth()
 			height = self.getHeight()
 			margin = width / settings.density
@@ -283,6 +323,9 @@ class CoffeeflowItem
 
 			xPos = x
 
+		@detach = () ->
+			j(item).remove()
+			attached = ready = aspect = 0
 		@getData = ()		-> data
 		@getLink = ()		-> link
 		@getSource = ()		-> source
@@ -402,17 +445,13 @@ class CoffeeflowItem
 						maxHeight		: "none"
 						width 			: iWidth + "px"
 						height 			: iHeight + "px"
-		
-		detach = () ->
-			j(item).remove()
-			attached = ready = aspect = 0
 
 		load = () ->
 			preloader.setState "loading"
 			img.attr "src" : source
 
 		onComplete = () ->
-			detach() if attached and not visible
+			@detach() if attached and not visible
 
 		render = (x) ->
 			if not attached
@@ -424,8 +463,6 @@ class CoffeeflowItem
 					item.addClass "coffeeflowItem_ready"
 					
 					anchor.width(self.getWidth()).height(self.getHeight())
-					anchor.css
-						"transition" : "#{prefix()}transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
 					img.css
 						borderWidth 	: settings.borderWidth
 						borderColor 	: settings.borderColor
@@ -434,7 +471,6 @@ class CoffeeflowItem
 						maxWidth		: "100%"
 						maxHeight		: "100%"
 						position 		: "absolute"
-						"transition" 	: "transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
 
 					preloader.detach()
 					self.setContent img
@@ -449,7 +485,6 @@ class CoffeeflowItem
 
 					crop true
 					align xPos
-					setTimeout setTransform, 50
 
 					img.mouseover (e) =>
 						if item.is ".coffeeflowItem_selected"
@@ -477,28 +512,11 @@ class CoffeeflowItem
 					preloader.setState "error"
 					settings.error p
 
-
-				if Hammer?
-					hammer = new Hammer anchor[0],
-						prevent_default: false
-						drag: false
-						swipe: false
-						transform: false
-						tap_double: false
-						hold: false
-					hammer.ontap = (e) =>
-						if item.is ".coffeeflowItem_current"
-							self.select()
-						else
-							p.slideTo i
-						return false
-				else
-					anchor.click (e) =>
-						if item.is ".coffeeflowItem_current"
-							self.select()
-						else
-							p.slideTo i
 				anchor.click (e) =>
+					if item.is ".coffeeflowItem_current"
+						self.select()
+					else
+						p.slideTo i
 					e.preventDefault()
 				
 				item.css
@@ -507,10 +525,21 @@ class CoffeeflowItem
 					height 			: 0
 					position		: "absolute"
 					left 			: 0
-					
-				if compatible
+				
+				item.appendTo p.getCanvas()
+				item.append anchor
+				preloader = new Preloader self, settings
+				attach()
+
+				applyTransitions = ->
+					anchor.css prefix() + "transition", "#{prefix()}transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
 					item.css prefix() + "transition", "#{prefix()}transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
+					img.css prefix() + "transition", "transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
+					
+
+				if compatible
 					item.css prefix() + "transform", "translate(#{xPos}px)"
+					setTimeout applyTransitions, 20
 				else
 					item.css
 						left : xPos + "px"
@@ -521,15 +550,8 @@ class CoffeeflowItem
 					left			: "-50%"
 					top				: 0
 					position		: "absolute"
-				anchor.css prefix() + "transition", "#{prefix()}transform #{settings.transitionDuration / 1000}s #{settings.transitionEasing}"
 
-				item.appendTo p.getCanvas()
 
-				item.append anchor
-
-				preloader = new Preloader self, settings
-
-				attach()
 
 		setTransform = (mouseover = false) ->
 			translate = 0
