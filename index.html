@@ -9,9 +9,8 @@
     <link rel="stylesheet" href="css/coffeeflow.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <script type="text/javascript" src="js/hammer.compressed.js"></script>
+    <script type="text/javascript" src="js/hammer.js"></script>
     <script type="text/javascript" src="js/coffeeflow.js"></script>
-    <script type="text/javascript" src="js/jquery.coffeeflow.js"></script>
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -71,9 +70,6 @@
 
 &lt;!-- CoffeeFlow component --&gt;
 &lt;script type="text/javascript" src="js/coffeeflow.js"&gt;&lt;/script&gt;
-
-&lt;!-- CoffeeFlow jQuery wrapper (optional) --&gt;
-&lt;script type="text/javascript" src="js/jquery.coffeeflow.js"&gt;&lt;/script&gt;
 
 &lt;!-- HTML --&gt;
 &lt;div class="coffeeflow"&gt;
@@ -138,19 +134,41 @@ $(".coffeeflow").coffeeflow(options);</code></pre>
 );</code></pre>
         <h3>CoffeeFlow public methods</h3>
 <pre><code>
+append(array)            // appends elements
+insert(array, position)  // inserts elements
 getCanvas()              // returns canvas element, used internally
 getHeight()              // returns canvas height
 getIndex()               // returns current CoffeeFlow index
 getItem(index=current)   // returns CoffeeFlowItem instance. If index argument is not provided, currentIndex is used
 getWidth()               // returns canvas width
 hasFocus()               // returns boolean CoffeeFlow focus state
+pop()                    // Deletes current item
+pop(position, length)    // Deletes fragment
+prepend(array)           // prepends elements 
 resize()                 // tells CoffeeFlow to resize the canvas
 slideTo(index)           // slides to a given item
 
 // example
 $(".coffeeflow").coffeeflow(
   {
-    ready                : function(e) { e.slideTo(15) }
+    ready : function(e) {
+      e.insert(
+        [
+          {
+            data: {},
+            link: "http://ya.ru",
+            source: "img/1.jpg"
+          },
+          {
+            data: {},
+            link: "http://ya.ru",
+            source: "img/2.jpg"
+          }
+        ],
+        e.getIndex()+1
+      );
+      e.slideTo(15)
+    }
   }
 );
 </code></pre>
