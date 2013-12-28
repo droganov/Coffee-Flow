@@ -1,9 +1,0 @@
-@import "compass";
-
-@mixin animate($duration: .3s, $property: all, $easing: ease-out){
-	@include transition-duration($duration);
-	@include transition-property($property);
-	@include transition-timing-function($easing);
-}
-.coffeeflowCanvas{
-}
