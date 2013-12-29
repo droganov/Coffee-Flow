@@ -1,8 +1,7 @@
 CoffeeFlow
 ==========
 
-Simple and powerful coverflow JavaScript component written in CoffeeScript.  
-You should see how it works [here](http://droganov.github.com/Coffee-Flow/).
+Simple and powerful coverflow JavaScript component written in CoffeeScript.
 
 Setup
 -----
@@ -17,16 +16,23 @@ Setup
 <!-- CoffeeFlow component -->
 <script type="text/javascript" src="js/coffeeflow.js"></script>
 
-<!-- CoffeeFlow jQuery wrapper (optional) -->
-<script type="text/javascript" src="js/jquery.coffeeflow.js"></script>
-
 <!-- HTML -->
 <div class="coffeeflow">
   <a href="img/1.jpg"><img src="img/1.jpg" alt=""></a>
   <a href="img/2.jpg"><img src="img/2.jpg" alt=""></a>
   <a href="img/3.jpg"><img src="img/3.jpg" alt=""></a>
 </div>
+
+<!-- Init -->
+<script>
+	var coffeeFlow = new Coffeeflow(".coffeeflow", {});
+	// or
+	$(".coffeeflow").coffeeflow({});
+</script>
 ```
+Options
+-------
+Please [visit the demo page](http://droganov.github.com/Coffee-Flow/).
 
 License
 -------
