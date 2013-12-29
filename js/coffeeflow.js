@@ -4,17 +4,17 @@
   j = jQuery;
 
   isCompatible = function() {
-    var i, props1, rat, test1, _i, _len;
-    test1 = false;
+    var i, rat, t, _i, _len, _ref;
+    t = false;
     rat = document.createElement('div');
-    props1 = ['WebkitTransition', 'MozTransition', 'msTransition', 'OTransition', 'Transition'];
-    for (_i = 0, _len = props1.length; _i < _len; _i++) {
-      i = props1[_i];
+    _ref = ['WebkitTransition', 'MozTransition', 'msTransition', 'OTransition', 'Transition'];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      i = _ref[_i];
       if (!!(0 + rat.style[i])) {
-        test1 = true;
+        t = true;
       }
     }
-    return test1;
+    return t;
   };
 
   compatible = isCompatible();

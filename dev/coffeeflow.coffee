@@ -1,13 +1,11 @@
 j = jQuery
 
 isCompatible = ()->
-	test1 = false
+	t = false
 	rat = document.createElement 'div'
-	props1 = ['WebkitTransition', 'MozTransition', 'msTransition', 'OTransition', 'Transition']
-	
-	for i in props1
-		test1 = true if !!(0 + rat.style[i])
-	test1
+	for i in ['WebkitTransition', 'MozTransition', 'msTransition', 'OTransition', 'Transition']
+		t = true if !!(0 + rat.style[i])
+	t
 
 compatible = isCompatible()
 

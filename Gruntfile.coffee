@@ -6,7 +6,7 @@ module.exports = (grunt) ->
 				atBegin: true
 			coffee:
 				files: "dev/coffeeflow.coffee"
-				tasks: ["coffee:compile","connect"]
+				tasks: ["coffee","uglify"]
 		coffee:
 			compile:
 				files:
@@ -20,6 +20,7 @@ module.exports = (grunt) ->
 				options:
 					port: 9001
 					base: "."
+					keepalive: true
 		bumpup: ["package.json", "bower.json"]
 		tagrelease: "package.json"
 
