@@ -34,6 +34,8 @@ module.exports = (grunt) ->
 	grunt.loadNpmTasks "grunt-bumpup"
 	grunt.loadNpmTasks "grunt-tagrelease"
 
+	grunt.registerTask "test", ["coffee", "uglify", "connect"]
+	
 	grunt.registerTask "default", (type) ->
 		type = "patch" if not type?
 		grunt.task.run "coffee"

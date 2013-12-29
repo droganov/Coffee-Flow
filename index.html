@@ -1,1 +1,238 @@
-<h1>hello</h1>
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>CoffeeFlow by droganov</title>
+
+    <link rel="stylesheet" href="assets/styles/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!-- http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js -->
+    <script type="text/javascript" src="assets/bower/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/bower/hammerjs/dist/hammer.min.js"></script>
+    <script type="text/javascript" src="js/coffeeflow.js"></script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <a href="https://github.com/droganov/Coffee-Flow" class="fork"><img style="border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a>
+    <header>
+      <h1>CoffeeFlow</h1>
+      <div class="narrow">Simple coverflow JavaScript component written in CoffeeScript + jQuery wrapper</div>
+    </header>
+    <div class="coffeeflow">
+      <a href="img/1.png"><img src="assets/images/1.png" alt=""></a>
+      <a href="img/2.png"><img src="assets/images/2.png" alt=""></a>
+      <a href="img/3.png"><img src="assets/images/3.png" alt=""></a>
+      <a href="img/4.png"><img src="assets/images/4.png" alt=""></a>
+      <a href="img/5.png"><img src="assets/images/5.png" alt=""></a>
+      <a href="img/6.png"><img src="assets/images/6.png" alt=""></a>
+      <a href="img/7.png"><img src="assets/images/7.png" alt=""></a>
+      <a href="img/9.png"><img src="assets/images/8.png" alt=""></a>
+      <a href="img/9.png"><img src="assets/images/9.png" alt=""></a>
+      <a href="img/9.png"><img src="assets/images/absent.png" alt=""></a>
+    </div>
+    <div class="log"></div>
+    <script type="text/javascript">
+      function log(m) {$("div.log").text(m);}
+      $(function(){
+        $(".coffeeflow").coffeeflow({
+          defaultItem: 4,
+          minHeight: 120,
+          enableReflections: true,
+          blur      : function(e){ log("CoffeeFlow blured"); },
+          change      : function(e){ log("Changed. Current item is " + e.getIndex()); },
+          error      : function(e){ log("Error. Image is not loaded"); },
+          focus      : function(e){ log("CoffeeFlow focused"); },
+          ready      : function(e){ log("CoffeeFlow is ready"); },
+          select      : function(e){ log("Item " + e.getIndex() + " selected"); }
+        });
+      });
+    </script>
+    <div class="wrapper">
+      <section>
+        <ul class="download">
+          <li><a href="https://github.com/droganov/Coffee-Flow/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/droganov/Coffee-Flow/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/droganov/Coffee-Flow">View On <strong>GitHub</strong></a></li>
+        </ul>
+        <br>
+        
+        <h3>About</h3>
+        <p>CoffeeFlow is a simple and powerful coverflow component which is able to easily rotate thousands of images. CoffeeFlow works with CSS3-compatible browsers (including mobile ones), has Opera fallback and a compatibility mode for older browsers. CoffeeFlow supports touch events and gestures (tap, drag, and swipe) automatically as you connect the hammer.js library. CoffeeFlow has a built-in image preloader which also handles image load errors. CoffeeFlow is designed to be used as a class and has jQuery wrapper. JQuery is required.</p>
+        <h3>Setup</h3>
+<pre><code>&lt;-- jQuery library required. CoffeeFlow may not work with earlier jQuery versions --&gt;
+&lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- Include EightMedia hammer.js if you want touchevents support --&gt;
+&lt;script type="text/javascript" src="js/hammer.js"&gt;&lt;/script&gt;
+
+&lt;!-- CoffeeFlow component --&gt;
+&lt;script type="text/javascript" src="js/coffeeflow.js"&gt;&lt;/script&gt;
+
+&lt;!-- HTML --&gt;
+&lt;div class="coffeeflow"&gt;
+  &lt;a href="img/1.jpg"&gt;&lt;img src="img/1.jpg" alt=""&gt;&lt;/a&gt;
+  &lt;a href="img/2.jpg"&gt;&lt;img src="img/2.jpg" alt=""&gt;&lt;/a&gt;
+  &lt;a href="img/3.jpg"&gt;&lt;img src="img/3.jpg" alt=""&gt;&lt;/a&gt;
+&lt;/div&gt;
+</code></pre>
+        
+          
+              
+          
+        <h3>Usage</h3>
+
+<pre><code>// JS
+var coffeeflow = new Coffeeflow(target, options);
+
+// jQuery
+$(".coffeeflow").coffeeflow(options);</code></pre>
+
+        <h3>Options</h3>
+<pre><code>$(".coffeeflow").coffeeflow(
+  {
+    borderWidth           : 0                         // item border width
+    borderColor           : "rgba(255,255,255, .3)"   // default item border-color
+    borderColorHover      : "rgba(0,175,255, .8)"     // item border color on mouse over
+    borderColorSelected   : "rgba(250,210,6, .8)"     // selected item border-color
+    borderStyle           : "solid"                   // item border srtyle
+    crop                  : false                     // if true photos cropped to square
+    debug                 : false                     // enables console logging
+    defaultItem           : "auto"                    // controls whitch items is opened on startup, by default middle is calculated
+    density               : 3.2                       // use this to adjust item spacing
+    height                : "auto"                    // item height. Eq container height if not set
+    hideOverflow          : true                      // crops everything outside the canvas
+    minHeight             : 120                       // minimum CoffeFlow canvas height in pixels
+    pull                  : true                      // enables pull images effect on mouseover
+    selectOnChange        : false                     // if true select event fires on change
+    transitionDuration    : 500                       // transition duration in seconds
+    transitionEasing      : "cubic-bezier(0.075, 0.820, 0.165, 1.000)" // css easing for transitions
+    transitionPerspective : "600px"                   // css pespective
+    transitionScale       : .70                       // scale of inactive item
+    transitionRotation    : 45                        // rotation of inactive item
+    width                 : "auto"                    // item width in pixels. Eq item height if not set
+  }
+);</code></pre>
+<pre><code>&lt;-- You can also pass options to Coffeeflow with html5 -data --&gt;
+&lt;div class="coffeeflow" data-border-width="2" data-default-item="5"&gt;
+  &lt;a href="img/1.jpg"&gt;&lt;img src="img/1.jpg" alt=""&gt;&lt;/a&gt;
+  &lt;a href="img/2.jpg"&gt;&lt;img src="img/2.jpg" alt=""&gt;&lt;/a&gt;
+  &lt;a href="img/3.jpg"&gt;&lt;img src="img/3.jpg" alt=""&gt;&lt;/a&gt;
+&lt;/div&gt;</code></pre>
+        <h3>Callbacks</h3>
+<pre><code>$(".coffeeflow").coffeeflow(
+  {
+    blur                 : function (e){ console.log(e) },
+    change               : function (e){ console.log(e) },
+    error                : function (e){ console.log(e) },
+    focus                : function (e){ console.log(e) },
+    ready                : function (e){ console.log(e) },
+    select               : function (e){ console.log(e) }
+  }
+);</code></pre>
+        <h3>CoffeeFlow public methods</h3>
+<pre><code>
+append(array)            // appends elements
+insert(array, position)  // inserts elements
+getCanvas()              // returns canvas element, used internally
+getHeight()              // returns canvas height
+getIndex()               // returns current CoffeeFlow index
+getItem(index=current)   // returns CoffeeFlowItem instance. If index argument is not provided, currentIndex is used
+getWidth()               // returns canvas width
+hasFocus()               // returns boolean CoffeeFlow focus state
+pop()                    // Deletes current item
+pop(position, length)    // Deletes fragment
+prepend(array)           // prepends elements 
+resize()                 // tells CoffeeFlow to resize the canvas
+slideTo(index)           // slides to a given item
+
+// example
+$(".coffeeflow").coffeeflow(
+  {
+    ready : function(e) {
+      e.insert(
+        [
+          {
+            data: {},
+            link: "http://ya.ru",
+            source: "img/1.jpg"
+          },
+          {
+            data: {},
+            link: "http://ya.ru",
+            source: "img/2.jpg"
+          }
+        ],
+        e.getIndex()+1
+      );
+      e.slideTo(15)
+    }
+  }
+);
+</code></pre>
+        <h3>CoffeeFlowItem public methods</h3>
+<pre><code>
+arrange(currentItem, totalItems, canvasWidth, canwasHeight) // returns canvas element, used internally
+getData()               // returns item html5 data
+getLink()               // returns item anchor href
+getSource()             // returns item image source
+getHeight()             // returns item height
+getWidth()              // returns item width
+select()                // sets item select state
+setContent(content)     // sets item content, used internally
+
+// example
+$(".coffeeflow").coffeeflow(
+  {
+    change                : function(e) { console.log( e.getItem().getData() ) }
+  }
+);
+</code></pre>
+        <h3>Legal information</h3>
+        <p>The component is designed and written in coffeescript by Serge Droganov. CoffeeFlow is distributed under MIT X11 <a href="http://en.wikipedia.org/wiki/MIT_License">license</a>.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="http://www.droganov.ru">Serge Droganov</a>. Demo images by <a href="http://marknazaroff.com/">Mark Nazaroff</a></p>
+        <p><small>Hosted on GitHub</small></p>
+      </footer>
+    </div>
+    <script src="js/scale.fix.js"></script>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter18283969 = new Ya.Metrika({id:18283969,
+                        webvisor:true,
+                        clickmap:true,
+                        accurateTrackBounce:true});
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+    </script>
+    <noscript><div><img src="//mc.yandex.ru/watch/18283969" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-39509382-1', 'github.com');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>
