@@ -1,0 +1,34 @@
+{
+  "name": "Coffee-Flow",
+  "version": "0.0.5",
+  "description": "Simple coverflow component that works as jQuery plugin and written with CoffeeScript",
+  "main": "js/coffeeflow.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://droganov@github.com/droganov/Coffee-Flow.git"
+  },
+  "keywords": [
+    "coverflow",
+    "javascript",
+    "coffeescript",
+    "coffeeflow",
+    "gallery",
+    "image",
+    "select"
+  ],
+  "author": "Serge Droganov",
+  "license": "MIT",
+  "gitHead": "18de5632948a1e13853d467fce2ffc3fb7a138a5",
+  "bugs": {
+    "url": "https://github.com/droganov/Coffee-Flow/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib": "~0.8.0",
+    "grunt-bumpup": "~0.5.0",
+    "grunt-tagrelease": "~0.3.1"
+  }
+}
