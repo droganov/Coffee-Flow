@@ -1,7 +1,13 @@
 CoffeeFlow
 ==========
 
-Simple and powerful coverflow JavaScript component written in CoffeeScript.
+Simple and powerful coverflow JavaScript component written in CoffeeScript. [See the demo](http://droganov.github.com/Coffee-Flow/).
+
+Bower
+-----
+```
+bower install coffee-flow
+```
 
 Setup
 -----
