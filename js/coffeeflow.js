@@ -1,13 +1,14 @@
 (function() {
-  var Coffeeflow, CoffeeflowItem, Preloader, compatible, isCompatible, j, prefix;
+  var Coffeeflow, CoffeeflowItem, Preloader, compatible, isCompatible, isOpera, j, prefix, rat;
 
   j = jQuery;
 
+  rat = document.createElement("div");
+
   isCompatible = function() {
-    var i, rat, t, _i, _len, _ref;
+    var i, t, _i, _len, _ref;
     t = false;
-    rat = document.createElement('div');
-    _ref = ['WebkitTransition', 'MozTransition', 'msTransition', 'OTransition', 'Transition'];
+    _ref = ["WebkitTransition", "MozTransition", "msTransition", "OTransition", "Transition"];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       i = _ref[_i];
       if (!!(0 + rat.style[i])) {
@@ -19,21 +20,17 @@
 
   compatible = isCompatible();
 
+  isOpera = navigator.userAgent.indexOf("Opera") !== -1;
+
+  if (typeof console !== "undefined" && console !== null) {
+    console.log(isOpera);
+  }
+
   prefix = function() {
-    var r;
-    if (j.browser.webkit) {
-      r = "-webkit-";
-    }
-    if (j.browser.mozilla) {
-      r = "-moz-";
-    }
-    if (j.browser.msie) {
-      r = "-ms-";
-    }
-    if (j.browser.opera) {
-      r = "-o-";
-    }
-    return r;
+    var cs, styles;
+    styles = window.getComputedStyle(document.documentElement, "");
+    cs = Array.prototype.slice.call(styles).join("").match(/-(moz|webkit|ms)-/);
+    return cs[0] || "";
   };
 
   Coffeeflow = (function() {
@@ -344,7 +341,8 @@
 
   CoffeeflowItem = (function() {
     function CoffeeflowItem(obj, i, p, settings) {
-      var align, anchor, aspect, attach, attached, completeTimeout, crop, data, depth, e, img, item, link, load, onComplete, preloader, ready, render, self, setTransform, source, state, visible, xPos;
+      var align, anchor, aspect, attach, attached, completeTimeout, crop, data, depth, e, img, item, link, load, onComplete, preloader, ready, render, self, setTransform, source, state, visible, xPos,
+        _this = this;
       i = i;
       p = p;
       self = this;
@@ -567,7 +565,7 @@
       };
       onComplete = function() {
         if (attached && !visible) {
-          return this.detach();
+          return _this.detach();
         }
       };
       render = function(x) {
@@ -685,21 +683,21 @@
         switch (state) {
           case "before":
             transform = "perspective(" + settings.transitionPerspective + ") scale(" + settings.transitionScale + ") rotateY(" + settings.transitionRotation + "deg) translate(-" + translate + "px)";
-            if (j.browser.opera) {
+            if (isOpera) {
               transform = "scale(" + settings.transitionScale + ") skew(0deg, -20deg)";
             }
             iX = 0;
             break;
           case "after":
             transform = "perspective(" + settings.transitionPerspective + ") scale(" + settings.transitionScale + ") rotateY(-" + settings.transitionRotation + "deg) translate(" + translate + "px)";
-            if (j.browser.opera) {
+            if (isOpera) {
               transform = "scale(" + settings.transitionScale + ") skew(0deg, 20deg)";
             }
             iX = anchor.width() - (img.width() + (settings.borderWidth * 2));
             break;
           case "current":
             transform = "perspective(" + settings.transitionPerspective + ") scale(1) rotateY(0deg)";
-            if (j.browser.opera) {
+            if (isOpera) {
               transform = "scale(1)";
             }
             iX = (anchor.width() - img.width()) / 2;

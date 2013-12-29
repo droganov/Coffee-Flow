@@ -20,7 +20,7 @@ module.exports = (grunt) ->
 				options:
 					port: 9001
 					base: "."
-					keepalive: true
+					# keepalive: true
 		bumpup: ["package.json", "bower.json"]
 		tagrelease: "package.json"
 
@@ -34,9 +34,9 @@ module.exports = (grunt) ->
 	grunt.loadNpmTasks "grunt-bumpup"
 	grunt.loadNpmTasks "grunt-tagrelease"
 
-	grunt.registerTask "test", ["coffee", "uglify", "connect"]
+	grunt.registerTask "default", ["connect", "watch"]
 	
-	grunt.registerTask "default", (type) ->
+	grunt.registerTask "publish", (type) ->
 		type = "patch" if not type?
 		grunt.task.run "coffee"
 		grunt.task.run "uglify"

@@ -1,20 +1,22 @@
 j = jQuery
 
+rat = document.createElement "div"
+
 isCompatible = ()->
 	t = false
-	rat = document.createElement 'div'
-	for i in ['WebkitTransition', 'MozTransition', 'msTransition', 'OTransition', 'Transition']
+	for i in ["WebkitTransition", "MozTransition", "msTransition", "OTransition", "Transition"]
 		t = true if !!(0 + rat.style[i])
 	t
 
 compatible = isCompatible()
+isOpera = navigator.userAgent.indexOf("Opera") isnt -1
+
+console?.log isOpera
 
 prefix = () ->
-	r = "-webkit-" if j.browser.webkit
-	r = "-moz-" if j.browser.mozilla
-	r = "-ms-" if j.browser.msie
-	r = "-o-" if j.browser.opera
-	r
+	styles = window.getComputedStyle document.documentElement, ""
+	cs = Array.prototype.slice.call(styles).join("").match(/-(moz|webkit|ms)-/)
+	return cs[0] or ""
 
 
 class Coffeeflow
@@ -448,7 +450,7 @@ class CoffeeflowItem
 			preloader.setState "loading"
 			img.attr "src" : source
 
-		onComplete = () ->
+		onComplete = () =>
 			@detach() if attached and not visible
 
 		render = (x) ->
@@ -557,17 +559,17 @@ class CoffeeflowItem
 			switch state
 				when "before"
 					transform = "perspective(#{settings.transitionPerspective}) scale(#{settings.transitionScale}) rotateY(#{settings.transitionRotation}deg) translate(-#{translate}px)"
-					if j.browser.opera
+					if isOpera
 						transform = "scale(#{settings.transitionScale}) skew(0deg, -20deg)"
 					iX = 0
 				when "after"
 					transform = "perspective(#{settings.transitionPerspective}) scale(#{settings.transitionScale}) rotateY(-#{settings.transitionRotation}deg) translate(#{translate}px)"
-					if j.browser.opera
+					if isOpera
 						transform = "scale(#{settings.transitionScale}) skew(0deg, 20deg)"
 					iX = anchor.width() - ( img.width() + (settings.borderWidth * 2))
 				when "current"
 					transform = "perspective(#{settings.transitionPerspective}) scale(1) rotateY(0deg)"
-					if j.browser.opera
+					if isOpera
 						transform = "scale(1)"
 					iX = ( anchor.width() - img.width() ) / 2
 			anchor.css prefix() + "transform", transform
