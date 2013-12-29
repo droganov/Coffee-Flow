@@ -36,7 +36,7 @@ module.exports = (grunt) ->
 
 	grunt.registerTask "default", ["connect", "watch"]
 	
-	grunt.registerTask "publish", (type) ->
+	grunt.registerTask "release", (type) ->
 		type = "patch" if not type?
 		grunt.task.run "coffee"
 		grunt.task.run "uglify"
