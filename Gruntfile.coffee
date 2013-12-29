@@ -6,7 +6,7 @@ module.exports = (grunt) ->
 				atBegin: true
 			coffee:
 				files: "dev/coffeeflow.coffee"
-				tasks: ["coffee:compile"]
+				tasks: ["coffee:compile","connect"]
 		coffee:
 			compile:
 				files:
@@ -15,6 +15,11 @@ module.exports = (grunt) ->
 			main:
 				files:
 					"js/coffeeflow.min.js" : "js/coffeeflow.js"
+		connect:
+			server:
+				options:
+					port: 9001
+					base: "."
 		bumpup: ["package.json", "bower.json"]
 		tagrelease: "package.json"
 
@@ -24,6 +29,7 @@ module.exports = (grunt) ->
 	grunt.loadNpmTasks "grunt-contrib-coffee"
 	grunt.loadNpmTasks "grunt-contrib-uglify"
 	grunt.loadNpmTasks "grunt-contrib-watch"
+	grunt.loadNpmTasks "grunt-contrib-connect"
 	grunt.loadNpmTasks "grunt-bumpup"
 	grunt.loadNpmTasks "grunt-tagrelease"
 
