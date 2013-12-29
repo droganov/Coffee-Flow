@@ -15,10 +15,21 @@ module.exports = (grunt) ->
 			main:
 				files:
 					"js/coffeeflow.min.js" : "js/coffeeflow.js"
+		bumpup: ["package.json", "bower.json"]
+		tagrelease: "package.json"
+
 
 	# plugins
 	# grunt.loadNpmTasks "grunt-contrib"
 	grunt.loadNpmTasks "grunt-contrib-coffee"
 	grunt.loadNpmTasks "grunt-contrib-uglify"
+	grunt.loadNpmTasks "grunt-contrib-watch"
+	grunt.loadNpmTasks "grunt-bumpup"
+	grunt.loadNpmTasks "grunt-tagrelease"
 
-	grunt.registerTask "default", ["coffee", "uglify"]
+	grunt.registerTask "default", (type) ->
+		type = "patch" if not type?
+		grunt.task.run "coffee"
+		grunt.task.run "uglify"
+		grunt.task.run "bumpup"
+		grunt.task.run "tagrelease"
