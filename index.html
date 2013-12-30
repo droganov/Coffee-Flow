@@ -5,11 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>CoffeeFlow by droganov</title>
 
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/coffeeflow.css">
+    <link rel="stylesheet" href="assets/styles/styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <script type="text/javascript" src="js/hammer.js"></script>
+    <!-- http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js -->
+    <script type="text/javascript" src="assets/bower/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/bower/hammerjs/dist/hammer.min.js"></script>
     <script type="text/javascript" src="js/coffeeflow.js"></script>
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -22,16 +22,16 @@
       <div class="narrow">Simple coverflow JavaScript component written in CoffeeScript + jQuery wrapper</div>
     </header>
     <div class="coffeeflow">
-      <a href="img/1.png"><img src="img/1.png" alt=""></a>
-      <a href="img/2.png"><img src="img/2.png" alt=""></a>
-      <a href="img/3.png"><img src="img/3.png" alt=""></a>
-      <a href="img/4.png"><img src="img/4.png" alt=""></a>
-      <a href="img/5.png"><img src="img/5.png" alt=""></a>
-      <a href="img/6.png"><img src="img/6.png" alt=""></a>
-      <a href="img/7.png"><img src="img/7.png" alt=""></a>
-      <a href="img/9.png"><img src="img/8.png" alt=""></a>
-      <a href="img/9.png"><img src="img/9.png" alt=""></a>
-      <a href="img/9.png"><img src="img/absent.png" alt=""></a>
+      <a href="img/1.png"><img src="assets/images/1.png" alt=""></a>
+      <a href="img/2.png"><img src="assets/images/2.png" alt=""></a>
+      <a href="img/3.png"><img src="assets/images/3.png" alt=""></a>
+      <a href="img/4.png"><img src="assets/images/4.png" alt=""></a>
+      <a href="img/5.png"><img src="assets/images/5.png" alt=""></a>
+      <a href="img/6.png"><img src="assets/images/6.png" alt=""></a>
+      <a href="img/7.png"><img src="assets/images/7.png" alt=""></a>
+      <a href="img/9.png"><img src="assets/images/8.png" alt=""></a>
+      <a href="img/9.png"><img src="assets/images/9.png" alt=""></a>
+      <a href="img/9.png"><img src="assets/images/absent.png" alt=""></a>
     </div>
     <div class="log"></div>
     <script type="text/javascript">
@@ -107,7 +107,8 @@ $(".coffeeflow").coffeeflow(options);</code></pre>
     minHeight             : 120                       // minimum CoffeFlow canvas height in pixels
     pull                  : true                      // enables pull images effect on mouseover
     selectOnChange        : false                     // if true select event fires on change
-    transitionDuration    : 500                       // transition duration in seconds
+    scrollSensitivity     : 120                       // handles too sensitive scrolling on apple trackpad
+    transitionDuration    : 1800                      // transition duration in seconds
     transitionEasing      : "cubic-bezier(0.075, 0.820, 0.165, 1.000)" // css easing for transitions
     transitionPerspective : "600px"                   // css pespective
     transitionScale       : .70                       // scale of inactive item
@@ -198,7 +199,7 @@ $(".coffeeflow").coffeeflow(
         <p><small>Hosted on GitHub</small></p>
       </footer>
     </div>
-    <script src="js/scale.fix.js"></script>
+    <script src="assets/scale.fix.js"></script>
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript">
     (function (d, w, c) {
