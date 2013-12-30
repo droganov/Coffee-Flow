@@ -58,7 +58,7 @@ class Coffeeflow
 			pull					: true
 			selectOnChange			: false
 			scrollSensitivity		: 120
-			transitionDuration		: 1800
+			transitionDuration		: 1300
 			transitionEasing		: "cubic-bezier(0.075, 0.820, 0.165, 1.000)"
 			transitionPerspective	: "600px"
 			transitionScale			: .70
@@ -145,14 +145,14 @@ class Coffeeflow
 		log = (msg) -> console?.log msg if settings.debug
 		
 		onChange = () => settings.change(self)
-		onMouseWheel = (evt) =>
+		onMouseWheel = (e) =>
 			if @hasFocus()
-				evt ?= event
-				if evt.preventDefault? then evt.preventDefault() else (evt.returnValue = false)
+				# if evt.preventDefault? then evt.preventDefault() else (evt.returnValue = false)
+				e.preventDefault()
 				return if scrollTimeout?
-				scrollTimeout = deelay settings.scrollSensitivity, ->
-					scrollTimeout = null
-				delta = if (evt.detail<0 or evt.wheelDelta>0) then 1 else -1
+				evt = e.originalEvent
+				scrollTimeout = deelay settings.scrollSensitivity, -> scrollTimeout = null
+				delta = Math.max(-1, Math.min(1, (evt.wheelDelta || -evt.detail)))
 				@slideTo currentItem + delta
 
 
@@ -190,10 +190,8 @@ class Coffeeflow
 			container.empty()
 			container.addClass "coffeeflowReflections" if settings.enableReflections
 			container.append canvas
-
 			
-			j( window ).resize (e) =>
-				@resize()
+			j(window).resize (e) => @resize()
 
 			container.mouseover (e) =>
 				if not container.is ".coffeeflowFocuse"
@@ -201,19 +199,29 @@ class Coffeeflow
 					settings.focus self
 				e.stopPropagation()
 
+			j("html").keydown (e) =>
+				switch e.which
+					when 37
+						@slideTo currentItem - 1
+					when 39
+						@slideTo currentItem + 1
+
 			j("html").mouseover (e) =>
 				if container.is ".coffeeflowFocuse"
 					container.removeClass "coffeeflowFocuse"
 					settings.blur self
 					e.stopPropagation()
 
-			if window.addEventListener
-				window.addEventListener "mousewheel", onMouseWheel, false
-				window.addEventListener "DOMMouseScroll", onMouseWheel, false
 
-				# todo: http://jsbin.com/iqafek/2/edit
-			else
-				window.attachEvent "onmousewheel", onMouseWheel
+
+			# if window.addEventListener
+			# 	window.addEventListener "mousewheel", onMouseWheel, false
+			# 	window.addEventListener "DOMMouseScroll", onMouseWheel, false
+			# else
+			# 	window.attachEvent "onmousewheel", onMouseWheel
+
+			j("html").on "DOMMouseScroll mousewheel onmousewheel", (e, data) -> onMouseWheel e
+
 
 			if Hammer?
 				hammer = new Hammer canvas[0],

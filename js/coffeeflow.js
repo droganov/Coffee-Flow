@@ -90,7 +90,7 @@
         pull: true,
         selectOnChange: false,
         scrollSensitivity: 120,
-        transitionDuration: 1800,
+        transitionDuration: 1300,
         transitionEasing: "cubic-bezier(0.075, 0.820, 0.165, 1.000)",
         transitionPerspective: "600px",
         transitionScale: .70,
@@ -214,24 +214,18 @@
       onChange = function() {
         return settings.change(self);
       };
-      onMouseWheel = function(evt) {
-        var delta;
+      onMouseWheel = function(e) {
+        var delta, evt;
         if (_this.hasFocus()) {
-          if (evt == null) {
-            evt = event;
-          }
-          if (evt.preventDefault != null) {
-            evt.preventDefault();
-          } else {
-            evt.returnValue = false;
-          }
+          e.preventDefault();
           if (scrollTimeout != null) {
             return;
           }
+          evt = e.originalEvent;
           scrollTimeout = deelay(settings.scrollSensitivity, function() {
             return scrollTimeout = null;
           });
-          delta = evt.detail < 0 || evt.wheelDelta > 0 ? 1 : -1;
+          delta = Math.max(-1, Math.min(1, evt.wheelDelta || -evt.detail));
           return _this.slideTo(currentItem + delta);
         }
       };
@@ -298,6 +292,14 @@
           }
           return e.stopPropagation();
         });
+        j("html").keydown(function(e) {
+          switch (e.which) {
+            case 37:
+              return _this.slideTo(currentItem - 1);
+            case 39:
+              return _this.slideTo(currentItem + 1);
+          }
+        });
         j("html").mouseover(function(e) {
           if (container.is(".coffeeflowFocuse")) {
             container.removeClass("coffeeflowFocuse");
@@ -305,12 +307,9 @@
             return e.stopPropagation();
           }
         });
-        if (window.addEventListener) {
-          window.addEventListener("mousewheel", onMouseWheel, false);
-          window.addEventListener("DOMMouseScroll", onMouseWheel, false);
-        } else {
-          window.attachEvent("onmousewheel", onMouseWheel);
-        }
+        j("html").on("DOMMouseScroll mousewheel onmousewheel", function(e, data) {
+          return onMouseWheel(e);
+        });
         if (typeof Hammer !== "undefined" && Hammer !== null) {
           hammer = new Hammer(canvas[0], {
             prevent_default: true,
