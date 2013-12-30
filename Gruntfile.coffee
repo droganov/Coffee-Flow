@@ -40,5 +40,5 @@ module.exports = (grunt) ->
 		type = "patch" if not type?
 		grunt.task.run "coffee"
 		grunt.task.run "uglify"
-		grunt.task.run "bumpup"
+		grunt.task.run "bumpup:" + type
 		grunt.task.run "tagrelease"
