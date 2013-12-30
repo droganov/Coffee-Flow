@@ -1,5 +1,5 @@
 (function() {
-  var Coffeeflow, CoffeeflowItem, Preloader, compatible, isCompatible, isOpera, j, prefix, rat;
+  var Coffeeflow, CoffeeflowItem, Preloader, compatible, deelay, isCompatible, isOpera, j, prefix, rat, scrollTimeout;
 
   j = jQuery;
 
@@ -21,6 +21,12 @@
   compatible = isCompatible();
 
   isOpera = navigator.userAgent.indexOf("Opera") !== -1;
+
+  deelay = function(ms, func) {
+    return setTimeout(func, ms);
+  };
+
+  scrollTimeout = null;
 
   if (typeof console !== "undefined" && console !== null) {
     console.log(isOpera);
@@ -77,13 +83,14 @@
         crop: false,
         debug: false,
         defaultItem: "auto",
-        density: 3.2,
+        density: 2.6,
         height: "auto",
         hideOverflow: true,
         minHeight: 120,
         pull: true,
         selectOnChange: false,
-        transitionDuration: 500,
+        scrollSensitivity: 120,
+        transitionDuration: 1800,
         transitionEasing: "cubic-bezier(0.075, 0.820, 0.165, 1.000)",
         transitionPerspective: "600px",
         transitionScale: .70,
@@ -207,18 +214,25 @@
       onChange = function() {
         return settings.change(self);
       };
-      onMouseWheel = function(e) {
-        var delta, i;
+      onMouseWheel = function(evt) {
+        var delta;
         if (_this.hasFocus()) {
-          e = e || event;
-          delta = Math.max(-1, Math.min(1, e.wheelDelta || -e.detail));
-          i = currentItem + delta;
-          _this.slideTo(i);
-          if (e.preventDefault) {
-            return e.preventDefault();
-          } else {
-            return e.returnValue = false;
+          if (evt == null) {
+            evt = event;
           }
+          if (evt.preventDefault != null) {
+            evt.preventDefault();
+          } else {
+            evt.returnValue = false;
+          }
+          if (scrollTimeout != null) {
+            return;
+          }
+          scrollTimeout = deelay(settings.scrollSensitivity, function() {
+            return scrollTimeout = null;
+          });
+          delta = evt.detail < 0 || evt.wheelDelta > 0 ? 1 : -1;
+          return _this.slideTo(currentItem + delta);
         }
       };
       ready = function() {

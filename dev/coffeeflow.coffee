@@ -10,7 +10,8 @@ isCompatible = ()->
 
 compatible = isCompatible()
 isOpera = navigator.userAgent.indexOf("Opera") isnt -1
-
+deelay = (ms, func) -> setTimeout func, ms
+scrollTimeout = null
 console?.log isOpera
 
 prefix = () ->
@@ -50,13 +51,14 @@ class Coffeeflow
 			crop					: false
 			debug					: false
 			defaultItem				: "auto"
-			density					: 3.2
+			density					: 2.6
 			height					: "auto"
 			hideOverflow			: true
 			minHeight				: 120
 			pull					: true
 			selectOnChange			: false
-			transitionDuration		: 500
+			scrollSensitivity		: 120
+			transitionDuration		: 1800
 			transitionEasing		: "cubic-bezier(0.075, 0.820, 0.165, 1.000)"
 			transitionPerspective	: "600px"
 			transitionScale			: .70
@@ -138,34 +140,28 @@ class Coffeeflow
 				i.arrange _i, currentItem, stack.length, w, h
 
 
-		getState = () ->
-			state
+		getState = () -> state
 
-		log = (msg) ->
-			console?.log msg if settings.debug
+		log = (msg) -> console?.log msg if settings.debug
 		
-		onChange = () =>
-			settings.change(self)
-		onMouseWheel = (e) =>
+		onChange = () => settings.change(self)
+		onMouseWheel = (evt) =>
 			if @hasFocus()
-				e = e || event
-				delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)))
+				evt ?= event
+				if evt.preventDefault? then evt.preventDefault() else (evt.returnValue = false)
+				return if scrollTimeout?
+				scrollTimeout = deelay settings.scrollSensitivity, ->
+					scrollTimeout = null
+				delta = if (evt.detail<0 or evt.wheelDelta>0) then 1 else -1
+				@slideTo currentItem + delta
 
-				i = currentItem + delta
-				@slideTo i
-
-				if e.preventDefault
-					e.preventDefault()
-				else
-					(e.returnValue = false)
 
 		ready = () =>
 			canvas.addClass "ready"
 			@resize()
 			settings.ready self
 
-		setState = (state)->
-			state = state
+		setState = (state)-> state = state
 
 		@append = (data) ->
 			for obj in data
