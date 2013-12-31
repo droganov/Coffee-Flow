@@ -28,10 +28,6 @@
 
   scrollTimeout = null;
 
-  if (typeof console !== "undefined" && console !== null) {
-    console.log(isOpera);
-  }
-
   prefix = function() {
     var cs, styles;
     styles = window.getComputedStyle(document.documentElement, "");
@@ -649,18 +645,18 @@
               return p.slideTo(i);
             }
           };
-          anchor.click(function(e) {
-            clickHandler();
-            return e.preventDefault();
-          });
           if (typeof Hammer !== "undefined" && Hammer !== null) {
-            hammer = new Hammer(item[0], {
-              prevent_default: true
-            });
+            hammer = new Hammer(anchor[0]);
             hammer.on("tap", function(e) {
               return clickHandler();
             });
           }
+          anchor.click(function(e) {
+            e.preventDefault();
+            if (typeof Hammer === "undefined" || Hammer === null) {
+              return clickHandler();
+            }
+          });
           item.css({
             background: "none",
             width: 0,

@@ -12,7 +12,6 @@ compatible = isCompatible()
 isOpera = navigator.userAgent.indexOf("Opera") isnt -1
 deelay = (ms, func) -> setTimeout func, ms
 scrollTimeout = null
-console?.log isOpera
 
 prefix = () ->
 	styles = window.getComputedStyle document.documentElement, ""
@@ -522,15 +521,16 @@ class CoffeeflowItem
 					else
 						p.slideTo i
 
-				anchor.click (e) =>
-					clickHandler()
-					e.preventDefault()
+				
 
 				if Hammer?
-					hammer = new Hammer item[0],
-						prevent_default: true
-
+					hammer = new Hammer anchor[0]
 					hammer.on "tap", (e) -> clickHandler()
+				
+				anchor.click (e) ->
+					e.preventDefault()
+					clickHandler() if not Hammer?
+
 				
 				item.css
 					background		: "none"
