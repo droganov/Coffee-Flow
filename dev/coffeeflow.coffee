@@ -516,12 +516,21 @@ class CoffeeflowItem
 					preloader.setState "error"
 					settings.error p
 
-				anchor.click (e) =>
+				clickHandler = ->
 					if item.is ".coffeeflowItem_current"
 						self.select()
 					else
 						p.slideTo i
+
+				anchor.click (e) =>
+					clickHandler()
 					e.preventDefault()
+
+				if Hammer?
+					hammer = new Hammer item[0],
+						prevent_default: true
+
+					hammer.on "tap", (e) -> clickHandler()
 				
 				item.css
 					background		: "none"

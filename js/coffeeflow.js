@@ -582,7 +582,7 @@
         }
       };
       render = function(x) {
-        var applyTransitions,
+        var applyTransitions, clickHandler, hammer,
           _this = this;
         if (!attached) {
           item = j("<div class='coffeeflowItem'></div>");
@@ -642,14 +642,25 @@
             preloader.setState("error");
             return settings.error(p);
           });
-          anchor.click(function(e) {
+          clickHandler = function() {
             if (item.is(".coffeeflowItem_current")) {
-              self.select();
+              return self.select();
             } else {
-              p.slideTo(i);
+              return p.slideTo(i);
             }
+          };
+          anchor.click(function(e) {
+            clickHandler();
             return e.preventDefault();
           });
+          if (typeof Hammer !== "undefined" && Hammer !== null) {
+            hammer = new Hammer(item[0], {
+              prevent_default: true
+            });
+            hammer.on("tap", function(e) {
+              return clickHandler();
+            });
+          }
           item.css({
             background: "none",
             width: 0,
