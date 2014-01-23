@@ -57,19 +57,28 @@
           <li><a href="https://github.com/droganov/Coffee-Flow/tarball/master">Download <strong>TAR Ball</strong></a></li>
           <li><a href="https://github.com/droganov/Coffee-Flow">View On <strong>GitHub</strong></a></li>
         </ul>
+        <script type="text/javascript" src="//yandex.st/share/share.js"
+        charset="utf-8"></script>
+        <div class="yashare-auto-init" data-yashareL10n="en" data-yashareTitle="CoffeeFlow component. Check this out!"
+         data-yashareQuickServices="gplus,facebook,twitter,vkontakte,odnoklassniki" data-yashareTheme="counter"
+        ></div> 
         <br>
         
         <h3>About</h3>
         <p>CoffeeFlow is a simple and powerful coverflow component which is able to easily rotate thousands of images. CoffeeFlow works with CSS3-compatible browsers (including mobile ones), has Opera fallback and a compatibility mode for older browsers. CoffeeFlow supports touch events and gestures (tap, drag, and swipe) automatically as you connect the hammer.js library. CoffeeFlow has a built-in image preloader which also handles image load errors. CoffeeFlow is designed to be used as a class and has jQuery wrapper. JQuery is required.</p>
+        <h3>Install (for node.js users)</h3>
+        <pre><code>
+bower install coffee-flow
+        </code></pre>
         <h3>Setup</h3>
-<pre><code>&lt;-- jQuery library required. CoffeeFlow may not work with earlier jQuery versions --&gt;
-&lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"&gt;&lt;/script&gt;
+<pre><code>&lt;-- jQuery library required --&gt;
+&lt;script type="text/javascript" src="bower_components/jquery.min.js"&gt;&lt;/script&gt;
 
-&lt;!-- Include EightMedia hammer.js if you want touchevents support --&gt;
-&lt;script type="text/javascript" src="js/hammer.js"&gt;&lt;/script&gt;
+&lt;!-- Include EightMedia hammer.js if you want touch events support --&gt;
+&lt;script type="text/javascript" src="bower_components/hammerjs/dist/hammer.min.js"&gt;&lt;/script&gt;
 
 &lt;!-- CoffeeFlow component --&gt;
-&lt;script type="text/javascript" src="js/coffeeflow.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="bower_components/coffee-flow/js/coffeeflow.min.js"&gt;&lt;/script&gt;
 
 &lt;!-- HTML --&gt;
 &lt;div class="coffeeflow"&gt;
